@@ -46,7 +46,7 @@ hook_add = '''
     \ 'ignore_case': v:true,
     \ })
 
-	call deoplete#custom#source('_',
+    call deoplete#custom#source('_',
     \ 'converters', ['remove_overlap'])
 '''
 
