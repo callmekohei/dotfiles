@@ -29,8 +29,8 @@ hook_add = '''
 
         autocmd!
         autocmd FileType fsharp let &errorformat = join( s:lst , ',' )
-        autocmd bufnewfile,bufread *.fsx  execute ":QuickRun fsharpCheck"
-        autocmd bufwritepost       *.fsx  execute ":QuickRun fsharpCheck"
+        autocmd BufWinEnter  *.fsx  execute ":QuickRun fsharpCheck"
+        autocmd BufWritePost *.fsx  execute ":QuickRun fsharpCheck"
     augroup end
 '''
 

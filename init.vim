@@ -164,8 +164,8 @@ augroup bash
     autocmd FileType sh let g:is_bash = 1
     autocmd FileType sh let g:sh_no_error = 1
     autocmd FileType sh let &errorformat = '%f:\ line\ %l:\ %m'
-    autocmd BufNewFile,BufRead *.bash  execute ":QuickRun bashCheck"
-    autocmd BufWritePost       *.bash  execute ":QuickRun bashCheck"
+    autocmd BufWinEnter  *.bash  execute ":QuickRun bashCheck"
+    autocmd BufWritePost *.bash  execute ":QuickRun bashCheck"
 augroup END
 
 
