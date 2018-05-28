@@ -65,10 +65,6 @@ hook_source='''
 [[plugins]]
 repo = 'kannokanno/previm'
 on_ft = 'markdown'
-    let g:previm_open_cmd = 'open -a Firefox'
-    let g:previm_disable_default_css = 1
-    let g:previm_custom_css_path     = '/Users/callmekohei/.config/nvim/dein/repos/github.com/kannokanno/previm/preview/css/github.css'
-
 hook_source = '''
     "echo 'load: kannokanno/previm'
     augroup PrevimSettings
@@ -76,14 +72,17 @@ hook_source = '''
       autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
     augroup END
 
-    let s:githubCss = "/Users/callmekohei/.config/nvim/dein/repos/github.com/kannokanno/previm/preview/css/github.css"
-    let s:address   = "https://gist.githubusercontent.com/andyferra/2554919/raw/10ce87fe71b23216e3075d5648b8b9e56f7758e1/github.css"
-    let s:folder    = "/Users/callmekohei/.config/nvim/dein/repos/github.com/kannokanno/previm/preview/css"
+    let s:url   = "https://gist.githubusercontent.com/andyferra/2554919/raw/10ce87fe71b23216e3075d5648b8b9e56f7758e1/github.css"
+    let s:cssFolder = '~/.cache/dein/repos/github.com/kannokanno/previm/preview/css'
 
-    if isdirectory(s:folder)
-        if !filereadable(s:githubCss)
-          execute '!wget' s:address '-P' s:folder
-        endif
+    let g:previm_open_cmd = 'open -a Firefox'
+    let g:previm_enable_realtime = 1
+    let g:previm_disable_default_css = 1
+    let g:previm_custom_css_path = s:cssFolder.'/github.css'
+
+    if !filereadable(expand(s:cssFolder).'/github.css')
+        "execute '!wget' s:url '--directory-prefix' s:cssFolder
+        "echo 'foo'
     endif
 '''
 
