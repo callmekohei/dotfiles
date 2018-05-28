@@ -141,12 +141,12 @@ hook_add = '''
     \}
 
 	let g:quickrun_config.bashCheck = {
-        \  'exec'   :  [ '%c -n %s:p:r.bash' ]
-        \ ,'command':  'bash'
-        \ ,'hook/time/enable': 0
+        \  'exec'                            : [ '%c -n %s:p:r.bash' ]
+        \ ,'command'                         : 'bash'
+        \ ,'hook/time/enable'                : 0
         \ ,"outputter/buffer/close_on_empty" : 1
-        \ ,"outputter" : 'quickfix'
-        \ ,'outputter/buffer/split' : ':set splitblow',
+        \ ,"outputter"                       : 'quickfix'
+        \ ,'outputter/buffer/split'          : ':set splitblow',
     \}
 
 	let g:quickrun_config.fsharp = {
