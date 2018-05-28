@@ -9,7 +9,9 @@
 
 [[plugins]]
 repo = 'Shougo/dein.vim'
-
+hook_add = '''
+    "echo 'load: Shougo/dein.vim'
+'''
 
 #----------------------------------------------------------
 # Align
@@ -18,6 +20,7 @@ repo = 'Shougo/dein.vim'
 [[plugins]]
 repo = 'junegunn/vim-easy-align'
 hook_add = '''
+    "echo 'load: junegunn/vim-easy-align'
     xmap ga <Plug>(EasyAlign)
     nmap ga <Plug>(EasyAlign)
 '''
@@ -30,12 +33,20 @@ hook_add = '''
 # bridge plugin
 [[plugins]]
 repo = 'roxma/nvim-yarp'
+hook_add = '''
+    "echo 'load: roxma/nvim-yarp'
+'''
 [[plugins]]
 repo = 'roxma/vim-hug-neovim-rpc'
+hook_add = '''
+    "echo 'load: roxma/vim-hug-neovim-rpc'
+'''
 
 [[plugins]]
 repo = 'Shougo/deoplete.nvim'
 hook_add = '''
+    "echo 'load: Shougo/deoplete-nvim'
+
     " Enable loggin
     "call deoplete#enable_logging("DEBUG", "foo.txt")
 
@@ -58,6 +69,7 @@ hook_add = '''
 [[plugins]]
 repo = 'romainl/Apprentice'
 hook_add = '''
+    "echo 'load: romainl/Apprentice'
     augroup vimrc
         autocmd!
         " see also: https://github.com/romainl/Apprentice/pull/17
@@ -73,6 +85,7 @@ hook_add = '''
 [[plugins]]
 repo = 'tomtom/tcomment_vim'
 hook_add = '''
+    "echo 'load: tomtom/tcomment_vim'
     if !exists('g:tcomment_types')
         let g:tcomment_types = {}
     endif
@@ -88,6 +101,7 @@ hook_add = '''
 [[plugins]]
 repo = 'nathanaelkane/vim-indent-guides'
 hook_add = '''
+    "echo 'load: nathanaelkane/vim-indnt-guides'
     let g:indent_guides_enable_on_vim_startup = 1
     let g:indent_guides_start_level = 2
     let g:indent_guides_guide_size = 1
@@ -104,10 +118,14 @@ hook_add = '''
 [[plugins]]
 repo = 'Shougo/vimproc.vim'
 build = 'make'
+hook_add = '''
+    "echo 'load: Shougo/vimproc.vim'
+'''
 
 [[plugins]]
 repo = 'thinca/vim-quickrun'
 hook_add = '''
+    "echo 'load: thinca/vim-quickrun'
     set splitright
 
     let g:quickrun_config = {}
