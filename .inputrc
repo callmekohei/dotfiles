@@ -1,4 +1,8 @@
 set editing-mode vi
+
+# requires >= Bash 4.3
+set show-mode-in-prompt on
+
 set show-all-if-ambiguous on
 set completion-ignore-case on
 
