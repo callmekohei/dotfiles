@@ -176,4 +176,9 @@ hook_add = '''
 	let g:quickrun_config.python = {
         \ 'command': 'python3'
     \}
+
+	let g:quickrun_config.sh = {
+        \ 'command': 'bash'
+    \}
+
 '''
