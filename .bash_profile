@@ -45,14 +45,15 @@ export POL_LANG=en.utf-8
 
 
 #-------------------------------------------------------------
-#  General path munging
+#  General path
 #-------------------------------------------------------------
 
+# MacOSX already set path by path_helper.
 # see also: http://takuya-1st.hatenablog.jp/entry/2013/12/14/040814
 # $ man -k path_helper
 # $ man path_helper 8
 
-function setPath () {
+function setExtraPath () {
 
     local cellar=/usr/local/bin
     export PATH="${cellar}":"${PATH}"
@@ -62,7 +63,7 @@ function setPath () {
 
 }
 
-setPath
+setExtraPath
 
 
 #-------------------------------------------------------------
