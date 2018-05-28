@@ -109,10 +109,9 @@ export LSCOLORS=ExFxBxDxCxegedabagacad
 #  Auto-complete
 #-------------------------------------------------------------
 
-# see also: https://github.com/scop/bash-completion
-
-if [ -f /usr/local/etc/bash_completion ] ; then
-    . /usr/local/etc/bash_completion
+# brew info bash-completion@2
+if [ -f /usr/local/share/bash-completion/bash_completion ]; then
+    . /usr/local/share/bash-completion/bash_completion
 fi
 
 
