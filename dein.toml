@@ -133,7 +133,6 @@ hook_add = '''
 
 	let g:quickrun_config.fsharp = {
         \  'command'                         : 'fsharpi --readline-'
-        \ ,'tempfile'                        : '%{tempname()}.fsx'
         \ ,'runner'                          : 'concurrent_process'
         \ ,'runner/concurrent_process/load'  : '#load "%S";;'
         \ ,'runner/concurrent_process/prompt': '> '
@@ -141,14 +140,13 @@ hook_add = '''
 
 	let g:quickrun_config.fsharpCheck = {
         \  'command'                         : 'fsharpi --readline-'
-        \ ,'tempfile'                        : '%{tempname()}.fsx'
         \ ,'runner'                          : 'concurrent_process'
         \ ,'runner/concurrent_process/load'  : '#load "%S";;'
         \ ,'runner/concurrent_process/prompt': '> '
-        \ ,'hook/time/enable': 0
+        \ ,'hook/time/enable'                : 0
         \ ,"outputter/buffer/close_on_empty" : 1
-        \ ,"outputter" : 'quickfix'
-        \ ,'outputter/buffer/split' : ':set splitblow',
+        \ ,"outputter"                       : 'quickfix'
+        \ ,'outputter/buffer/split'          : ':set splitblow',
     \}
 
 	let g:quickrun_config.fsharpi = {
