@@ -81,7 +81,7 @@ hook_source = '''
     let g:previm_custom_css_path = s:cssFolder.'/github.css'
 
     if !filereadable(s:cssFolder.'/github.css')
-        "execute '!wget' s:url '--directory-prefix' s:cssFolder
+        execute '!wget' s:url '--directory-prefix' s:cssFolder
     endif
 '''
 
