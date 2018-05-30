@@ -1,0 +1,230 @@
+# see also: pro git ( https://git-scm.com/book/ja/v2/ )
+# see also: mathiasbynens/dotfiles ( https://github.com/mathiasbynens/dotfiles/blob/master/.gitconfig )
+# see also: afi/etc-skel ( https://github.com/rafi/etc-skel/blob/master/.config/git/config )
+
+# Git config
+# https://github.com/rafi/.config
+
+[user]
+
+	name  = callmekohei
+	email = callmekohei@gmail.com
+
+[core]
+
+	pager = /usr/bin/less -EFRSX
+
+	# Do NOT auto-convert CRLF line endings into LF
+	autocrlf = false
+	# Do NOT check if converting CRLF is reversible
+	safecrlf = false
+
+	# Use custom `.gitignore` and `.gitattributes`
+	excludesfile   = ~/.gitignore
+	attributesfile = ~/.gitattributes
+
+	# Treat spaces before tabs and all kinds of trailing whitespace as an error
+	# [default] trailing-space: looks for spaces at the end of a line
+	# [default] space-before-tab: looks for spaces before tabs at the beginning of a line
+	whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+
+	# Make `git rebase` safer on macOS
+	# More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
+	trustctime = false
+
+	# Prevent showing files whose names contain non-ASCII symbols as unversioned.
+	# http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
+	precomposeunicode = false
+
+	# Speed up commands involving untracked files such as `git status`.
+	# https://git-scm.com/docs/git-update-index#_untracked_cache
+    untrackedCache = true
+
+[color]
+
+    ui          = true
+    pager       = true
+    showbranch  = true
+    diff        = auto
+    status      = auto
+    branch      = auto
+    interactive = auto
+
+[color "branch"]
+
+	plain    = yellow
+	current  = magenta bold
+	local    = blue bold
+	remote   = white
+	upstream = green bold
+
+[color "diff"]
+
+	plain      = normal
+	old        = red
+	new        = green
+	commit     = yellow
+	meta       = blue
+	frag       = cyan
+	func       = yellow bold
+	whitespace = red reverse
+
+[color "diff-highlight"]
+
+	oldNormal    = red bold
+	oldHighlight = red bold 52
+	newNormal    = green bold
+	newHighlight = green bold 22
+
+[color "status"]
+
+	header    = 243
+	added     = green bold
+	changed   = red
+	untracked = blue bold
+	branch    = green bold
+    nobranch  = red
+
+[credential]
+
+    helper = cache --timeout=3600
+
+[commit]
+
+	# https://help.github.com/articles/signing-commits-using-gpg/
+	# gpgsign = true
+
+[diff]
+
+	algorithm           = patience
+	compactionHeuristic = true
+	mnemonicprefix      = true
+	renames             = copies
+	tool                = vimdiff
+
+[difftool "vimdiff"]
+
+	cmd = nvim -d \"$LOCAL\" \"$REMOTE\"
+
+[help]
+
+	# Automatically correct and execute mistyped commands
+	autocorrect = 1
+
+[merge]
+
+	# Include summaries of merged commits in newly created merge commit messages
+    log       = true
+    stat      = true
+    summary   = true
+    verbosity = 1
+
+[mergetool]
+
+    keepBackup  = true
+    prompt      = false
+    writeToTemp = true
+
+[push]
+
+	# Defines the action git push should take if no refspec is explicitly given:
+	# current = Push the current branch to update a branch with the same name on the receiving end
+	default = current
+
+	# Make `git push` push relevant annotated tags when pushing branches out.
+	# https://git-scm.com/docs/git-config#git-config-pushfollowTags
+	followTags = true
+
+[pager]
+
+	show-branch = true
+	status      = true
+
+[pretty]
+
+	detailed  = %C(cyan)%h %C(red)%ad %C(blue)[%an]%C(magenta)%d %C(white)%s
+	log       = %C(240)%h%C(reset) -%C(auto)%d%Creset %s %C(242)(%an %ar)
+	multiline = %C(blue)──────%Creset%n %C(auto)commit %h %C(auto) %D%Creset%n %C(cyan)%an%Creset | %Cgreen%cr%Creset%n%+B
+	shorter   = %C(auto)%D %C(240)--%C(242)%gD%N %ad by %C(white)%cn%C(reset)
+
+[status]
+
+	showUntrackedFiles = all
+	submodulesummary   = true
+
+[fetch]
+
+	recurseSubmodules = true
+
+[submodule]
+
+	fetchJobs = 8
+
+[rerere]
+
+	enabled = true
+
+[url "git@github.com:"]
+
+    insteadOf     = "gh:"
+    pushInsteadOf = "github:"
+    pushInsteadOf = "git://github.com/"
+
+[url "git://github.com/"]
+
+	insteadOf = "github:"
+
+[url "git@gist.github.com:"]
+
+	insteadOf     = "gst:"
+	pushInsteadOf = "gist:"
+	pushInsteadOf = "git://gist.github.com/"
+
+[url "git://gist.github.com/"]
+
+    insteadOf = "gist:"
+
+[alias]
+
+	s  = status -sb
+	f  = fetch --prune
+	c  = commit -v
+	cm = commit -vm
+	br = branch -v
+	st = status
+	ck = checkout
+	t  = tag --column
+	tn = tag -n
+	d  = diff
+	ds = diff --staged
+	dw = diff --color-words
+	dh = diff --color-words HEAD
+	dp = !git log --pretty=oneline | fzf | cut -d ' ' -f1 | xargs -o git show
+	patch = !git --no-pager diff --no-color
+	prune = fetch --prune
+	stash-all = stash save --include-untracked
+	w  = whatchanged --decorate
+	wp = whatchanged --decorate -p
+	#===============================================
+	sm    = submodule
+	smu   = submodule foreach git pull origin master
+	lcrev = log --reverse --no-merges --stat @{1}..
+	lcp   = diff @{1}..
+	#===============================================
+	tree = log --graph --all --oneline --decorate -n 20
+	lb   = log --graph --simplify-by-decoration --pretty=shorter --all --notes --date-order --relative-date
+	lg   = log --graph --pretty=log --all
+	lgd  = log --graph --pretty=log
+	lgw  = !sh -c '"while true; do clear; git lg -15; sleep 5; done"'
+	#===============================================
+	bf = !git diff --name-only "$(git base-branch)..@"
+	post  = !sh -c 'git format-patch --stdout $1 | ix' -
+	sync-tags = fetch --prune origin '+refs/tags/*:refs/tags/*'
+	recent-branches = !git for-each-ref --count=15 --sort=-committerdate refs/heads/ --format='%(refname:short)'
+	ours   = "!f() { git checkout --ours $@ && git add $@; }; f"
+	theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
+	#===============================================
+	# Take a snapshot of your current working tree without removing the changes from your tree.
+	# via http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
+	snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
+    snapshots = !git stash list --grep snapshot
