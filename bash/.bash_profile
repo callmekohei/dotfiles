@@ -78,6 +78,7 @@ function bashComplete () {
 
     # Load extra complete config files
     local dir=$(brew --prefix)/etc/bash_completion.d
+    local file
     for file in ${dir}/* ; do
         [ -r "$file" ] && source "$file"
     done
