@@ -146,4 +146,5 @@ alias loto6="cd ~/tmp/lotofs/bin/ ; mono main_binary.exe   ; cd -"
 alias loto7="cd ~/tmp/lotofs/bin/ ; mono main_binary.exe 7 ; cd -"
 alias mql='cd "~/.wine/drive_c/Program Files/OANDA - MetaTrader/MQL4/Scripts"'
 
-dotfiles () { cd ~/dotfiles ; ls -al ; }
+dotfiles     () { cd ~/dotfiles ; ls -al ; }
+dotfilesLink () { sh ~/dotfiles/dotfilesLink.sh ; echo 'update links' ; }
