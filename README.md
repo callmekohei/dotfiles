@@ -5,6 +5,7 @@
 01. modify any dotfiles
 
 ```shell
+# move ~/dotfiles/
 $ dotfiles
 
 $ vim init.vim
