@@ -1,17 +1,38 @@
+# see also: https://wiki.archlinux.jp/index.php/Readline
+
+$include /etc/inputrc
+
 set editing-mode vi
 
-# requires >= Bash 4.3
-set show-mode-in-prompt on
+$if mode=vi
 
-set show-all-if-ambiguous on
-set completion-ignore-case on
-
-set keymap vi-command
+    set keymap vi-command
+    # these are for vi-command mode
     "\C-p": history-search-backward
     "\C-n": history-search-forward
+    j:history-search-forward
+    k:history-search-backward
 
-set keymap vi-insert
+    set keymap vi-insert
+    # these are for vi-insert mode
     "\C-p": history-search-backward
     "\C-n": history-search-forward
     "\C-h": backward-char
     "\C-l": forward-char
+
+$endif
+
+# requires >= Bash 4.3
+set show-mode-in-prompt on
+set show-all-if-ambiguous on
+set completion-ignore-case on
+# Color files by types
+set colored-stats On
+# Append char to indicate type
+set visible-stats On
+# Mark symlinked directories
+set mark-symlinked-directories On
+# Color the common prefix
+set colored-completion-prefix On
+# Color the common prefix in menu-complete
+set menu-complete-display-prefix On

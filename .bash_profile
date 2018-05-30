@@ -96,7 +96,6 @@ if [ ! -e $HOME/tmp/ ] ; then
     mkdir ./tmp/
 fi
 cd $HOME/tmp/
-goto_2nd_home_folder
 
 
 #-------------------------------------------------------------

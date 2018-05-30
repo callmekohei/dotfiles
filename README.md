@@ -1,18 +1,35 @@
-# callmekohei's dotfiles
+# Dotfiles
+OS X dotfiles.
 
-## Usages
+##  How to install
+The installation step requires the [XCode Command Line Tools](https://developer.apple.com/downloads)
 
-01. modify any dotfiles
-
-```shell
-# move ~/dotfiles/
-$ dotfiles
-
-$ vim init.vim
+```
+$ java -v
+$ xcode-select --install
 ```
 
-02. update links
+Run the following commnad.
 
 ```shell
-$ dotfileslinks
+# TODO
+```
+
+## Initialize
+
+```shell
+# TODO
+```
+
+## Deploy dotfiles
+
+```shell
+$ sh ~/dotfiles/dotfilesLink.sh
+```
+
+## TODO
+
+```shell
+setup.sh
+OS X settings
 ```
