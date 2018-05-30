@@ -2,9 +2,6 @@
 # see also: mathiasbynens/dotfiles ( https://github.com/mathiasbynens/dotfiles/blob/master/.gitconfig )
 # see also: afi/etc-skel ( https://github.com/rafi/etc-skel/blob/master/.config/git/config )
 
-# Git config
-# https://github.com/rafi/.config
-
 [user]
 
     name  = callmekohei
