@@ -1,7 +1,6 @@
-" ===========================================================================
-"  FILE    : init.vim
-"  AUTHOR  : callmekohei <callmekohei at gmail.com>
-" ===========================================================================
+"----------------------------------------------------------
+" Init
+"----------------------------------------------------------
 
 if &compatible
   set nocompatible
@@ -11,6 +10,7 @@ endif
 augroup MyAutoCmd
   autocmd!
 augroup END
+
 
 "----------------------------------------------------------
 " Variables or path
@@ -169,18 +169,8 @@ augroup bash
 augroup END
 
 
-
-
-
-
-
-
 "----------------------------------------------------------
 " Temporary
 "----------------------------------------------------------
 
-nnoremap <Leader>. :<C-u>edit $MYVIMRC<CR>
-command! -buffer Vimrc    : vsp $XDG_CONFIG_HOME/nvim/init.vim
-command! -buffer Deinrc   : vsp $XDG_CONFIG_HOME/nvim/dein.toml
-command! -buffer DeinLazy : vsp $XDG_CONFIG_HOME/nvim/dein_lazy.toml
-command! -buffer Bashrc   : vsp $HOME/.bash_profile
+command! -buffer Dotfiles : vsp $HOME/dotfiles
