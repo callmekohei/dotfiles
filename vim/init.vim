@@ -90,11 +90,11 @@ set tm=500
 
 " Clipbord ( see : help clipboard )
 if (!has('nvim') || $DISPLAY != '') && has('clipboard')
-  if has('unnamedplus')
-     set clipboard& clipboard+=unnamedplus
-  else
-     set clipboard& clipboard+=unnamed
-  endif
+    if has('unnamedplus')
+        set clipboard& clipboard+=unnamedplus
+    else
+        set clipboard& clipboard+=unnamed
+    endif
 endif
 
 " Mouse ( see :help mouse-using )
@@ -128,7 +128,7 @@ map <leader>q gqip
 map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
-map <C-l> <C-W>l" load local setting
+map <C-l> <C-W>l
 
 " buffers TODO
 set hidden
