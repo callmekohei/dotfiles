@@ -1,17 +1,14 @@
+echo 'load .bash_profile'
 #-------------------------------------------------------------
-#  Init
+#  Set extra path
 #-------------------------------------------------------------
-
-if [ -f ~/.bashrc ]; then
-    . ~/.bashrc
-fi
 
 # MacOSX already set path by path_helper.
 # $ man path_helper 8
 function setExtraPath () {
 
-    local cellar=/usr/local/bin
-    export PATH="${cellar}":"${PATH}"
+    local homebrew=/usr/local/bin
+    export PATH="${homebrew}":"${PATH}"
 
     local openssl=/usr/local/opt/openssl/bin
     export PATH="${openssl}":"${PATH}"
@@ -90,21 +87,12 @@ bashComplete
 
 
 #-------------------------------------------------------------
-#  Go to Second Home Folder
-#-------------------------------------------------------------
-
-if [ ! -e $HOME/tmp/ ] ; then
-    mkdir ./tmp/
-fi
-cd $HOME/tmp/
-
-
-#-------------------------------------------------------------
 #  ENVIRONMENT
 #-------------------------------------------------------------
 
+export EDITOR=vim
+
 # ( language )
-# see also: http://pubs.opengroup.org/onlinepubs/7908799/xbd/envvar.html
 export LANG=en_us.UTF-8
 export LESSCHARSET=utf-8
 export LC_ALL=$LANG
@@ -128,23 +116,10 @@ export LESS_TERMCAP_ue=$'\E[0m'           # end underline
 export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 
 
-export EDITOR=vim
-export MONO_GAC_PREFIX=/usr/local
-export WINEPREFIX=~/.wine
-export XDG_CONFIG_HOME=~/.config
-export FZF_DEFAULT_OPTS='--height 40% --reverse --border --ansi'
-export PYTHONPATH=~/tmp/pdb/
-export SDB_PATH=~/tmp/sdbplg/bin/
-
-
 #-------------------------------------------------------------
-#  Alias
+#  Load .bashrc
 #-------------------------------------------------------------
 
-eval "$(hub alias -s)"
-alias loto6="cd ~/tmp/lotofs/bin/ ; mono main_binary.exe   ; cd -"
-alias loto7="cd ~/tmp/lotofs/bin/ ; mono main_binary.exe 7 ; cd -"
-alias mql='cd "~/.wine/drive_c/Program Files/OANDA - MetaTrader/MQL4/Scripts"'
-
-dotfiles     () { cd ~/dotfiles ; ls -al ; }
-dotfilesLink () { sh ~/dotfiles/dotfilesLink.sh ; echo 'update links' ; }
+if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+fi

@@ -173,4 +173,8 @@ augroup END
 " Temporary
 "----------------------------------------------------------
 
-command! -buffer Dotfiles : vsp $HOME/dotfiles
+command! -buffer Dotfiles : e $HOME/dotfiles
+command! -buffer Vimrc : e $HOME/dotfiles/vim/init.vim
+command! -buffer Deinrc : e $HOME/dotfiles/vim/dein.toml
+command! -buffer Deinlazyrc : e $HOME/dotfiles/vim/dein_lazy.toml
+command! -buffer Bashrc : e $HOME/dotfiles/bash/.bashrc
