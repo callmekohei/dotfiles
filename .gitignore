@@ -10,6 +10,8 @@
 !vim/dotfilesLink.sh
 !vim/init.vim
 !vim/plugins/*
+!vim/local.vim
+!vim/local.vim
 
 # black list
 *
