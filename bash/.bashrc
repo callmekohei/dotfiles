@@ -16,9 +16,8 @@ cd $HOME/tmp/
 export PYTHONPATH=~/pdb/
 export SDB_PATH=~/sdbplg/bin/
 
-alias loto6="cd ~/myApp/lotofs/bin/ ; mono main_binary.exe   ; cd -"
-alias loto7="cd ~/myApp/lotofs/bin/ ; mono main_binary.exe 7 ; cd -"
-alias mql='cd "~/.wine/drive_c/Program Files/OANDA - MetaTrader/MQL4/Scripts"'
+alias loto6="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe)"
+alias loto7="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe 7 )"
 
 dotfiles     () { cd ~/dotfiles ; ls -al ; }
 dotfileslink () { sh ~/dotfiles/dotfilesLink.sh ; echo 'update links' ; }
@@ -28,6 +27,7 @@ vimrc () { vim ~/dotfiles/vim/init.vim ; }
 deinrc () { vim ~/dotfiles/vim/dein.toml ; }
 deinlazyrc () { vim ~/dotfiles/vim/dein_lazy.toml; }
 
+myapp () { cd ~/myApp ; ls -al ; }
 
 export MONO_GAC_PREFIX=/usr/local
 export WINEPREFIX=~/.wine

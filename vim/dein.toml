@@ -65,10 +65,15 @@ hook_add = '''
 repo = 'romainl/Apprentice'
 hook_add = '''
     "echo 'load: romainl/Apprentice'
-    augroup vimrc
+
+    "see also: https://github.com/romainl/Apprentice#tweaking-apprentice
+    function! MyHighlights() abort
+        highlight Comment ctermfg=245
+    endfunction
+
+    augroup MyColors
         autocmd!
-        " see also: https://github.com/romainl/Apprentice/pull/17
-        autocmd BufWinEnter * hi Comment ctermfg=245
+        autocmd ColorScheme * call MyHighlights()
     augroup END
 '''
 
