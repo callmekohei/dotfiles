@@ -9,6 +9,7 @@
 !vim/deinlazy.toml
 !vim/dotfilesLink.sh
 !vim/init.vim
+!vim/plugins/*
 
 # black list
 *
