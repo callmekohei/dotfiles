@@ -6,7 +6,7 @@
 !bash.bashrc
 !bash.inputrc
 !vim/dein.toml
-!vim/dein_lazy.toml
+!vim/deinlazy.toml
 !vim/dotfilesLink.sh
 !vim/init.vim
 
