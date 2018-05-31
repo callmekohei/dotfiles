@@ -126,6 +126,7 @@ hook_add = '''
 repo = 'thinca/vim-quickrun'
 hook_add = '''
     "echo 'load: thinca/vim-quickrun'
+
     set splitright
 
     let g:quickrun_config = {}

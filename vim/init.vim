@@ -13,18 +13,6 @@ augroup END
 
 
 "----------------------------------------------------------
-" Variables or path
-"----------------------------------------------------------
-
-if has('nvim')
-    let g:python_host_prog  = '/usr/local/bin/python2'
-    let g:python3_host_prog = '/usr/local/bin/python3'
-endif
-
-set rtp+=/usr/local/opt/fzf
-
-
-"----------------------------------------------------------
 " Plugin manager
 "----------------------------------------------------------
 
@@ -84,6 +72,9 @@ set foldlevel=100 "Don't autofold anything
 " Mouse ( see :help mouse-using )
 set mouse=nvic
 
+" Remove space at end of line ( exception: markdown, text )
+autocmd BufWritePre * if index(['markdown','text'], &ft)==-1 | :%s/\s\+$//e | endif
+
 " Search
 set wrapscan
 set ignorecase
@@ -120,16 +111,6 @@ if !has('nvim')
     set statusline+=%=
     set statusline+=%l,%c\ \ \ \ \ \ \ \ \ \ \ \ %P
 endif
-
-
-"----------------------------------------------------------
-" FileType behavior
-"----------------------------------------------------------
-
-" Remove space at end of line ( exception: markdown, text )
-autocmd BufWritePre * if index(['markdown','text'], &ft)==-1 | :%s/\s\+$//e | endif
-
-autocmd BufRead,BufNewFile *.pdbrc setfiletype python
 
 
 "----------------------------------------------------------
@@ -172,6 +153,20 @@ augroup END
 "----------------------------------------------------------
 " Temporary
 "----------------------------------------------------------
+
+
+if executable('brew')
+    if has('nvim')
+        :silent let s:brewHome = systemlist('brew --prefix')
+        let g:python_host_prog  = s:brewHome[0].'/bin/python2'
+        let g:python3_host_prog = s:brewHome[0].'/bin/python3'
+    endif
+endif
+
+set rtp+=/usr/local/opt/fzf
+
+
+autocmd BufRead,BufNewFile *.pdbrc setfiletype python
 
 command! -buffer Dotfiles : e $HOME/dotfiles
 command! -buffer Vimrc : e $HOME/dotfiles/vim/init.vim
