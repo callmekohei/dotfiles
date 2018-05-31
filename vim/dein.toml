@@ -1,185 +1,49 @@
-#----------------------------------------------------------
-# plugin manager
-#----------------------------------------------------------
-
 [[plugins]]
 repo = 'Shougo/dein.vim'
-hook_add = '''
-    "echo 'load: Shougo/dein.vim'
-'''
-
-#----------------------------------------------------------
-# Align
-#----------------------------------------------------------
 
 [[plugins]]
 repo = 'junegunn/vim-easy-align'
 hook_add = '''
-    "echo 'load: junegunn/vim-easy-align'
-    xmap ga <Plug>(EasyAlign)
-    nmap ga <Plug>(EasyAlign)
+    source ~/dotfiles/vim/plugins/vim-easy-alignrc.vim
 '''
 
-
-#----------------------------------------------------------
-# auto-complete
-#----------------------------------------------------------
-
-# bridge plugin
 [[plugins]]
 repo = 'roxma/nvim-yarp'
-hook_add = '''
-    "echo 'load: roxma/nvim-yarp'
-'''
+
 [[plugins]]
 repo = 'roxma/vim-hug-neovim-rpc'
-hook_add = '''
-    "echo 'load: roxma/vim-hug-neovim-rpc'
-'''
 
 [[plugins]]
 repo = 'Shougo/deoplete.nvim'
 hook_add = '''
-    "echo 'load: Shougo/deoplete-nvim'
-
-    " Enable loggin
-    "call deoplete#enable_logging("DEBUG", "foo.txt")
-
-    let g:deoplete#enable_at_startup = 1
-
-    call deoplete#custom#option({
-    \ 'auto_complete_delay': 0,
-    \ 'ignore_case': v:true,
-    \ })
-
-    call deoplete#custom#source('_',
-    \ 'converters', ['remove_overlap'])
+    source ~/dotfiles/vim/plugins/deopleterc.vim
 '''
-
-
-#----------------------------------------------------------
-# Color scheme
-#----------------------------------------------------------
 
 [[plugins]]
 repo = 'romainl/Apprentice'
 hook_add = '''
-    "echo 'load: romainl/Apprentice'
-
-    "see also: https://github.com/romainl/Apprentice#tweaking-apprentice
-    function! MyHighlights() abort
-        highlight Comment ctermfg=245
-    endfunction
-
-    augroup MyColors
-        autocmd!
-        autocmd ColorScheme * call MyHighlights()
-    augroup END
+    source ~/dotfiles/vim/plugins/Apprenticerc.vim
 '''
-
-
-#----------------------------------------------------------
-# Comment out
-#----------------------------------------------------------
 
 [[plugins]]
 repo = 'tomtom/tcomment_vim'
 hook_add = '''
-    "echo 'load: tomtom/tcomment_vim'
-    if !exists('g:tcomment_types')
-        let g:tcomment_types = {}
-    endif
-    let g:tcomment_types['fsharp'] = '// %s'
-    let g:tcomment_types['mql4'] = '// %s'
+    source ~/dotfiles/vim/plugins/tcomment_vimrc.vim
 '''
-
-
-#----------------------------------------------------------
-# Indent
-#----------------------------------------------------------
 
 [[plugins]]
 repo = 'nathanaelkane/vim-indent-guides'
 hook_add = '''
-    "echo 'load: nathanaelkane/vim-indnt-guides'
-    let g:indent_guides_enable_on_vim_startup = 1
-    let g:indent_guides_start_level = 2
-    let g:indent_guides_guide_size = 1
-    let g:indent_guides_auto_colors = 0
-    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=black ctermbg=0
-    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=black ctermbg=0
+    source ~/dotfiles/vim/plugins/vim-indent-guidesrc.vim
 '''
-
-
-#----------------------------------------------------------
-# QuickRun
-#----------------------------------------------------------
 
 [[plugins]]
 repo = 'Shougo/vimproc.vim'
 build = 'make'
-hook_add = '''
-    "echo 'load: Shougo/vimproc.vim'
-'''
 
 [[plugins]]
-repo = 'thinca/vim-quickrun'
+repo     = 'thinca/vim-quickrun'
+depends  = ['Shougo/vimproc.vim']
 hook_add = '''
-    "echo 'load: thinca/vim-quickrun'
-
-    set splitright
-
-    let g:quickrun_config = {}
-
-	let g:quickrun_config._ = {
-        \  'runner'                          : 'vimproc'
-        \ ,'runner/vimproc/updatetime'       : 60
-        \ ,'hook/time/enable'                : 1
-        \ ,'hook/time/format'                : "\n*** time : %g s ***"
-        \ ,'hook/time/dest'                  : ''
-        \ ,"outputter/buffer/split"          : 'vertical'
-        \ ,'outputter/buffer/close_on_empty' : 1
-    \}
-
-	let g:quickrun_config.bashCheck = {
-        \  'exec'                            : [ '%c -n %s:p:r.bash' ]
-        \ ,'command'                         : 'bash'
-        \ ,'hook/time/enable'                : 0
-        \ ,"outputter/buffer/close_on_empty" : 1
-        \ ,"outputter"                       : 'quickfix'
-        \ ,'outputter/buffer/split'          : ':set splitblow',
-    \}
-
-	let g:quickrun_config.fsharp = {
-        \  'command'                         : 'fsharpi --readline-'
-        \ ,'runner'                          : 'concurrent_process'
-        \ ,'runner/concurrent_process/load'  : '#load "%S";;'
-        \ ,'runner/concurrent_process/prompt': '> '
-    \}
-
-	let g:quickrun_config.fsharpCheck = {
-        \  'command'                         : 'fsharpi --readline-'
-        \ ,'runner'                          : 'concurrent_process'
-        \ ,'runner/concurrent_process/load'  : '#load "%S";;'
-        \ ,'runner/concurrent_process/prompt': '> '
-        \ ,'hook/time/enable'                : 0
-        \ ,"outputter/buffer/close_on_empty" : 1
-        \ ,"outputter"                       : 'quickfix'
-        \ ,'outputter/buffer/split'          : ':set splitblow',
-    \}
-
-	let g:quickrun_config.fsharpi = {
-        \  'exec'   :  [ '%c %s:p:r.fsx' ]
-        \ ,'command':  'fsharpi'
-        \ ,'args'   :  '%{input("args> ")}'
-    \}
-
-	let g:quickrun_config.python = {
-        \ 'command': 'python3'
-    \}
-
-	let g:quickrun_config.sh = {
-        \ 'command': 'bash'
-    \}
-
+    source ~/dotfiles/vim/plugins/quickrunrc.vim
 '''

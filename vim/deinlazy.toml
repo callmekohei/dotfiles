@@ -1,64 +1,28 @@
-#----------------------------------------------------------
-# F#
-#----------------------------------------------------------
-
 [[plugins]]
 repo = 'callmekohei/deoplete-fsharp'
 build = 'bash install.bash'
 on_ft = 'fsharp'
-hook_source = '''
-    "echo 'load: callmekohei/deoplete-fsharp'
-'''
 
 [[plugins]]
 repo = 'callmekohei/tigaDebugger'
 on_ft = 'fsharp'
-hook_source = '''
-    "echo 'load: callmekohei/tigaDebugger'
-'''
-
-
-#----------------------------------------------------------
-# Markdown browser
-#----------------------------------------------------------
 
 [[plugins]]
 repo = 'plasticboy/vim-markdown'
 on_ft = 'markdown'
 hook_source='''
-    "echo 'load: plasticboy/vim-markdown'
-    let g:vim_markdown_conceal = 0
-    let g:vim_markdown_toml_frontmatter = 1
+    source ~/dotfiles/vim/plugins/vim-markdown.vim
 '''
 
 [[plugins]]
 repo = 'cespare/vim-toml'
 on_ft = 'toml'
-hook_source='''
-    "echo 'load: cespare/vim-toml'
-'''
 
 [[plugins]]
 repo = 'kannokanno/previm'
 on_ft = 'markdown'
 hook_source = '''
-    "echo 'load: kannokanno/previm'
-    augroup PrevimSettings
-      autocmd!
-      autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
-    augroup END
-
-    let s:url = "https://gist.githubusercontent.com/andyferra/2554919/raw/10ce87fe71b23216e3075d5648b8b9e56f7758e1/github.css"
-    let s:cssFolder = expand('~/.cache/dein/repos/github.com/kannokanno/previm/preview/css')
-
-    let g:previm_open_cmd = 'open -a Firefox'
-    let g:previm_enable_realtime = 1
-    let g:previm_disable_default_css = 1
-    let g:previm_custom_css_path = s:cssFolder.'/github.css'
-
-    if !filereadable(s:cssFolder.'/github.css')
-        execute '!wget' s:url '--directory-prefix' s:cssFolder
-    endif
+    source ~/dotfiles/vim/plugins/previmrc.vim
 '''
 
 
@@ -70,8 +34,7 @@ hook_source = '''
 repo = 'zchee/deoplete-jedi'
 on_ft = 'python'
 hook_source = '''
-    "echo 'load: zchee/deoplete-jedi'
-    let g:deoplete#sources#jedi#python_path = '/usr/local/bin/python'
+    source ~/dotfiles/vim/plugins/deoplete-jedirc.vim
 '''
 
 

@@ -23,8 +23,27 @@ let mapleader = ","
 " Security
 set modelines=0
 
+set nocompatible
+filetype off
+
+" Load plugins
+execute 'source' s:current_dir.'/loadplg.vim'
+
+" turn plugins on
+syntax on
+filetype plugin indent on
+
+
+" ----------------------------------------------------------
+" Basic setting
+" ----------------------------------------------------------
+
+colorscheme Apprentice
+
+" leader key
+
 " Set to auto read when a file is changed from the outside
-set autoread
+" set autoread
 
 " Show line numbers
 set number
