@@ -1,9 +1,5 @@
 # bashlocal.bash
 
-#-------------------------------------------------------------
-#  Local setting
-#-------------------------------------------------------------
-
 # second home {{{
     if [ ! -e $HOME/tmp/ ] ; then
         mkdir ./tmp/
@@ -39,17 +35,15 @@ alias v='vim -N -u ~/tmp/code/essential.vim '
 
 dotfile     () { cd ~/dotfiles ; ls -al ; }
 dotfileslink () { sh ~/dotfiles/dotfilesLink.sh ; echo 'update links' ; }
-deopletefsharp () { cd ~/.cache/dein/repos/github.com/callmekohei/deoplete-fsharp ; }
 
 bashrc () { vim ~/dotfiles/bash/.bashrc ; }
 bashlocalrc () { vim ~/dotfiles/bash/bashlocalrc.bash ; }
 vimrc () { vim ~/dotfiles/vim/init.vim ; }
 vimlocalrc () { vim ~/dotfiles/vim/vimlocalrc.vim ; }
-
 deinrc () { vim ~/dotfiles/vim/dein.toml ; }
 deinlazyrc () { vim ~/dotfiles/vim/deinlazy.toml; }
+
 memo () { vim ~/tmp/memo.txt ; }
 myapp () { cd ~/myApp ; ls -al ; }
-
-
+deopletefsharp () { cd ~/.cache/dein/repos/github.com/callmekohei/deoplete-fsharp ; }
 

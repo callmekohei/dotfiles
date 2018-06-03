@@ -1,8 +1,5 @@
 # .bashrc
 
-#-------------------------------------------------------------
-#  Set extra path
-#-------------------------------------------------------------
 # Set extra path {{{
 
 # MacOSX already set path by path_helper.
@@ -21,9 +18,6 @@ setExtraPath
 
 # }}}
 
-#-------------------------------------------------------------
-#  ENVIRONMENT
-#-------------------------------------------------------------
 # ENVIRONMENT {{{
 
 export EDITOR=vim
@@ -53,9 +47,6 @@ export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 
 # }}}
 
-#-------------------------------------------------------------
-#  Load files for Completions
-#-------------------------------------------------------------
 # Load files for Completions {{{
 
 # Bash's auto-complete is already implimented. ( requires > 4.x )
@@ -75,9 +66,6 @@ bashComplete
 
 # }}}
 
-#-------------------------------------------------------------
-#  Prompt
-#-------------------------------------------------------------
 # Prompt{{{
 function set_prompts () {
 
@@ -124,9 +112,6 @@ unset set_prompts
 
 # }}}
 
-#-------------------------------------------------------------
-#  Load bashlocal.bash
-#-------------------------------------------------------------
 # Load .bashrc {{{
 
 function load_bashlocal () {
@@ -141,6 +126,4 @@ function load_bashlocal () {
 load_bashlocal
 
 # }}}
-
-
 
