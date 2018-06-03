@@ -131,7 +131,7 @@ unset set_prompts
 
 function load_bashlocal () {
 
-    local bashlocal=~/dotfiles/bash/bashlocal.bash
+    local bashlocal=~/dotfiles/bash/bashlocalrc.bash
 
     if [ -f ${bashlocal}  ]; then
       . ${bashlocal}

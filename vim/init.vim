@@ -160,4 +160,4 @@ nnoremap <silent> ]b :bnext<CR>
 " }}}
 
 "  Load local setting
-" execute 'source' s:current_dir.'/local.vim'
+execute 'source' s:current_dir.'/vimlocalrc.vim'

@@ -6,7 +6,7 @@
 !bash.bash_profile
 !bash.bashrc
 !bash.inputrc
-!bash/bashlocal.bash
+!bash/bashlocalrc.bash
 
 !git/.gitconfig
 
@@ -14,7 +14,7 @@
 !vim/deinlazy.toml
 !vim/init.vim
 !vim/loadplg.vim
-!vim/local.vim
+!vim/vimlocalrc.vim
 
 # black list
 
