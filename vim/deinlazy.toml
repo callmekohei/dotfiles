@@ -3,9 +3,7 @@ repo = 'callmekohei/deoplete-fsharp'
 build = 'bash install.bash'
 on_ft = 'fsharp'
 
-[[plugins]]
-repo = 'callmekohei/tigaDebugger'
-on_ft = 'fsharp'
+
 
 [[plugins]]
 repo = 'plasticboy/vim-markdown'

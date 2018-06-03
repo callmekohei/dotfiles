@@ -1,55 +1,46 @@
+" vim:set foldmethod=marker:
+
 let s:current_dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 
-set nocompatible
-filetype off
+" Initialize {{{
 
-" Load plugins
-execute 'source' s:current_dir.'/loadplg.vim'
+    if &compatible
+      set nocompatible
+    endif
 
-" turn plugins on
-syntax on
-filetype plugin indent on
+    " filetype off
 
+    " Load plugins
+    execute 'source' s:current_dir.'/loadplg.vim'
 
-" ----------------------------------------------------------
-" Basic setting
-" ----------------------------------------------------------
+    " turn plugins on
+    syntax on
+    filetype plugin indent on
+"}}}
+
+"  Basic setting {{{
+
+set fileencoding=utf-8 " 保存時の文字コード
+set fileencodings=ucs-boms,utf-8,euc-jp,cp932 " 読み込み時の文字コードの自動判別. 左側が優先される
+set fileformats=unix,dos,mac " 改行コードの自動判別. 左側が優先される
+" sdbのときは表示が崩れる
+" set ambiwidth=double " □や○文字が崩れる問題を解決
 
 colorscheme Apprentice
 
 " leader key
-let mapleader = ","
+" let mapleader = ","
 
 " Security
 set modelines=0
 
-set nocompatible
-filetype off
-
-" Load plugins
-execute 'source' s:current_dir.'/loadplg.vim'
-
-" turn plugins on
-syntax on
-filetype plugin indent on
-
-
-" ----------------------------------------------------------
-" Basic setting
-" ----------------------------------------------------------
-
-colorscheme Apprentice
-
-" leader key
-
 " Set to auto read when a file is changed from the outside
-" set autoread
+"set autoread
 
 " Show line numbers
 set number
 
-" Wrap/noWrap text
-" set wrap
+" Not wrap text
 set nowrap
 
 " Status bar
@@ -82,19 +73,30 @@ set backspace=indent,eol,start
 set ttyfast
 
 " Searching
-set magic
+" set magic
 set hlsearch
 set incsearch
 set ignorecase
 set smartcase
-set showmatch
+" set showmatch
 set wrapscan
-map <silent> <leader><cr> :noh<cr>
 
-" Folding TODO
-set foldmethod=syntax
-let perl_fold=1
-set foldlevel=100 "Don't autofold anything
+" code from practical vim (jp) p277
+nnoremap <silent><Esc><Esc> :<C-u>nohlsearch<CR><C-l>
+xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<C-R>=@/<CR><CR>
+xnoremap # :<C-u>call <SID>VSetSearch()<CR>?<C-R>=@/<CR><CR>
+function! s:VSetSearch()
+  let temp = @s
+  norm! gv"sy
+  let @/ = '\V' . substitute(escape(@s, '/\'), '\n', '\\n', 'g')
+  let @s = temp
+endfunction
+
+" " Folding TODO
+set foldmethod=marker
+" set foldmethod=syntax
+" let perl_fold=1
+" set foldlevel=100 "Don't autofold anything
 
 " Turn backup off
 set nobackup
@@ -119,23 +121,20 @@ endif
 " Mouse ( see :help mouse-using )
 set mouse=nvic
 
+"}}}
 
-" ----------------------------------------------------------
-" Utility command
-" ----------------------------------------------------------
-" Switch CWD to the directory of the open buffer
-map <leader>cd :cd %:p:h<cr>:pwd<cr>
+"  Util command {{{
 
 " Return to last edit position when opening files (You want this!)
-autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+" autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 " Remove space at end of line ( exception: markdown, text )
 autocmd BufWritePre * if index(['markdown','text'], &ft)==-1 | :%s/\s\+$//e | endif
 
+"}}}
 
-" ----------------------------------------------------------
-" Utility key map
-" ----------------------------------------------------------
+"  Util keymap {{{
+
 " Move up/down editor lines
 nnoremap j gj
 nnoremap k gk
@@ -151,11 +150,14 @@ map <C-l> <C-W>l
 
 " buffers TODO
 set hidden
-map <leader>l :bnext<cr>
-map <leader>h :bprevious<cr>
+nnoremap <silent> [b :bprevious<CR>
+nnoremap <silent> ]b :bnext<CR>
 
+" ---> :Explore
+" " Switch CWD to the directory of the open buffer
+" map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
-" ----------------------------------------------------------
-" Load loacal setting
-" ----------------------------------------------------------
-execute 'source' s:current_dir.'/local.vim'
+" }}}
+
+"  Load local setting
+" execute 'source' s:current_dir.'/local.vim'

@@ -46,3 +46,24 @@ command! -buffer Vimrc      : edit $HOME/dotfiles/vim/init.vim
 command! -buffer Deinrc     : edit $HOME/dotfiles/vim/dein.toml
 command! -buffer Deinlazyrc : edit $HOME/dotfiles/vim/deinlazy.toml
 command! -buffer Bashrc     : edit $HOME/dotfiles/bash/.bashrc
+command! -buffer Memo       : edit $HOME/tmp/memo.txt
+
+call textobj#user#plugin('yyy', {} )
+call textobj#user#plugin('yyy', {
+\   'bbb': {
+\     'pattern': ["^hook.* = '''","^'''"],
+\     'select-a': 'aP',
+\     'select-i': 'iP',
+\   },
+\ })
+
+
+
+" \   'ccc': {
+" \     'pattern': [".*{{{$",".*}}}$"],
+" \     'select-a': 'aP',
+" \     'select-i': 'iP',
+" \   },
+
+
+

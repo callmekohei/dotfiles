@@ -1,20 +1,23 @@
 # white list
 !.gitignore
 !README.md
-!git/.gitconfig
+!dotfilesLink.sh
+
 !bash.bash_profile
 !bash.bashrc
 !bash.inputrc
+!bash/bashlocal.bash
+
+!git/.gitconfig
+
 !vim/dein.toml
 !vim/deinlazy.toml
-!vim/dotfilesLink.sh
 !vim/init.vim
-!vim/plugins/*
-!vim/local.vim
+!vim/loadplg.vim
 !vim/local.vim
 
 # black list
-*
+
 
 ### https://raw.github.com/github/gitignore/90f149de451a5433aebd94d02d11b0e28843a1af/Global/macOS.gitignore
 

@@ -7,5 +7,5 @@ ln -sf ~/dotfiles/git/.gitconfig     ~/.gitconfig
 ln -sf ~/dotfiles/vim/init.vim       ~/.vimrc
 ln -sf ~/dotfiles/vim/init.vim       ~/.config/nvim/init.vim
 ln -sf ~/dotfiles/vim/dein.toml      ~/.config/nvim/dein.toml
-ln -sf ~/dotfiles/vim/deinlazy.toml ~/.config/nvim/deinlazy.toml
+ln -sf ~/dotfiles/vim/deinlazy.toml  ~/.config/nvim/deinlazy.toml
 
