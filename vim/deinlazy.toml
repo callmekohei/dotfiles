@@ -3,6 +3,10 @@ repo = 'callmekohei/deoplete-fsharp'
 build = 'bash install.bash'
 on_ft = 'fsharp'
 
+# なぜかlazyにならない。なぜ？？？
+# [[plugins]]
+# repo = 'callmekohei/tigaDebugger'
+# on_ft = 'fsharp'
 
 
 [[plugins]]

@@ -29,6 +29,8 @@ set fileformats=unix,dos,mac " 改行コードの自動判別. 左側が優先�
 
 colorscheme Apprentice
 
+set splitright
+
 " Security
 set modelines=0
 
