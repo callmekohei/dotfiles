@@ -8,7 +8,7 @@ let s:current_dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
       set nocompatible
     endif
 
-    " filetype off
+    filetype off
 
     " Load plugins
     execute 'source' s:current_dir.'/loadplg.vim'
@@ -16,6 +16,7 @@ let s:current_dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
     " turn plugins on
     syntax on
     filetype plugin indent on
+
 "}}}
 
 "  Basic setting {{{
@@ -27,9 +28,6 @@ set fileformats=unix,dos,mac " 改行コードの自動判別. 左側が優先�
 " set ambiwidth=double " □や○文字が崩れる問題を解決
 
 colorscheme Apprentice
-
-" leader key
-" let mapleader = ","
 
 " Security
 set modelines=0
@@ -155,7 +153,7 @@ nnoremap <silent> ]b :bnext<CR>
 
 " ---> :Explore
 " " Switch CWD to the directory of the open buffer
-" map <leader>cd :cd %:p:h<cr>:pwd<cr>
+map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
 " }}}
 
