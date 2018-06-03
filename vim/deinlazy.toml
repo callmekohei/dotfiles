@@ -1,13 +1,26 @@
 [[plugins]]
+repo = 'Shougo/deoplete.nvim'
+on_i = 1
+hook_source = '''
+    let g:deoplete#enable_at_startup = 1
+
+    call deoplete#custom#option({
+    \ 'auto_complete_delay': 0,
+    \ 'ignore_case': v:true,
+    \ })
+
+    call deoplete#custom#source('_',
+    \ 'converters', ['remove_overlap'])
+'''
+
+[[plugins]]
 repo = 'callmekohei/deoplete-fsharp'
 build = 'bash install.bash'
 on_ft = 'fsharp'
 
-# なぜかlazyにならない。なぜ？？？
-# [[plugins]]
-# repo = 'callmekohei/tigaDebugger'
-# on_ft = 'fsharp'
-
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = ['markdown','toml']
 
 [[plugins]]
 repo = 'plasticboy/vim-markdown'
@@ -39,19 +52,12 @@ hook_source = '''
     endif
 '''
 
-
-#----------------------------------------------------------
-# Python
-#----------------------------------------------------------
-
 [[plugins]]
 repo = 'zchee/deoplete-jedi'
 on_ft = 'python'
 hook_source = '''
     let g:deoplete#sources#jedi#python_path = '/usr/local/bin/python'
 '''
-
-
 
 #----------------------------------------------------------
 # Others
@@ -75,5 +81,3 @@ hook_source = '''
 #     \  'exec'   :  [ '%c -clean-css %s:p:r.less' ]
 #     \ ,'command':  'lessc'
 # \}
-
-

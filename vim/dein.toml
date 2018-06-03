@@ -2,42 +2,8 @@
 repo = 'Shougo/dein.vim'
 
 [[plugins]]
-repo = 'junegunn/vim-easy-align'
-hook_add = '''
-    xmap ga <Plug>(EasyAlign)
-    nmap ga <Plug>(EasyAlign)
-'''
-
-[[plugins]]
-repo = 'roxma/nvim-yarp'
-
-[[plugins]]
-repo = 'roxma/vim-hug-neovim-rpc'
-
-[[plugins]]
-repo = 'Shougo/deoplete.nvim'
-hook_add = '''
-    " Enable loggin
-    "call deoplete#enable_logging("DEBUG", "foo.txt")
-
-    let g:deoplete#enable_at_startup = 1
-
-    call deoplete#custom#option({
-    \ 'auto_complete_delay': 0,
-    \ 'ignore_case': v:true,
-    \ })
-
-    call deoplete#custom#source('_',
-    \ 'converters', ['remove_overlap'])
-'''
-
-[[plugins]]
-repo = 'callmekohei/tigaDebugger'
-
-[[plugins]]
 repo = 'romainl/Apprentice'
 hook_add = '''
-    "see also: https://github.com/romainl/Apprentice#tweaking-apprentice
     function! MyHighlights() abort
         highlight Comment ctermfg=245
     endfunction
@@ -57,8 +23,13 @@ hook_add = '''
     endif
     let g:tcomment_types['fsharp'] = '// %s'
     let g:tcomment_types['mql4'] = '// %s'
-    let foo='abc'
-    let baz='ccc'
+'''
+
+[[plugins]]
+repo = 'junegunn/vim-easy-align'
+hook_add = '''
+    xmap ga <Plug>(EasyAlign)
+    nmap ga <Plug>(EasyAlign)
 '''
 
 [[plugins]]
@@ -137,9 +108,6 @@ hook_add = '''
         \ 'command': 'bash'
     \}
 '''
-
-[[plugins]]
-repo = 'cespare/vim-toml'
 
 [[plugins]]
 repo = 'thinca/vim-partedit'

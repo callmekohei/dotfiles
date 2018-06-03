@@ -41,12 +41,14 @@ set rtp+=/usr/local/opt/fzf
 
 autocmd BufRead,BufNewFile *.pdbrc setfiletype python
 
-command! -buffer Dotfiles   : edit $HOME/dotfiles
-command! -buffer Vimrc      : edit $HOME/dotfiles/vim/init.vim
-command! -buffer Deinrc     : edit $HOME/dotfiles/vim/dein.toml
-command! -buffer Deinlazyrc : edit $HOME/dotfiles/vim/deinlazy.toml
-command! -buffer Bashrc     : edit $HOME/dotfiles/bash/.bashrc
-command! -buffer Memo       : edit $HOME/tmp/memo.txt
+command! -buffer Dotfiles    : edit $HOME/dotfiles
+command! -buffer Vimrc       : edit $HOME/dotfiles/vim/init.vim
+command! -buffer Vimlocalrc  : edit $HOME/dotfiles/vim/vimlocalrc.vim
+command! -buffer Bashrc      : edit $HOME/dotfiles/bash/.bashrc
+command! -buffer Bashlocalrc : edit $HOME/dotfiles/bash/bashlocalrc.bash
+command! -buffer Deinrc      : edit $HOME/dotfiles/vim/dein.toml
+command! -buffer Deinlazyrc  : edit $HOME/dotfiles/vim/deinlazy.toml
+command! -buffer Memo        : edit $HOME/tmp/memo.txt
 
 call textobj#user#plugin('yyy', {} )
 call textobj#user#plugin('yyy', {

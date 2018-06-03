@@ -112,7 +112,7 @@ unset set_prompts
 
 # }}}
 
-# Load .bashrc {{{
+# Load .bashlocalrc {{{
 
 function load_bashlocal () {
 
