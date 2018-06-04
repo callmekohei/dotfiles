@@ -24,25 +24,36 @@ function create_alias_macvim_impl {
 
     local foo=$( type -P mvim )
     local bar=$( readlink ${foo} )
-    cd $( dirname ${foo} )
-    cd $( dirname ${bar} )
-    cd ..
-    s0='tell application "Finder" to make alias file to POSIX file'
-    s1='"'$( pwd -P )'/MacVim.app''"'
-    s2='at POSIX file "/Applications"'
-    echo "'"${s0}' '${s1}' '${s2}"'" | xargs osascript -e > /dev/null 2>&1
+
+    str=$(
+        cd $( dirname ${foo} )
+        cd $( dirname ${bar} )
+        cd ..
+        pwd -P
+    )
+
+    s="'"
+    s+='tell application "Finder" to make alias file to POSIX file'
+    s+=' "'
+    s+=${str}/MacVim.app
+    s+='" '
+    s+='at POSIX file "/Applications"'
+    s+="'"
+
+    echo "${s}" | xargs osascript -e > /dev/null 2>&1
 }
 
 function create_alias_macvim {
 
-    RES=`find /Applications -maxdepth 1 -name MacVim.* 2>/dev/null`
+    local tmp=`find /Applications -maxdepth 1 -name MacVim.* 2>/dev/null`
     if [ $? -ne 0 ]; then
-      echo 'error! please check MacVim aliase.'
-    elif [ -z "$RES" ]; then
-      create_alias_macvim_impl
+        echo 'error! please check MacVim aliase.'
+    elif [ -z "$tmp" ]; then
+        create_alias_macvim_impl
     else
-      rm /Applications/MacVim.*
-      create_alias_macvim_impl
+        rm /Applications/MacVim.*
+        sleep 0.5 # to avoid create file 'MacVim.app alias'
+        create_alias_macvim_impl
     fi
 }
 
