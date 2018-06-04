@@ -1,8 +1,3 @@
-" vim:set foldmethod=marker:
-
-"  Basic setting {{{
-
-
 " Encoding
 if &encoding !=# "utf-8"
     set encoding=utf-8
@@ -68,17 +63,6 @@ set smartcase
 " set showmatch
 set wrapscan
 
-" code from practical vim (jp) p277
-nnoremap <silent><Esc><Esc> :<C-u>nohlsearch<CR><C-l>
-xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<C-R>=@/<CR><CR>
-xnoremap # :<C-u>call <SID>VSetSearch()<CR>?<C-R>=@/<CR><CR>
-function! s:VSetSearch()
-  let temp = @s
-  norm! gv"sy
-  let @/ = '\V' . substitute(escape(@s, '/\'), '\n', '\\n', 'g')
-  let @s = temp
-endfunction
-
 " " Folding TODO
 set foldmethod=marker
 " set foldmethod=syntax
@@ -107,42 +91,4 @@ endif
 
 " Mouse ( see :help mouse-using )
 set mouse=nvic
-
-"}}}
-
-"  Util command {{{
-
-" Return to last edit position when opening files (You want this!)
-" autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
-" Remove space at end of line ( exception: markdown, text )
-autocmd BufWritePre * if index(['markdown','text'], &ft)==-1 | :%s/\s\+$//e | endif
-
-"}}}
-
-"  Util keymap {{{
-
-" Move up/down editor lines
-nnoremap j gj
-nnoremap k gk
-
-" Formatting
-map <leader>q gqip
-
-" Windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
-
-" buffers TODO
-set hidden
-nnoremap <silent> [b :bprevious<CR>
-nnoremap <silent> ]b :bnext<CR>
-
-" ---> :Explore
-" " Switch CWD to the directory of the open buffer
-map <leader>cd :cd %:p:h<cr>:pwd<cr>
-
-" }}}
 

@@ -1,20 +1,11 @@
 # white list
 !.gitignore
 !README.md
-!dotfilesLink.sh
+!dotfilelinker.bash.sh
 
-!bash.bash_profile
-!bash.bashrc
-!bash.inputrc
-!bash/bashlocalrc.bash
-
-!git/.gitconfig
-
-!vim/dein.toml
-!vim/deinlazy.toml
-!vim/init.vim
-!vim/loadplg.vim
-!vim/vimlocalrc.vim
+!bash/*
+!git/*
+!vim/*
 
 # black list
 

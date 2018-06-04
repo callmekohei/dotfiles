@@ -1,3 +1,11 @@
+" Return to last edit position when opening files (You want this!)
+" autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+
+" Remove space at end of line ( exception: markdown, text )
+autocmd BufWritePre * if index(['markdown','text'], &ft)==-1 | :%s/\s\+$//e | endif
+
+
 " Adjust hight of QuickFix window
 " code from : https://gist.github.com/juanpabloaj/5845848#file-adjustwindowheight-vim
 autocmd FileType qf call AdjustWindowHeight(3, 10)
@@ -15,6 +23,7 @@ function! AdjustWindowHeight(minheight, maxheight)
     exe max([min([n_lines, a:maxheight]), a:minheight]) . "wincmd _"
 endfunction
 
+
 augroup bash
     autocmd!
     " see also: :help ft-sh-syntax
@@ -27,13 +36,6 @@ augroup bash
         autocmd BufWritePost *.bash  call quickrun#run( g:quickrun_config.bashCheck )
     endif
 augroup END
-
-
-
-
-
-
-
 
 
 set rtp+=/usr/local/opt/fzf

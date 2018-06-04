@@ -12,4 +12,5 @@ endif
 
 execute 'source' '~/dotfiles/vim/vimrcs/plugins.vim'
 execute 'source' '~/dotfiles/vim/vimrcs/common.vim'
+execute 'source' '~/dotfiles/vim/vimrcs/keymap.vim'
 execute 'source' '~/dotfiles/vim/vimrcs/local.vim'
