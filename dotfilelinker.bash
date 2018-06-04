@@ -52,7 +52,6 @@ function create_alias_macvim {
         create_alias_macvim_impl
     else
         rm /Applications/MacVim.*
-        sleep 0.5 # to avoid create file 'MacVim.app alias'
         create_alias_macvim_impl
     fi
 }

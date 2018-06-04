@@ -10,6 +10,8 @@ set fileformats=unix,dos,mac " 改行コードの自動判別. 左側が優先�
 " sdbのときは表示が崩れる
 " set ambiwidth=double " □や○文字が崩れる問題を解決
 
+" Color scheme (terminal)
+set background=dark
 colorscheme Apprentice
 
 set splitright
