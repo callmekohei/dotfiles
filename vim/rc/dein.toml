@@ -54,6 +54,11 @@ hook_add = '''
 '''
 
 [[plugins]]
+repo = 'Shougo/vimproc.vim'
+build = 'make'
+on_source = ['vim-quickrun']
+
+[[plugins]]
 repo = 'thinca/vim-partedit'
 hook_add = '''
     let g:partedit#opener = 'vsp'
