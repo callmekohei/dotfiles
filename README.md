@@ -24,7 +24,7 @@ Run the following commnad.
 ## Deploy dotfiles
 
 ```shell
-$ sh ~/dotfiles/dotfilesLink.sh
+$ bash ~/dotfiles/dotfilelinker.bash
 ```
 
 ## TODO
