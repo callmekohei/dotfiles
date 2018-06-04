@@ -25,14 +25,14 @@ function create_alias_macvim_impl {
     local foo=$( type -P mvim )
     local bar=$( readlink ${foo} )
 
-    str=$(
+    local str=$(
         cd $( dirname ${foo} )
         cd $( dirname ${bar} )
         cd ..
         pwd -P
     )
 
-    s="'"
+    local s="'"
     s+='tell application "Finder" to make alias file to POSIX file'
     s+=' "'
     s+=${str}/MacVim.app
@@ -48,7 +48,7 @@ function create_alias_macvim {
     local tmp=`find /Applications -maxdepth 1 -name MacVim.* 2>/dev/null`
     if [ $? -ne 0 ]; then
         echo 'error! please check MacVim aliase.'
-    elif [ -z "$tmp" ]; then
+    elif [ -z "${tmp}" ]; then
         create_alias_macvim_impl
     else
         rm /Applications/MacVim.*
