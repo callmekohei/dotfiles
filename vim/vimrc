@@ -1,0 +1,3 @@
+if 1
+    execute 'source' '~/dotfiles/vim/rc/vimrc'
+endif

@@ -1,7 +1,3 @@
-" setting of macvim
-" brew info macvim
-" -----------------
-
 " □や○文字が崩れる問題を解決
 set ambiwidth=double
 
@@ -21,8 +17,8 @@ set guioptions-=T
 set mousemodel=popup
 
 " exchange colon and semi-colon
-noremap ; :
-noremap : ;
+noremap  ; :
+noremap  : ;
 inoremap ; :
 inoremap : ;
 
