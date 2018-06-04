@@ -28,14 +28,13 @@ hook_source = '''
     let g:deoplete#sources#jedi#python_path = '/usr/local/bin/python'
 '''
 
-[[plugins]]
-repo = 'cespare/vim-toml'
-on_ft = ['markdown','toml']
-
 
 #----------------------------------------------------------
 # Markdown
 #----------------------------------------------------------
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = ['markdown','toml']
 
 [[plugins]]
 repo = 'plasticboy/vim-markdown'
