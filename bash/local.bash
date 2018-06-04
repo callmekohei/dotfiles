@@ -37,10 +37,10 @@ alias v='vim -N -u ~/tmp/code/essential.vim '
 dotfile     () { cd ~/dotfiles ; }
 dotfilelinker () { bash ~/dotfiles/dotfilelinker.bash ; echo 'update links' ; }
 
-bashrc () { vim ~/dotfiles/bash/bashrc ; }
+bashrc () { vim ~/dotfiles/bash/.bashrc ; }
 bashlocalrc () { vim ~/dotfiles/bash/local.bash ; }
 vimrc () { vim ~/dotfiles/vim/vimrcs/common.vim ; }
-gvimrc () { vim ~/dotfiles/vim/gvimrc ; }
+gvimrc () { vim ~/dotfiles/vim/.gvimrc ; }
 vimlocalrc () { vim ~/dotfiles/vim/vimrcs/local.vim ; }
 deinrc () { vim ~/dotfiles/vim/vimrcs/dein.toml ; }
 deinlazyrc () { vim ~/dotfiles/vim/vimrcs/deinlazy.toml; }

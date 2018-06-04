@@ -46,7 +46,7 @@ autocmd BufRead,BufNewFile *.pdbrc setfiletype python
 command! -buffer Dotfiles    : edit $HOME/dotfiles
 command! -buffer Vimrc       : edit $HOME/dotfiles/vim/vimrcs/common.vim
 command! -buffer Vimlocalrc  : edit $HOME/dotfiles/vim/vimrcs/local.vim
-command! -buffer Bashrc      : edit $HOME/dotfiles/bash/bashrc
+command! -buffer Bashrc      : edit $HOME/dotfiles/bash/.bashrc
 command! -buffer Bashlocalrc : edit $HOME/dotfiles/bash/local.bash
 command! -buffer Deinrc      : edit $HOME/dotfiles/vim/vimrcs/dein.toml
 command! -buffer Deinlazyrc  : edit $HOME/dotfiles/vim/vimrcs/deinlazy.toml
