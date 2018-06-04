@@ -1,24 +1,24 @@
 #!/usr/bin/env bash
 
-FROMDIR=$HOME/dotfiles
-DISTDIR=$HOME
+FROMDIR="${HOME}"/dotfiles
+DISTDIR="${HOME}"
 
 # Shell
-ln -sf ${FROMDIR}/bash/.bashrc       ${DISTDIR}/.bashrc
-ln -sf ${FROMDIR}/bash/.bash_profile ${DISTDIR}/.bash_profile
-ln -sf ${FROMDIR}/bash/.inputrc      ${DISTDIR}/.inputrc
+ln -sf "${FROMDIR}"/bash/.bashrc       "${DISTDIR}"/.bashrc
+ln -sf "${FROMDIR}"/bash/.bash_profile "${DISTDIR}"/.bash_profile
+ln -sf "${FROMDIR}"/bash/.inputrc      "${DISTDIR}"/.inputrc
 
 # Git/Github
 ln -sf ${FROMDIR}/git/.gitconfig ${DISTDIR}/.gitconfig
 
 # Vim/Neovim
-ln   -sf ${FROMDIR}/vim/vimrc            ${DISTDIR}/.vimrc
-ln   -sf ${FROMDIR}/vim/init.vim         ${DISTDIR}/.config/nvim/init.vim
-ln   -sf ${FROMDIR}/vim/rc/dein.toml     ${DISTDIR}/.config/nvim/dein.toml
-ln   -sf ${FROMDIR}/vim/rc/deinlazy.toml ${DISTDIR}/.config/nvim/deinlazy.toml
+ln   -sf "${FROMDIR}"/vim/vimrc            "${DISTDIR}"/.vimrc
+ln   -sf "${FROMDIR}"/vim/init.vim         "${DISTDIR}"/.config/nvim/init.vim
+ln   -sf "${FROMDIR}"/vim/rc/dein.toml     "${DISTDIR}"/.config/nvim/dein.toml
+ln   -sf "${FROMDIR}"/vim/rc/deinlazy.toml "${DISTDIR}"/.config/nvim/deinlazy.toml
 
 # MacVim
-ln -fs ${FROMDIR}/vim/gvimrc ${DISTDIR}/.gvimrc
+ln -fs "${FROMDIR}"/vim/gvimrc "${DISTDIR}"/.gvimrc
 
 function create_alias_macvim_impl {
 
@@ -26,8 +26,8 @@ function create_alias_macvim_impl {
     local bar=$( readlink ${foo} )
 
     local str=$(
-        cd $( dirname ${foo} )
-        cd $( dirname ${bar} )
+        cd $( dirname "${foo}" )
+        cd $( dirname "${bar}" )
         cd ..
         pwd -P
     )
@@ -45,7 +45,7 @@ function create_alias_macvim_impl {
 
 function create_alias_macvim {
 
-    local tmp=`find /Applications -maxdepth 1 -name MacVim.* 2>/dev/null`
+    local tmp=$( find /Applications -maxdepth 1 -name MacVim.* 2>/dev/null )
     if [ $? -ne 0 ]; then
         echo 'error! please check MacVim alias.'
     elif [ -z "${tmp}" ]; then
