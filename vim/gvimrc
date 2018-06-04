@@ -1,0 +1,32 @@
+" setting of macvim
+" brew info macvim
+" -----------------
+
+" □や○文字が崩れる問題を解決
+set ambiwidth=double
+
+" window size
+set lines=30
+set columns=80
+
+" font and linespace
+let s:fontname = 'Droid Sans Mono for Powerline Nerd Font Complete'
+let &guifont = s:fontname.":h14"
+set linespace=3
+
+" disable toolbar
+set guioptions-=T
+
+" enable popup
+set mousemodel=popup
+
+" exchange colon and semi-colon
+noremap ; :
+noremap : ;
+inoremap ; :
+inoremap : ;
+
+" TODO
+" 色がちゃんと出ない
+" foo.fsx のコメント部分
+" foo.fsx のインデント部分

@@ -28,13 +28,13 @@ augroup bash
     endif
 augroup END
 
-if executable('brew')
-    if has('nvim')
-        :silent let s:brewHome = systemlist('brew --prefix')
-        let g:python_host_prog  = s:brewHome[0].'/bin/python2'
-        let g:python3_host_prog = s:brewHome[0].'/bin/python3'
-    endif
-endif
+
+
+
+
+
+
+
 
 set rtp+=/usr/local/opt/fzf
 
@@ -42,12 +42,12 @@ set rtp+=/usr/local/opt/fzf
 autocmd BufRead,BufNewFile *.pdbrc setfiletype python
 
 command! -buffer Dotfiles    : edit $HOME/dotfiles
-command! -buffer Vimrc       : edit $HOME/dotfiles/vim/init.vim
-command! -buffer Vimlocalrc  : edit $HOME/dotfiles/vim/vimlocalrc.vim
-command! -buffer Bashrc      : edit $HOME/dotfiles/bash/.bashrc
-command! -buffer Bashlocalrc : edit $HOME/dotfiles/bash/bashlocalrc.bash
-command! -buffer Deinrc      : edit $HOME/dotfiles/vim/dein.toml
-command! -buffer Deinlazyrc  : edit $HOME/dotfiles/vim/deinlazy.toml
+command! -buffer Vimrc       : edit $HOME/dotfiles/vim/vimrcs/common.vim
+command! -buffer Vimlocalrc  : edit $HOME/dotfiles/vim/vimrcs/local.vim
+command! -buffer Bashrc      : edit $HOME/dotfiles/bash/bashrc
+command! -buffer Bashlocalrc : edit $HOME/dotfiles/bash/local.bash
+command! -buffer Deinrc      : edit $HOME/dotfiles/vim/vimrcs/dein.toml
+command! -buffer Deinlazyrc  : edit $HOME/dotfiles/vim/vimrcs/deinlazy.toml
 command! -buffer Memo        : edit $HOME/tmp/memo.txt
 
 call textobj#user#plugin('yyy', {} )

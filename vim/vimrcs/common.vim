@@ -1,25 +1,13 @@
 " vim:set foldmethod=marker:
 
-let s:current_dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
-
-" Initialize {{{
-
-    if &compatible
-      set nocompatible
-    endif
-
-    filetype off
-
-    " Load plugins
-    execute 'source' s:current_dir.'/loadplg.vim'
-
-    " turn plugins on
-    syntax on
-    filetype plugin indent on
-
-"}}}
-
 "  Basic setting {{{
+
+
+" Encoding
+if &encoding !=# "utf-8"
+    set encoding=utf-8
+endif
+scriptencoding utf-8
 
 set fileencoding=utf-8 " 保存時の文字コード
 set fileencodings=ucs-boms,utf-8,euc-jp,cp932 " 読み込み時の文字コードの自動判別. 左側が優先される
@@ -53,8 +41,7 @@ set showcmd
 set cmdheight=2
 set wildmenu
 
-" Encoding
-set encoding=utf-8
+
 
 " Whitespace
 set textwidth=79
@@ -159,5 +146,3 @@ map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
 " }}}
 
-"  Load local setting
-execute 'source' s:current_dir.'/vimlocalrc.vim'

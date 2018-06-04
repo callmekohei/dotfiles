@@ -10,6 +10,7 @@
 # util alias {{{
     alias la='ls -a'
     alias ll='ls -a -l'
+    alias cd..='cd ..'
 # }}}
 
 # fzf
@@ -33,15 +34,16 @@ alias loto6="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe)"
 alias loto7="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe 7 )"
 alias v='vim -N -u ~/tmp/code/essential.vim '
 
-dotfile     () { cd ~/dotfiles ; ls -al ; }
-dotfileslink () { sh ~/dotfiles/dotfilesLink.sh ; echo 'update links' ; }
+dotfile     () { cd ~/dotfiles ; }
+dotfilelinker () { sh ~/dotfiles/dotfilelinker.sh ; echo 'update links' ; }
 
-bashrc () { vim ~/dotfiles/bash/.bashrc ; }
-bashlocalrc () { vim ~/dotfiles/bash/bashlocalrc.bash ; }
-vimrc () { vim ~/dotfiles/vim/init.vim ; }
-vimlocalrc () { vim ~/dotfiles/vim/vimlocalrc.vim ; }
-deinrc () { vim ~/dotfiles/vim/dein.toml ; }
-deinlazyrc () { vim ~/dotfiles/vim/deinlazy.toml; }
+bashrc () { vim ~/dotfiles/bash/bashrc ; }
+bashlocalrc () { vim ~/dotfiles/bash/local.bash ; }
+vimrc () { vim ~/dotfiles/vim/vimrcs/common.vim ; }
+gvimrc () { vim ~/dotfiles/vim/gvimrc ; }
+vimlocalrc () { vim ~/dotfiles/vim/vimrcs/local.vim ; }
+deinrc () { vim ~/dotfiles/vim/vimrcs/dein.toml ; }
+deinlazyrc () { vim ~/dotfiles/vim/vimrcs/deinlazy.toml; }
 
 memo () { vim ~/tmp/memo.txt ; }
 myapp () { cd ~/myApp ; ls -al ; }

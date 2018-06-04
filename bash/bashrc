@@ -114,16 +114,16 @@ unset set_prompts
 
 # Load .bashlocalrc {{{
 
-function load_bashlocal () {
+function load_localbash () {
 
-    local bashlocal=~/dotfiles/bash/bashlocalrc.bash
+    local bashlocal=~/dotfiles/bash/local.bash
 
     if [ -f ${bashlocal}  ]; then
       . ${bashlocal}
     fi
 }
 
-load_bashlocal
+load_localbash
 
 # }}}
 
