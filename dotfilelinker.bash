@@ -47,7 +47,7 @@ function create_alias_macvim {
 
     local tmp=`find /Applications -maxdepth 1 -name MacVim.* 2>/dev/null`
     if [ $? -ne 0 ]; then
-        echo 'error! please check MacVim aliase.'
+        echo 'error! please check MacVim alias.'
     elif [ -z "${tmp}" ]; then
         create_alias_macvim_impl
     else
