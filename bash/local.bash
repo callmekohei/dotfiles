@@ -35,7 +35,7 @@ alias loto7="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe 7 )"
 alias v='vim -N -u ~/tmp/code/essential.vim '
 
 dotfile     () { cd ~/dotfiles ; }
-dotfilelinker () { sh ~/dotfiles/dotfilelinker.sh ; echo 'update links' ; }
+dotfilelinker () { bash ~/dotfiles/dotfilelinker.bash ; echo 'update links' ; }
 
 bashrc () { vim ~/dotfiles/bash/bashrc ; }
 bashlocalrc () { vim ~/dotfiles/bash/local.bash ; }
