@@ -38,7 +38,8 @@ set showcmd
 set cmdheight=2
 set wildmenu
 
-
+" buffer
+set hidden
 
 " Whitespace
 set textwidth=79

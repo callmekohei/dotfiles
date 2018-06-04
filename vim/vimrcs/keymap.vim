@@ -25,7 +25,6 @@ map <C-h> <C-W>h
 map <C-l> <C-W>l
 
 " buffers TODO
-set hidden
 nnoremap <silent> [b :bprevious<CR>
 nnoremap <silent> ]b :bnext<CR>
 
