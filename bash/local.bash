@@ -39,11 +39,11 @@ dotfilelinker () { bash ~/dotfiles/dotfilelinker.bash ; echo 'update links' ; }
 
 bashrc () { vim ~/dotfiles/bash/.bashrc ; }
 bashlocalrc () { vim ~/dotfiles/bash/local.bash ; }
-vimrc () { vim ~/dotfiles/vim/vimrcs/common.vim ; }
-gvimrc () { vim ~/dotfiles/vim/.gvimrc ; }
-vimlocalrc () { vim ~/dotfiles/vim/vimrcs/local.vim ; }
-deinrc () { vim ~/dotfiles/vim/vimrcs/dein.toml ; }
-deinlazyrc () { vim ~/dotfiles/vim/vimrcs/deinlazy.toml; }
+vimrc () { vim ~/dotfiles/vim/rc/vimrc ; }
+gvimrc () { vim ~/dotfiles/vim/gvimrc ; }
+vimlocalrc () { vim ~/dotfiles/vim/rc/local.vim ; }
+deinrc () { vim ~/dotfiles/vim/rc/dein.toml ; }
+deinlazyrc () { vim ~/dotfiles/vim/rc/deinlazy.toml; }
 
 memo () { vim ~/tmp/memo.txt ; }
 myapp () { cd ~/myApp ; ls -al ; }
