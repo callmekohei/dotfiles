@@ -1,0 +1,64 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+repo = 'romainl/Apprentice'
+hook_add = '''
+    function! MyHighlights() abort
+        highlight Comment ctermfg=245
+    endfunction
+
+    augroup MyColors
+        autocmd!
+        autocmd ColorScheme * call MyHighlights()
+    augroup END
+'''
+
+[[plugins]]
+repo = 'tomtom/tcomment_vim'
+hook_add = '''
+    "source ~/dotfiles/vim/plugins/tcomment_vimrc.vim
+    if !exists('g:tcomment_types')
+        let g:tcomment_types = {}
+    endif
+    let g:tcomment_types['fsharp'] = '// %s'
+    let g:tcomment_types['mql4'] = '// %s'
+'''
+
+[[plugins]]
+repo = 'junegunn/vim-easy-align'
+hook_add = '''
+    xmap ga <Plug>(EasyAlign)
+    nmap ga <Plug>(EasyAlign)
+'''
+
+[[plugins]]
+repo = 'nathanaelkane/vim-indent-guides'
+hook_add = '''
+    augroup MyIndent
+        autocmd!
+        let g:indent_guides_enable_on_vim_startup = 1
+        let g:indent_guides_start_level = 2
+        let g:indent_guides_guide_size = 1
+        let g:indent_guides_auto_colors = 0
+        autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=black ctermbg=0
+        autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=black ctermbg=0
+    augroup END
+'''
+
+[[plugins]]
+repo     = 'thinca/vim-quickrun'
+depends  = ['Shougo/vimproc.vim']
+hook_add = '''
+    source ~/dotfiles/vim/rc/quickrun.rc.vim
+'''
+
+[[plugins]]
+repo = 'thinca/vim-partedit'
+hook_add = '''
+    let g:partedit#opener = 'vsp'
+    let g:partedit#filetype = 'vim'
+'''
+
+[[plugins]]
+repo = 'kana/vim-textobj-user'
