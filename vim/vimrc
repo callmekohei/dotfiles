@@ -9,11 +9,11 @@ if &compatible
     set nocompatible
 endif
 
-execute 'source' '~/dotfiles/vim/rc/core/init.rc.vim'
+execute 'source' '~/dotfiles/vim/rc/init.rc.vim'
 execute 'source' '~/dotfiles/vim/rc/dein/dein.rc.vim'
-execute 'source' '~/dotfiles/vim/rc/core/options.rc.vim'
-execute 'source' '~/dotfiles/vim/rc/core/mappings.rc.vim'
+execute 'source' '~/dotfiles/vim/rc/options.rc.vim'
+execute 'source' '~/dotfiles/vim/rc/mappings.rc.vim'
 execute 'source' '~/dotfiles/vim/rc/local.rc.vim'
 if has('nvim')
-    execute 'source' '~/dotfiles/vim/rc/core/neovim.rc.vim'
+    execute 'source' '~/dotfiles/vim/rc/neovim.rc.vim'
 endif
