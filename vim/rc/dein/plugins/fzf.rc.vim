@@ -1,4 +1,10 @@
+scriptencoding utf-8
+"---------------------------------------------------------------------------
+" callmekohei's fzf.rc.vim
+" Reference:
+" junegunn/fzf.vim : https://github.com/junegunn/fzf.vim/blob/master/README.md
 
+"---------------------------------------------------------------------------
 " This is the default extra key bindings
 let g:fzf_action = {
 \ 'ctrl-t': 'tab split',

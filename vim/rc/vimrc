@@ -1,6 +1,8 @@
+scriptencoding utf-8
 "---------------------------------------------------------------------------
-" callmekohei's vimrc.
+" callmekohei's vimrc
 "
+
 if &compatible
     set nocompatible
 endif

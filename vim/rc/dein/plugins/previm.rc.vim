@@ -1,3 +1,9 @@
+scriptencoding utf-8
+"---------------------------------------------------------------------------
+" callmekohei's previm.rc.vim
+"
+
+"---------------------------------------------------------------------------
 augroup PrevimSettings
     autocmd!
     autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
@@ -14,4 +20,3 @@ let g:previm_custom_css_path = s:cssFolder.'/github.css'
 if !filereadable(s:cssFolder.'/github.css')
     execute '!wget' s:url '--directory-prefix' s:cssFolder
 endif
-

@@ -1,8 +1,12 @@
 scriptencoding utf-8
+"---------------------------------------------------------------------------
+" callmekohei's mappings.rc
+" Reference:
+" Practical Vim (ja) : https://pragprog.com/titles/dnvim/source_code
+
 "----------------------------------------------------------
 " Searching
-"----------------------------------------------------------
-
+"
 " Cancel hilight search
 nnoremap <silent><Esc><Esc> :<C-u>nohlsearch<CR><C-l>
 
@@ -16,10 +20,9 @@ function! s:VSetSearch()
     let @s = temp
 endfunction
 
-
 "----------------------------------------------------------
 " Moving
-"----------------------------------------------------------
+"
 
 " Editor lines
 nnoremap j gj
