@@ -1,6 +1,12 @@
+scriptencoding utf-8
+"---------------------------------------------------------------------------
+" callmekohei's local.rc
+" TODO : 整理する！
+"
+
+"---------------------------------------------------------------------------
 " Return to last edit position when opening files (You want this!)
 " autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
 
 " Remove space at end of line ( exception: markdown, text )
 autocmd BufWritePre * if index(['markdown','text'], &ft)==-1 | :%s/\s\+$//e | endif
@@ -68,6 +74,3 @@ call textobj#user#plugin('yyy', {
 " \     'select-a': 'aP',
 " \     'select-i': 'iP',
 " \   },
-
-
-

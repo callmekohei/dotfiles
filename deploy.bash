@@ -13,7 +13,7 @@ ln -sf ${FROMDIR}/git/.gitconfig ${DISTDIR}/.gitconfig
 
 # Vim/Neovim
 ln -sf "${FROMDIR}"/vim/vimrc                 "${DISTDIR}"/.vimrc
-ln -sf "${FROMDIR}"/vim/init.vim              "${DISTDIR}"/.config/nvim/init.vim
+ln -sf "${FROMDIR}"/vim/vimrc                 "${DISTDIR}"/.config/nvim/init.vim
 ln -sf "${FROMDIR}"/vim/rc/dein/dein.toml     "${DISTDIR}"/.config/nvim/dein.toml
 ln -sf "${FROMDIR}"/vim/rc/dein/deinlazy.toml "${DISTDIR}"/.config/nvim/deinlazy.toml
 
