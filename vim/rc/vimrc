@@ -1,15 +1,15 @@
 "---------------------------------------------------------------------------
-" callmekohei's .vimrc
-"---------------------------------------------------------------------------
+" callmekohei's vimrc.
+"
 if &compatible
     set nocompatible
 endif
+
 execute 'source' '~/dotfiles/vim/rc/core/init.rc.vim'
 execute 'source' '~/dotfiles/vim/rc/dein/dein.rc.vim'
-execute 'source' '~/dotfiles/vim/rc/core/encoding.rc.vim'
 execute 'source' '~/dotfiles/vim/rc/core/options.rc.vim'
 execute 'source' '~/dotfiles/vim/rc/core/mappings.rc.vim'
-execute 'source' '~/dotfiles/vim/rc/local.vim'
+execute 'source' '~/dotfiles/vim/rc/local.rc.vim'
 if has('nvim')
     execute 'source' '~/dotfiles/vim/rc/core/neovim.rc.vim'
 endif

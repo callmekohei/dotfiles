@@ -1,28 +1,71 @@
-" □や○文字が崩れる問題を解決
-" set ambiwidth=double
+scriptencoding utf-8
+"---------------------------------------------------------------------------
+" Reference:
+" koron/vim-kaoriya      : https://github.com/koron/vim-kaoriya/blob/master/kaoriya/vim
+" Shougo/shougo-s-github : https://github.com/Shougo/shougo-s-github/blob/master/vim
 
-" window size
-set lines=30
-set columns=80
+"---------------------------------------------------------------------------
+" カラー設定:
+"
+" TODO
+" 色がちゃんと出ない
+" インデント、コメント
+" set background=dark
+" colorscheme Apprentice
+" Don't override colorscheme.
+if !exists('g:colors_name')
+    colorscheme blue
+endif
 
-" font and linespace
+"---------------------------------------------------------------------------
+" フォント設定:
+"
 let s:fontname = 'Droid Sans Mono for Powerline Nerd Font Complete'
 let &guifont = s:fontname.":h14"
 set linespace=3
 
-" disable toolbar
-set guioptions-=T
+"---------------------------------------------------------------------------
+" ウインドウに関する設定:
+"
+" ウインドウの幅
+set columns=80
+" ウインドウの高さ
+set lines=30
+" コマンドラインの高さ(GUI使用時)
+set cmdheight=2
 
-" enable popup
-set mousemodel=popup
+"---------------------------------------------------------------------------
+" マウスに関する設定:
+"
+" どのモードでもマウスを使えるようにする
+set mouse=a
+" マウスの移動でフォーカスを自動的に切替えない (mousefocus:切替る)
+set nomousefocus
+" 入力時にマウスポインタを隠す (nomousehide:隠さない)
+set mousehide
+" ビジュアル選択(D&D他)を自動的にクリップボードへ (:help guioptions_a)
+"set guioptions+=a
 
+"---------------------------------------------------------------------------
+" 表示に関する設定:
+"
+" Hide toolbar and menus.
+set guioptions-=Tt
+set guioptions-=m
+" Scrollbar is always off.
+set guioptions-=rL
+" Not guitablabel.
+set guioptions-=e
+" Confirm without window.
+set guioptions+=c
+" Don't flick cursor.
+set guicursor&
+set guicursor+=a:blinkon0
+
+"---------------------------------------------------------------------------
 " exchange colon and semi-colon
+"
 noremap  ; :
 noremap  : ;
 inoremap ; :
 inoremap : ;
-
-" TODO
-" 色がちゃんと出ない
-" foo.fsx のコメント部分
-" foo.fsx のインデント部分

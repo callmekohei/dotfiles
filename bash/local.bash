@@ -32,10 +32,9 @@ export SDB_PATH=~/myApp/sdbplg/bin/
 
 alias loto6="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe)"
 alias loto7="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe 7 )"
-alias v='vim -N -u ~/tmp/code/essential.vim '
 
 dotfile     () { cd ~/dotfiles ; }
-dotfilelinker () { bash ~/dotfiles/dotfilelinker.bash ; echo 'update links' ; }
+deploy () { bash ~/dotfiles/deploy.bash ; echo 'update links' ; }
 
 bashrc () { vim ~/dotfiles/bash/.bashrc ; }
 bashlocalrc () { vim ~/dotfiles/bash/local.bash ; }
@@ -49,3 +48,6 @@ memo () { vim ~/tmp/memo.txt ; }
 myapp () { cd ~/myApp ; ls -al ; }
 deopletefsharp () { cd ~/.cache/dein/repos/github.com/callmekohei/deoplete-fsharp ; }
 
+function v () {
+    vim -N -u $HOME/tmp/minimal.vimrc $1
+}
