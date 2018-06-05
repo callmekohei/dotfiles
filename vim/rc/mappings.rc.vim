@@ -5,9 +5,12 @@
 " Cancel hilight search
 nnoremap <silent><Esc><Esc> :<C-u>nohlsearch<CR><C-l>
 
-" always use verynomagic
-nnoremap / /\V
-vnoremap / /\V
+" use verymagic
+nnoremap / /\v
+vnoremap / /\v
+" use verynomagic
+nnoremap <space>/ /\V
+vnoremap <space>/ /\V
 
 " Search by selected word/sentence
 xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<C-R>=@/<CR><CR>
@@ -27,6 +30,8 @@ endfunction
 " Editor lines
 nnoremap j gj
 nnoremap k gk
+nnoremap <space>h ^
+nnoremap <space>l $
 
 " Windows
 map <C-j> <C-W>j
@@ -40,3 +45,4 @@ nnoremap <silent> ]b :bnext<CR>
 
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
+

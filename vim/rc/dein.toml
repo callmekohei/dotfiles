@@ -67,3 +67,11 @@ hook_add = '''
 
 [[plugins]]
 repo = 'kana/vim-textobj-user'
+
+
+[[plugins]]
+repo = 'junegunn/fzf.vim'
+build = './install --all'
+hook_add = '''
+    source ~/dotfiles/vim/rc/fzr.rc.vim
+'''

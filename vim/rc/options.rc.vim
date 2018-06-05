@@ -88,7 +88,7 @@ set breakat=\ \	;:,!?
 set nowrap
 
 " Do not display the greetings message at the time of Vim start.
-set shortmess=aTI
+" set shortmess=aTI
 
 " Don't create backup.
 set nowritebackup
@@ -114,8 +114,8 @@ set splitbelow
 set splitright
 
 " Adjust window size of preview and help.
-set previewheight=8
-set helpheight=12
+" set previewheight=8
+" set helpheight=12
 
 set ttyfast
 
