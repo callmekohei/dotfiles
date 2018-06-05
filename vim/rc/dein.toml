@@ -73,5 +73,5 @@ repo = 'kana/vim-textobj-user'
 repo = 'junegunn/fzf.vim'
 build = './install --all'
 hook_add = '''
-    source ~/dotfiles/vim/rc/fzr.rc.vim
+    source ~/dotfiles/vim/rc/fzf.rc.vim
 '''
