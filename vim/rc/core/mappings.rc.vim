@@ -30,8 +30,6 @@ endfunction
 " Editor lines
 nnoremap j gj
 nnoremap k gk
-nnoremap <space>h ^
-nnoremap <space>l $
 
 " Windows
 map <C-j> <C-W>j
