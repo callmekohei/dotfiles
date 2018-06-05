@@ -17,7 +17,6 @@ hook_add = '''
 [[plugins]]
 repo = 'tomtom/tcomment_vim'
 hook_add = '''
-    "source ~/dotfiles/vim/plugins/tcomment_vimrc.vim
     if !exists('g:tcomment_types')
         let g:tcomment_types = {}
     endif
@@ -50,7 +49,7 @@ hook_add = '''
 repo     = 'thinca/vim-quickrun'
 depends  = ['Shougo/vimproc.vim']
 hook_add = '''
-    source ~/dotfiles/vim/rc/quickrun.rc.vim
+    source ~/dotfiles/vim/rc/dein/plugins/quickrun.rc.vim
 '''
 
 [[plugins]]
@@ -73,5 +72,5 @@ repo = 'kana/vim-textobj-user'
 repo = 'junegunn/fzf.vim'
 build = './install --all'
 hook_add = '''
-    source ~/dotfiles/vim/rc/fzf.rc.vim
+    source ~/dotfiles/vim/rc/dein/plugins/fzf.rc.vim
 '''

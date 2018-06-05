@@ -14,8 +14,8 @@ ln -sf ${FROMDIR}/git/.gitconfig ${DISTDIR}/.gitconfig
 # Vim/Neovim
 ln   -sf "${FROMDIR}"/vim/vimrc            "${DISTDIR}"/.vimrc
 ln   -sf "${FROMDIR}"/vim/init.vim         "${DISTDIR}"/.config/nvim/init.vim
-ln   -sf "${FROMDIR}"/vim/rc/dein.toml     "${DISTDIR}"/.config/nvim/dein.toml
-ln   -sf "${FROMDIR}"/vim/rc/deinlazy.toml "${DISTDIR}"/.config/nvim/deinlazy.toml
+ln   -sf "${FROMDIR}"/vim/rc/dein/dein.toml     "${DISTDIR}"/.config/nvim/dein.toml
+ln   -sf "${FROMDIR}"/vim/rc/dein/deinlazy.toml "${DISTDIR}"/.config/nvim/deinlazy.toml
 
 # MacVim
 ln -fs "${FROMDIR}"/vim/gvimrc "${DISTDIR}"/.gvimrc

@@ -1,5 +1,5 @@
 " □や○文字が崩れる問題を解決
-set ambiwidth=double
+" set ambiwidth=double
 
 " window size
 set lines=30
