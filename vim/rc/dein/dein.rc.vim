@@ -15,6 +15,11 @@ if dein#load_state(s:dein_dir)
     let s:toml_dir = expand('~/.config/nvim')
     call dein#load_toml(s:toml_dir . '/dein.toml'    , {'lazy': 0})
     call dein#load_toml(s:toml_dir . '/deinlazy.toml', {'lazy': 1})
+    if !has('nvim')
+        call dein#add('roxma/nvim-yarp')
+        call dein#add('roxma/vim-hug-neovim-rpc')
+        call dein#add('callmekohei/tigaDebugger')
+    endif
     call dein#end()
     call dein#save_state()
 endif
