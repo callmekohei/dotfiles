@@ -8,14 +8,9 @@ scriptencoding utf-8
 "---------------------------------------------------------------------------
 " カラー設定:
 "
-" TODO
-" 色がちゃんと出ない
-" インデント、コメント
-" set background=dark
-" colorscheme Apprentice
 " Don't override colorscheme.
 if !exists('g:colors_name')
-    colorscheme blue
+    colorscheme default
 endif
 
 "---------------------------------------------------------------------------
@@ -62,11 +57,3 @@ set guioptions+=c
 " Don't flick cursor.
 set guicursor&
 set guicursor+=a:blinkon0
-
-"---------------------------------------------------------------------------
-" exchange colon and semi-colon
-"
-noremap  ; :
-noremap  : ;
-inoremap ; :
-inoremap : ;

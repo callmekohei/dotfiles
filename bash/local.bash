@@ -38,11 +38,11 @@ deploy () { bash ~/dotfiles/deploy.bash ; echo 'update links' ; }
 
 bashrc () { vim ~/dotfiles/bash/.bashrc ; }
 bashlocalrc () { vim ~/dotfiles/bash/local.bash ; }
-vimrc () { vim ~/dotfiles/vim/rc/vimrc ; }
+vimrc () { vim ~/dotfiles/vim/rc/options.rc.vim ; }
 gvimrc () { vim ~/dotfiles/vim/gvimrc ; }
 vimlocalrc () { vim ~/dotfiles/vim/rc/local.vim ; }
-deinrc () { vim ~/dotfiles/vim/rc/dein.toml ; }
-deinlazyrc () { vim ~/dotfiles/vim/rc/deinlazy.toml; }
+deinrc () { vim ~/dotfiles/vim/rc/dein/dein.toml ; }
+deinlazyrc () { vim ~/dotfiles/vim/rc/dein/deinlazy.toml; }
 
 memo () { vim ~/tmp/memo.txt ; }
 myapp () { cd ~/myApp ; ls -al ; }

@@ -5,6 +5,13 @@ scriptencoding utf-8
 " Practical Vim (ja) : https://pragprog.com/titles/dnvim/source_code
 
 "----------------------------------------------------------
+" Switch key bind
+"
+" Switch colon and semicolon in normal mode
+nnoremap ; :
+nnoremap : ;
+
+"----------------------------------------------------------
 " Searching
 "
 " Cancel hilight search
