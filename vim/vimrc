@@ -7,24 +7,20 @@ endif
 " Use English interface.
 language message C
 
-"---------------------------------------------------------------------------
-" GeneralSettings:
-"
-execute 'source' '~/dotfiles/vim/rc/encoding.rc.vim'
-execute 'source' '~/dotfiles/vim/rc/plugin.rc.vim'
-execute 'source' '~/dotfiles/vim/rc/options.rc.vim'
-execute 'source' '~/dotfiles/vim/rc/mappings.rc.vim'
-execute 'source' '~/dotfiles/vim/rc/filetype.rc.vim'
+execute 'source' '~/dotfiles/vim/rc/01-encodeing.vim'
+execute 'source' '~/dotfiles/vim/rc/02-plugin.vim'
+execute 'source' '~/dotfiles/vim/rc/03-option.vim'
+execute 'source' '~/dotfiles/vim/rc/04-mapping.vim'
+execute 'source' '~/dotfiles/vim/rc/05-filetype.vim'
 
-"---------------------------------------------------------------------------
-" localSettings:
-"
 if has('nvim')
-    execute 'source' '~/dotfiles/vim/rc/neovim.rc.vim'
+    execute 'source' '~/dotfiles/vim/rc/11-neovim.vim'
 endif
 
 if has('mac')
-    execute 'source' '~/dotfiles/vim/rc/macosx.rc.vim'
+    execute 'source' '~/dotfiles/vim/rc/12-macosx.vim'
 endif
 
-execute 'source' '~/dotfiles/vim/rc/local.rc.vim'
+if !filereadable( '~/dotfiles/vim/rc/91-local.vim' )
+    execute 'source' '~/dotfiles/vim/rc/91-local.vim'
+endif
