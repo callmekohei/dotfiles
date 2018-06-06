@@ -4,6 +4,13 @@ scriptencoding utf-8
 " Reference:
 " koron/vim-kaoriya      : https://github.com/koron/vim-kaoriya/blob/master/kaoriya/vim
 " Shougo/shougo-s-github : https://github.com/Shougo/shougo-s-github/blob/master/vim
+"
+"
+
+"---------------------------------------------------------------------------
+" OSX: Exchange colone and semicolone
+" $ echo ' { ";" = ("insertText:", ":"); ":" = ("insertText:", ";"); } ' >> ~/Library/KeyBindings/DefaultKeyBinding.dict
+"
 
 if &compatible
     set nocompatible
