@@ -31,7 +31,7 @@ set wildmenu
 set formatoptions+=mM
 
 "---------------------------------------------------------------------------
-" Terminal_view:
+" View:
 "
 " 行番号を非表示 (number:表示)
 set number
@@ -40,7 +40,6 @@ set noruler
 " タブや改行を非表示 (list:表示)
 set list
 " どの文字でタブや改行を表示するかを設定
-" set listchars=tab:>-,extends:<,trail:-,eol:<
 set listchars=tab:▸\ ,trail:-,extends:»,precedes:«,nbsp:%
 " 長い行を折り返して表示 (nowrap:折り返さない)
 set nowrap
@@ -91,9 +90,8 @@ set mousehide
 "set guioptions+=a
 
 "---------------------------------------------------------------------------
-" Others:
+" Clipboard:
 "
-
 " Use clipboard register.
 if (!has('nvim') || $DISPLAY != '') && has('clipboard')
     if has('unnamedplus')
@@ -102,12 +100,14 @@ if (!has('nvim') || $DISPLAY != '') && has('clipboard')
         set clipboard& clipboard+=unnamed
     endif
 endif
-" Display another buffer when current buffer isn't saved.
-set hidden
+
 
 "---------------------------------------------------------------------------
-" Others2:
+" Others:
 "
+
+" Display another buffer when current buffer isn't saved.
+set hidden
 
 " Disable tabline.
 " set showtabline=0
