@@ -62,8 +62,5 @@ set guicursor+=a:blinkon0
 "---------------------------------------------------------------------------
 " exchange colon and semi-colon
 "
-
-noremap  ; :
-noremap  : ;
-inoremap ; :
-inoremap : ;
+nnoremap  ; :
+" nnoremap  : ; " ここを有効にすると<leader>がきかない
