@@ -106,6 +106,9 @@ endif
 " Others:
 "
 
+" stop rendering duraing command executing
+" set lazyredraw
+
 " Display another buffer when current buffer isn't saved.
 set hidden
 
