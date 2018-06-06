@@ -33,19 +33,15 @@ export SDB_PATH=~/myApp/sdbplg/bin/
 alias loto6="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe)"
 alias loto7="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe 7 )"
 
-dotfile     () { cd ~/dotfiles ; }
+dotfile () { cd ~/dotfiles ; }
 deploy () { bash ~/dotfiles/deploy.bash ; echo 'update links' ; }
 
-bashrc () { vim ~/dotfiles/bash/.bashrc ; }
-bashlocalrc () { vim ~/dotfiles/bash/local.bash ; }
-vimrc () { vim ~/dotfiles/vim/rc/options.rc.vim ; }
-gvimrc () { vim ~/dotfiles/vim/gvimrc ; }
-vimlocalrc () { vim ~/dotfiles/vim/rc/local.vim ; }
-deinrc () { vim ~/dotfiles/vim/rc/dein/dein.toml ; }
-deinlazyrc () { vim ~/dotfiles/vim/rc/dein/deinlazy.toml; }
+bashrc () { vim ~/dotfiles/bash/local.bash ; }
+vimrc  () { vim ~/dotfiles/vim/rc/local.rc.vim ; }
+deinrc () { vim ~/dotfiles/vim/rc/dein/dein*toml ; }
 
 memo () { vim ~/tmp/memo.txt ; }
-myapp () { cd ~/myApp ; ls -al ; }
+myapp () { cd ~/myApp ; ls; }
 deopletefsharp () { cd ~/.cache/dein/repos/github.com/callmekohei/deoplete-fsharp ; }
 
 function v () {
