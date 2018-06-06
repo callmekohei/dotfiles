@@ -4,12 +4,27 @@ if &compatible
     set nocompatible
 endif
 
-execute 'source' '~/dotfiles/vim/rc/init.rc.vim'
-execute 'source' '~/dotfiles/vim/rc/dein/dein.rc.vim'
+" Use English interface.
+language message C
+
+"---------------------------------------------------------------------------
+" GeneralSettings:
+"
+execute 'source' '~/dotfiles/vim/rc/encoding.rc.vim'
+execute 'source' '~/dotfiles/vim/rc/plugin.rc.vim'
 execute 'source' '~/dotfiles/vim/rc/options.rc.vim'
 execute 'source' '~/dotfiles/vim/rc/mappings.rc.vim'
 execute 'source' '~/dotfiles/vim/rc/filetype.rc.vim'
-execute 'source' '~/dotfiles/vim/rc/local.rc.vim'
+
+"---------------------------------------------------------------------------
+" localSettings:
+"
 if has('nvim')
     execute 'source' '~/dotfiles/vim/rc/neovim.rc.vim'
 endif
+
+if has('mac')
+    execute 'source' '~/dotfiles/vim/rc/macosx.rc.vim'
+endif
+
+execute 'source' '~/dotfiles/vim/rc/local.rc.vim'

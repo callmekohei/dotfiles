@@ -65,13 +65,6 @@ set nobackup
 set noswapfile
 set backupdir-=.
 
-"---------------------------------------------------------------------------
-" プラットホーム依存の特別な設定
-"
-if has('mac')
-  " Macではデフォルトの'iskeyword'がcp932に対応しきれていないので修正
-  set iskeyword=@,48-57,_,128-167,224-235
-endif
 
 "---------------------------------------------------------------------------
 " Folding:
@@ -86,10 +79,21 @@ set fillchars=vert:\|
 set commentstring=%s
 
 "---------------------------------------------------------------------------
+" マウスに関する設定:
+"
+" どのモードでもマウスを使えるようにする
+set mouse=a
+" マウスの移動でフォーカスを自動的に切替えない (mousefocus:切替る)
+set nomousefocus
+" 入力時にマウスポインタを隠す (nomousehide:隠さない)
+set mousehide
+" ビジュアル選択(D&D他)を自動的にクリップボードへ (:help guioptions_a)
+"set guioptions+=a
+
+"---------------------------------------------------------------------------
 " Others:
 "
-" Mouse ( see :help mouse-using )
-set mouse=nvic
+
 " Use clipboard register.
 if (!has('nvim') || $DISPLAY != '') && has('clipboard')
     if has('unnamedplus')
