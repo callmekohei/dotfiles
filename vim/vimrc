@@ -20,6 +20,7 @@ execute 'source' '~/dotfiles/vim/rc/init.rc.vim'
 execute 'source' '~/dotfiles/vim/rc/dein/dein.rc.vim'
 execute 'source' '~/dotfiles/vim/rc/options.rc.vim'
 execute 'source' '~/dotfiles/vim/rc/mappings.rc.vim'
+execute 'source' '~/dotfiles/vim/rc/filetype.rc.vim'
 execute 'source' '~/dotfiles/vim/rc/local.rc.vim'
 if has('nvim')
     execute 'source' '~/dotfiles/vim/rc/neovim.rc.vim'

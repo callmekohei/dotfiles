@@ -33,3 +33,10 @@ $ bash ~/dotfiles/deploy.bash
 setup.sh
 OS X settings
 ```
+
+## TODO2
+
+filetype.vimの片付け
+vim_startをうまく使う
+referenceをreadmeに書き出す
+
