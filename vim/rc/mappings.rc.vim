@@ -31,10 +31,10 @@ nnoremap j gj
 nnoremap k gk
 
 " Windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+nnoremap <C-j> <C-W>j
+nnoremap <C-k> <C-W>k
+nnoremap <C-h> <C-W>h
+nnoremap <C-l> <C-W>l
 
 " buffers
 nnoremap <silent> <C-j> :bprevious<CR>
@@ -43,4 +43,4 @@ nnoremap <silent> <C-k> :bnext<CR>
 " nnoremap <silent> ]b :bnext<CR>
 
 " Switch CWD to the directory of the open buffer
-map <leader>cd :cd %:p:h<cr>:pwd<cr>
+nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
