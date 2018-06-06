@@ -1,42 +1,13 @@
-# dotfiles
-OS X dotfiles.
+callmekohei's dotfile
 
-##  How to install
-The installation step requires the [XCode Command Line Tools](https://developer.apple.com/downloads)
 
-```
-$ java -v
-$ xcode-select --install
-```
 
-Run the following commnad.
-
-```shell
-# TODO
-```
-
-## Initialize
-
-```shell
-# TODO
-```
-
-## Deploy dotfiles
-
-```shell
-$ bash ~/dotfiles/deploy.bash
-```
-
-## TODO
-
-```shell
-setup.sh
-OS X settings
-```
-
-## TODO2
+### todo
 
 filetype.vimの片付け
+
 vim_startをうまく使う
+
 referenceをreadmeに書き出す
+
 
