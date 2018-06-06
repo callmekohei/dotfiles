@@ -1,11 +1,5 @@
 scriptencoding utf-8
 "---------------------------------------------------------------------------
-" callmekohei's gvimrc.
-" Reference:
-" koron/vim-kaoriya      : https://github.com/koron/vim-kaoriya/blob/master/kaoriya/vim
-" Shougo/shougo-s-github : https://github.com/Shougo/shougo-s-github/blob/master/vim
-
-"---------------------------------------------------------------------------
 " カラー設定:
 "
 " Don't override colorscheme.
@@ -57,10 +51,3 @@ set guioptions+=c
 " Don't flick cursor.
 set guicursor&
 set guicursor+=a:blinkon0
-
-
-"---------------------------------------------------------------------------
-" exchange colon and semi-colon
-"
-nnoremap  ; :
-" nnoremap  : ; " ここを有効にすると<leader>がきかない

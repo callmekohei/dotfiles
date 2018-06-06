@@ -1,10 +1,6 @@
 scriptencoding utf-8
-"---------------------------------------------------------------------------
-" callmekohei's filetype.rc
-" TODO : 整理する！
-"
 
-"---------------------------------------------------------------------------
+" TODO : 整理する！
 
 " Adjust hight of QuickFix window
 " code from : https://gist.github.com/juanpabloaj/5845848#file-adjustwindowheight-vim

@@ -1,12 +1,6 @@
 scriptencoding utf-8
-"---------------------------------------------------------------------------
-" Reference:
-" koron/vim-kaoriya      : https://github.com/koron/vim-kaoriya/blob/master/kaoriya/vim
-" Shougo/shougo-s-github : https://github.com/Shougo/shougo-s-github/blob/master/vim
 
-"---------------------------------------------------------------------------
 " Use English interface.
-"
 language message C
 
 "---------------------------------------------------------------------------

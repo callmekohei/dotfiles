@@ -1,7 +1,4 @@
 scriptencoding utf-8
-"---------------------------------------------------------------------------
-" callmekohei's quickrun.rc.vim
-"
 
 let g:quickrun_config = {}
 

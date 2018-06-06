@@ -1,9 +1,5 @@
 scriptencoding utf-8
-"---------------------------------------------------------------------------
-" callmekohei's previm.rc.vim
-"
 
-"---------------------------------------------------------------------------
 augroup PrevimSettings
     autocmd!
     autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown

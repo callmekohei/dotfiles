@@ -1,8 +1,10 @@
 scriptencoding utf-8
+
 "---------------------------------------------------------------------------
-" callmekohei's mappings.rc
-" Reference:
-" Practical Vim (ja) : https://pragprog.com/titles/dnvim/source_code
+" keyboard
+"
+" exchange colon and semi-colon
+nnoremap  ; :
 
 "----------------------------------------------------------
 " Searching
