@@ -1,7 +1,9 @@
 scriptencoding utf-8
 
 " Disable default plugins
+
 if has('gui_running')
+    " Disable menu.vim
     set guioptions=Mc
 endif
 
