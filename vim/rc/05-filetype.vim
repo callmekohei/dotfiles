@@ -41,7 +41,7 @@ endfunction
         autocmd MyAutoCmd BufWinEnter  *.bash  call quickrun#run( g:quickrun_config.bashCheck )
         autocmd MyAutoCmd BufWritePost *.bash  call quickrun#run( g:quickrun_config.bashCheck )
     endif
-augroup END
+
 " }}}
 
 
