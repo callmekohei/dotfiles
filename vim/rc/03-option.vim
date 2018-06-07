@@ -139,7 +139,7 @@ set splitright
 " set helpheight=12
 
 " fast mouse scroll
-" set ttyfast
+set ttyfast
 
 " When a line is long, do not omit it in @.
 " set display=lastline
