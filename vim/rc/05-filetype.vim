@@ -6,7 +6,7 @@ scriptencoding utf-8
 " General {{{
 
 " Remove space at end of line ( exception: markdown, text )
-autocmd BufWritePre * if index(['markdown','text'], &ft)==-1 | :%s/\s\+$//e | endif
+autocmd MyAutoCmd BufWritePre * if index(['markdown','text'], &ft)==-1 | :%s/\s\+$//e | endif
 
 
 " }}}
@@ -14,7 +14,7 @@ autocmd BufWritePre * if index(['markdown','text'], &ft)==-1 | :%s/\s\+$//e | en
 " Quickfix {{{
 
 " code from : https://gist.github.com/juanpabloaj/5845848#file-adjustwindowheight-vim
-autocmd FileType qf call AdjustWindowHeight(3, 10)
+autocmd MyAutoCmd FileType qf call AdjustWindowHeight(3, 10)
 function! AdjustWindowHeight(minheight, maxheight)
     let l = 1
     let n_lines = 0
@@ -32,16 +32,14 @@ endfunction
 " }}}
 
 " Bash {{{
-augroup bash
-    autocmd!
     " see also: :help ft-sh-syntax
-    autocmd FileType sh let g:is_bash = 1
-    autocmd FileType sh let g:sh_no_error = 1
+    autocmd MyAutoCmd FileType sh let g:is_bash = 1
+    autocmd MyAutoCmd FileType sh let g:sh_no_error = 1
 
     if exists('g:quickrun_config.bashCheck')
-        autocmd FileType sh let &errorformat = '%f:\ line\ %l:\ %m'
-        autocmd BufWinEnter  *.bash  call quickrun#run( g:quickrun_config.bashCheck )
-        autocmd BufWritePost *.bash  call quickrun#run( g:quickrun_config.bashCheck )
+        autocmd MyAutoCmd FileType sh let &errorformat = '%f:\ line\ %l:\ %m'
+        autocmd MyAutoCmd BufWinEnter  *.bash  call quickrun#run( g:quickrun_config.bashCheck )
+        autocmd MyAutoCmd BufWritePost *.bash  call quickrun#run( g:quickrun_config.bashCheck )
     endif
 augroup END
 " }}}
@@ -53,7 +51,7 @@ augroup END
 
 " Python {{{
 
-autocmd BufRead,BufNewFile *.pdbrc setfiletype python
+autocmd MyAutoCmd BufRead,BufRead,BufNewFile *.pdbrc setfiletype python
 
 " }}}
 
