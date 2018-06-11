@@ -39,3 +39,5 @@ nnoremap <silent> <C-k> :bnext<CR>
 
 " Switch CWD to the directory of the open buffer
 nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
+
+

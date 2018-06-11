@@ -39,3 +39,16 @@ set guioptions+=c
 " Don't flick cursor.
 set guicursor&
 set guicursor+=a:blinkon0
+
+"---------------------------------------------------------------------------
+" keymap:
+"
+" exchange colon and semi-colon
+nnoremap ; :
+nnoremap : ;
+inoremap ; :
+inoremap : ;
+vnoremap ; :
+vnoremap : ;
+cnoremap ; :
+cnoremap : ;

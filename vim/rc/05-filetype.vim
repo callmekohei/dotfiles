@@ -3,15 +3,31 @@ scriptencoding utf-8
 " TODO : 整理する！
 
 
-" General {{{
 
 " Remove space at end of line ( exception: markdown, text )
 autocmd MyAutoCmd BufWritePre * if index(['markdown','text'], &ft)==-1 | :%s/\s\+$//e | endif
 
+"-----------------------------
+" FileType
+"-----------------------------
+autocmd MyAutoCmd BufNewFile,BufRead *.vim setlocal tabstop=2 softtabstop=2 shiftwidth=2
+autocmd MyAutoCmd BufNewFile,BufRead *.py  setlocal tabstop=4 softtabstop=4 shiftwidth=4
+autocmd MyAutoCmd BufNewFile,BufRead *.fs  setlocal tabstop=4 softtabstop=4 shiftwidth=4
+autocmd MyAutoCmd BufNewFile,BufRead *.fsi setlocal tabstop=4 softtabstop=4 shiftwidth=4
+autocmd MyAutoCmd BufNewFile,BufRead *.fsx setlocal tabstop=4 softtabstop=4 shiftwidth=4
 
-" }}}
+autocmd MyAutoCmd BufNewFile,BufRead *.dependencies setlocal filetype=dependencies
+autocmd MyAutoCmd BufNewFile,BufRead *.dependencies setlocal tabstop=4 softtabstop=4 shiftwidth=4
 
-" Quickfix {{{
+
+
+
+
+
+
+
+
+
 
 " code from : https://gist.github.com/juanpabloaj/5845848#file-adjustwindowheight-vim
 autocmd MyAutoCmd FileType qf call AdjustWindowHeight(3, 10)
@@ -29,9 +45,7 @@ function! AdjustWindowHeight(minheight, maxheight)
     exe max([min([n_lines, a:maxheight]), a:minheight]) . "wincmd _"
 endfunction
 
-" }}}
 
-" Bash {{{
     " see also: :help ft-sh-syntax
     autocmd MyAutoCmd FileType sh let g:is_bash = 1
     autocmd MyAutoCmd FileType sh let g:sh_no_error = 1
@@ -42,18 +56,15 @@ endfunction
         autocmd MyAutoCmd BufWritePost *.bash  call quickrun#run( g:quickrun_config.bashCheck )
     endif
 
-" }}}
 
 
 
 " Return to last edit position when opening files (You want this!)
 " autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
-" Python {{{
 
 autocmd MyAutoCmd BufRead,BufRead,BufNewFile *.pdbrc setfiletype python
 
-" }}}
 
 call textobj#user#plugin('yyy', {} )
 call textobj#user#plugin('yyy', {

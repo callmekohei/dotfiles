@@ -40,10 +40,12 @@ bashrc () { vim ~/dotfiles/bash/local.bash ; }
 vimrc  () { vim ~/dotfiles/vim/rc/local.rc.vim ; }
 deinrc () { vim ~/dotfiles/vim/rc/dein/dein*toml ; }
 
-memo () { vim ~/tmp/memo.txt ; }
+memo () { cd ~/tmp/memo_folder ; vim ~/tmp/memo_folder/memo.txt ; }
 myapp () { cd ~/myApp ; ls; }
 deopletefsharp () { cd ~/.cache/dein/repos/github.com/callmekohei/deoplete-fsharp ; }
 
 function v () {
     vim -N -u $HOME/tmp/minimal.vimrc $1
 }
+
+dictionary () { cd ~/tmp/mydictionary ; }

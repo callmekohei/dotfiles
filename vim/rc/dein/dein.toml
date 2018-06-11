@@ -1,6 +1,15 @@
 [[plugins]]
 repo = 'Shougo/dein.vim'
 
+# [[plugins]]
+# repo = 'fsharp/vim-fsharp'
+# on_ft = 'fsharp'
+# build = 'make fsautocomplete'
+
+# [[plugins]]
+# repo = 'ervandew/supertab'
+# on_ft = 'fsharp'
+
 # on_if が効いてない気がする ( 2018/06/07 )
 # [[plugins]]
 # repo  = 'roxma/vim-hug-neovim-rpc'
