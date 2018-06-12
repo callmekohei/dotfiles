@@ -7,6 +7,10 @@
     name  = callmekohei
     email = callmekohei@gmail.com
 
+[pull]
+    # 他の人の変更とのマージコミットはいらないので rebase = true にしておく
+    rebase = true
+
 [core]
 
     pager = /usr/bin/less -EFRSX
