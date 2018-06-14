@@ -2,19 +2,9 @@
 
 # Set extra path {{{
 
-# MacOSX already set path by path_helper.
-# $ man path_helper 8
-function setExtraPath () {
-
-    local homebrew=/usr/local/bin
-    export PATH="${homebrew}":"${PATH}"
-
-    local openssl=/usr/local/opt/openssl/bin
-    export PATH="${openssl}":"${PATH}"
-
-}
-
-setExtraPath
+    # MacOSX already set path by path_helper.
+    # see also: $ man path_helper 8
+    # put homebrew path before /usr/bin ---> $ sudo vim /etc/paths
 
 # }}}
 
