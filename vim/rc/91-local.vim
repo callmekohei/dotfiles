@@ -39,4 +39,3 @@ endfunction
 " endfunction
 
 
-let g:SuperTabDefaultCompletionType = "<c-x><c-o>"

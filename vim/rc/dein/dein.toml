@@ -9,6 +9,10 @@ repo = 'Shougo/dein.vim'
 # [[plugins]]
 # repo = 'ervandew/supertab'
 # on_ft = 'fsharp'
+# hook_add = '''
+#     let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+# '''
+
 
 # on_if が効いてない気がする ( 2018/06/07 )
 # [[plugins]]
