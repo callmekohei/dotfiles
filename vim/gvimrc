@@ -27,11 +27,12 @@ set cmdheight=2
 "---------------------------------------------------------------------------
 " 表示に関する設定:
 "
-" Hide toolbar and menus.
+" Hide toolbar.
 set guioptions-=Tt
+" Hide menus.
 set guioptions-=m
-" Scrollbar is always off.
-set guioptions-=rL
+
+
 " Not guitablabel.
 set guioptions-=e
 " Confirm without window.
@@ -39,6 +40,14 @@ set guioptions+=c
 " Don't flick cursor.
 set guicursor&
 set guicursor+=a:blinkon0
+
+" Scrollbar is always off.
+" set guioptions-=rL
+set guioptions-=r
+set guioptions-=R
+set guioptions-=l
+set guioptions-=L
+set guioptions-=b
 
 "---------------------------------------------------------------------------
 " keymap:

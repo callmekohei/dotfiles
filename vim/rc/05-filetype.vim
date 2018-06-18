@@ -7,20 +7,33 @@ scriptencoding utf-8
 " Remove space at end of line ( exception: markdown, text )
 autocmd MyAutoCmd BufWritePre * if index(['markdown','text'], &ft)==-1 | :%s/\s\+$//e | endif
 
+" TODO
+" autocmd MyAutoCmd BufNewFile,BufRead * if index(['off','markdown','text'], &ft)==0 | set ambiwidth=double | endif
+autocmd MyAutoCmd BufNewFile,BufRead *.txt set ambiwidth=double
+
 "-----------------------------
 " FileType
 "-----------------------------
 autocmd MyAutoCmd BufNewFile,BufRead *.vim setlocal tabstop=2 softtabstop=2 shiftwidth=2
 autocmd MyAutoCmd BufNewFile,BufRead *.py  setlocal tabstop=4 softtabstop=4 shiftwidth=4
-autocmd MyAutoCmd BufNewFile,BufRead *.fs  setlocal tabstop=4 softtabstop=4 shiftwidth=4
-autocmd MyAutoCmd BufNewFile,BufRead *.fsi setlocal tabstop=4 softtabstop=4 shiftwidth=4
-autocmd MyAutoCmd BufNewFile,BufRead *.fsx setlocal tabstop=4 softtabstop=4 shiftwidth=4
+
+
 
 autocmd MyAutoCmd BufNewFile,BufRead *.dependencies setlocal filetype=dependencies
 autocmd MyAutoCmd BufNewFile,BufRead *.dependencies setlocal tabstop=4 softtabstop=4 shiftwidth=4
 
 
-
+autocmd MyAutoCmd BufNewFile,BufRead *.fs,*.fsi,*.fsx call s:fsharpSettings()
+function! s:fsharpSettings() abort
+  setlocal tabstop=4
+  setlocal softtabstop=4
+  setlocal shiftwidth=4
+  setlocal foldmethod=indent
+  setlocal foldlevel=1
+  setlocal foldminlines=3
+  " setlocal foldcolumn=2
+  " setlocal foldignore=['if','else']
+endfunction
 
 
 

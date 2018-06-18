@@ -1,32 +1,42 @@
-scriptencoding utf-8
-
 if &compatible
-    set nocompatible
+  set nocompatible
 endif
 
-" Set augroup.
+" encoding
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=ucs-boms,utf-8,euc-jp,cp932
+set fileformats=unix,dos,mac
+if !has('gui_running') && &encoding != 'utf-8'
+  set termencoding=utf-8
+endif
+
+"vimrc's scriptencoding
+scriptencoding utf-8
+
+" create autocmd group
 augroup MyAutoCmd
-    autocmd!
-    autocmd CursorHold *.toml syntax sync minlines=300
+  autocmd!
 augroup END
 
 " Use English interface.
 language message C
 
-execute 'source' '~/dotfiles/vim/rc/01-encodeing.vim'
 execute 'source' '~/dotfiles/vim/rc/02-plugin.vim'
 execute 'source' '~/dotfiles/vim/rc/03-option.vim'
 execute 'source' '~/dotfiles/vim/rc/04-mapping.vim'
 execute 'source' '~/dotfiles/vim/rc/05-filetype.vim'
 
 if has('nvim')
-    execute 'source' '~/dotfiles/vim/rc/11-neovim.vim'
+  execute 'source' '~/dotfiles/vim/rc/11-neovim.vim'
 endif
 
 if has('mac')
-    execute 'source' '~/dotfiles/vim/rc/12-macosx.vim'
+  execute 'source' '~/dotfiles/vim/rc/12-macosx.vim'
 endif
 
 if !filereadable( '~/dotfiles/vim/rc/91-local.vim' )
-    execute 'source' '~/dotfiles/vim/rc/91-local.vim'
+  execute 'source' '~/dotfiles/vim/rc/91-local.vim'
 endif
+
+

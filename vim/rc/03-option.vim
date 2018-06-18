@@ -65,17 +65,7 @@ set noswapfile
 set backupdir-=.
 
 
-"---------------------------------------------------------------------------
-" Folding:
-"
-" Enable folding.
-set foldenable
-set foldmethod=indent
-set foldmethod=marker
-" Show folding level.
-set foldcolumn=1
-set fillchars=vert:\|
-set commentstring=%s
+
 
 "---------------------------------------------------------------------------
 " マウスに関する設定:
@@ -94,11 +84,11 @@ set mousehide
 "
 " Use clipboard register.
 if (!has('nvim') || $DISPLAY != '') && has('clipboard')
-    if has('unnamedplus')
-        set clipboard& clipboard+=unnamedplus
-    else
-        set clipboard& clipboard+=unnamed
-    endif
+  if has('unnamedplus')
+    set clipboard& clipboard+=unnamedplus
+  else
+    set clipboard& clipboard+=unnamed
+  endif
 endif
 
 
@@ -118,7 +108,7 @@ set hidden
 " Turn down a long line appointed in 'breakat'
 " set linebreak
 " set showbreak=\
-" set breakat=\ \	;:,!?
+" set breakat=\ \ ;:,!?
 
 " Disable bell.
 " set t_vb=

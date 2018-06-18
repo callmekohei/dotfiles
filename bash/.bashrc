@@ -2,9 +2,21 @@
 
 # Set extra path {{{
 
-    # MacOSX already set path by path_helper.
-    # see also: $ man path_helper 8
-    # put homebrew path before /usr/bin ---> $ sudo vim /etc/paths
+# MacOSX already set path by path_helper.
+# see also: $ man path_helper 8
+# put homebrew path before /usr/bin ---> $ sudo vim /etc/paths
+
+
+function setExtraPath () {
+    local openssl=/usr/local/opt/openssl/bin
+    export PATH="${openssl}":"${PATH}"
+
+    local sqlite3=/usr/local/opt/sqlite3/bin
+    export PATH="${sqlite3}":"${PATH}"
+}
+
+setExtraPath
+unset setExtraPath
 
 # }}}
 
@@ -13,6 +25,7 @@
 export EDITOR=vim
 
 # ( language )
+# export LANG=ja_JP.UTF-8
 export LANG=en_us.UTF-8
 export LESSCHARSET=utf-8
 export LC_ALL=$LANG
@@ -53,6 +66,7 @@ function bashComplete () {
 }
 
 bashComplete
+unset bashComplete
 
 # }}}
 
@@ -114,6 +128,7 @@ function load_localbash () {
 }
 
 load_localbash
+unset load_localbash
 
 # }}}
 

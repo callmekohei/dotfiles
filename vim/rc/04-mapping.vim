@@ -41,3 +41,7 @@ nnoremap <silent> <C-k> :bnext<CR>
 nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
 
 
+"----------------------------------------------------------
+" Editing
+"
+nnoremap Y y$

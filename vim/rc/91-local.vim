@@ -8,7 +8,7 @@ command! -buffer Memo      : edit $HOME/tmp/memo_folder/memo.txt | : silent cd %
 
 
 
-command! -buffer Space2to4 call s:space4_to_space2()
+command! -buffer Space2from4 call s:space4_to_space2()
 
 function! s:space4_to_space2() abort
   set ts=4 sts=4 noet
