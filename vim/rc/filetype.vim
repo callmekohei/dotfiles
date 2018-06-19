@@ -62,15 +62,12 @@ endif
 autocmd vimrc BufNewFile,BufRead *.dependencies setlocal filetype=dependencies
 
 autocmd vimrc BufNewFile,BufRead *.fs,*.fsi,*.fsx call s:fsharpSettings()
+
 function! s:fsharpSettings() abort
-  setlocal tabstop=4
-  setlocal softtabstop=4
-  setlocal shiftwidth=4
   setlocal foldmethod=indent
   setlocal foldlevel=1
   setlocal foldminlines=3
 endfunction
-
 
 
 "-----------------------------
