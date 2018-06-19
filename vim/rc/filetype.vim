@@ -15,9 +15,17 @@ scriptencoding utf-8
 " }}}
 
 
+" Toml {{{
+
+  autocmd vimrc FileType toml setlocal tabstop=2 softtabstop=2 shiftwidth=2
+
+" }}}
+
+
 " Vim script {{{
 
-  autocmd vimrc BufNewFile,BufRead vimrc,gvimrc,*.vim setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd vimrc BufNewFile,BufRead vimrc,gvimrc setfiletype vim
+  autocmd vimrc FileType vim setlocal tabstop=2 softtabstop=2 shiftwidth=2
 
 " }}}
 
@@ -47,14 +55,24 @@ scriptencoding utf-8
 
 " Bash script {{{
 
-  " see also: :help ft-sh-syntax
+  let g:quickrun_config.sh = {}
+  let g:quickrun_config.bashCheck = {}
+
+  let g:quickrun_config.sh = { 'command': 'bash' }
+  let g:quickrun_config.bashCheck = {
+    \  'exec'                            : [ '%c -n %s:p:r.bash' ]
+    \ ,'command'                         : 'bash'
+    \ ,'hook/time/enable'                : 0
+    \ ,"outputter/buffer/close_on_empty" : 1
+    \ ,"outputter"                       : 'quickfix'
+    \ ,'outputter/buffer/split'          : ':set splitblow',
+  \}
+
   autocmd vimrc FileType sh let g:is_bash = 1
   autocmd vimrc FileType sh let g:sh_no_error = 1
-  if exists('g:quickrun_config.bashCheck')
-    autocmd vimrc FileType sh let &errorformat = '%f:\ line\ %l:\ %m'
-    autocmd vimrc BufWinEnter  *.bash  call quickrun#run( g:quickrun_config.bashCheck )
-    autocmd vimrc BufWritePost *.bash  call quickrun#run( g:quickrun_config.bashCheck )
-  endif
+  autocmd vimrc FileType sh let &errorformat = '%f:\ line\ %l:\ %m'
+  autocmd vimrc BufWinEnter  *.bash  call quickrun#run( g:quickrun_config.bashCheck )
+  autocmd vimrc BufWritePost *.bash  call quickrun#run( g:quickrun_config.bashCheck )
 
 " }}}
 
@@ -72,6 +90,8 @@ scriptencoding utf-8
 
 " Python {{{
 
+  let g:quickrun_config.python = {}
+  let g:quickrun_config.python = { 'command': 'python3' }
   autocmd vimrc BufRead,BufNewFile *.pdbrc setfiletype python
 
 " }}}

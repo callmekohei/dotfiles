@@ -6,20 +6,11 @@
 repo = 'Shougo/deoplete.nvim'
 on_event = 'InsertEnter'
 hook_source = '''
-  augroup Foo
-    autocmd!
-  augroup END
-
-
   call deoplete#custom#option({
-  \ 'auto_complete_delay': 0,
-  \ 'ignore_case': v:true,
+    \ 'auto_complete_delay': 0,
+    \ 'ignore_case': v:true,
   \ })
-
-  call deoplete#custom#source('_',
-  \ 'converters', ['remove_overlap'])
-
-  " Note: You must call (deoplete#custom#source) before using deoplete.
+  call deoplete#custom#source('_', 'converters', ['remove_overlap'])
   call deoplete#enable()
 '''
 
@@ -28,6 +19,8 @@ repo = 'callmekohei/deoplete-fsharp'
 build = 'bash install.bash'
 on_ft = 'fsharp'
 hook_source = '''
+  " TODO: 設定で読み込めるようにする
+  " let g:deoplete#fsharp#eazysetting = 1
   source ~/dotfiles/vim/rc/dein/plugins/deoplete-fsharp.rc.vim
 '''
 
