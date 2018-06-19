@@ -3,12 +3,10 @@ scriptencoding utf-8
 "-----------------------------
 " Text, Markdown
 "-----------------------------
+autocmd vimrc FileType text,markdown setlocal ambiwidth=double wrap display=lastline
 
 " Remove space at end of line ( exception: markdown, text )
 autocmd vimrc BufWritePre * if index(['markdown','text'], &ft)==-1 | :%s/\s\+$//e | endif
-
-autocmd vimrc FileType text,markdown setlocal ambiwidth=double wrap display=lastline
-
 
 
 "-----------------------------
@@ -55,24 +53,14 @@ if exists('g:quickrun_config.bashCheck')
 endif
 
 
-"-----------------------------
-" F#, dependencies ---> deoplete-fsharpに移動する
-" deoplete-fsharpのs:mysetting=1 で有効にする
-"-----------------------------
-
+"--------------------
+" dependencies
+"--------------------
 autocmd vimrc BufNewFile,BufRead *.dependencies call s:foo()
 
 function! s:foo() abort
   setlocal filetype=dependencies
   setlocal dictionary+=~/tmp/mydictionary/foo_dictionary
-endfunction
-
-autocmd vimrc BufNewFile,BufRead *.fs,*.fsi,*.fsx call s:fsharpSettings()
-
-function! s:fsharpSettings() abort
-  setlocal foldmethod=indent
-  setlocal foldlevel=1
-  setlocal foldminlines=3
 endfunction
 
 

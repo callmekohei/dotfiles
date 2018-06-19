@@ -19,8 +19,6 @@ hook_source = '''
   call deoplete#custom#source('_',
   \ 'converters', ['remove_overlap'])
 
-
-
   " Note: You must call (deoplete#custom#source) before using deoplete.
   call deoplete#enable()
 '''
@@ -29,6 +27,9 @@ hook_source = '''
 repo = 'callmekohei/deoplete-fsharp'
 build = 'bash install.bash'
 on_ft = 'fsharp'
+hook_source = '''
+  source ~/dotfiles/vim/rc/dein/plugins/deoplete-fsharp.rc.vim
+'''
 
 [[plugins]]
 repo = 'zchee/deoplete-jedi'
