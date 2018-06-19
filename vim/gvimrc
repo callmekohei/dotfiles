@@ -37,11 +37,7 @@ set guioptions+=c
 set guicursor&
 set guicursor+=a:blinkon0
 " Scrollbar is always off.
-set guioptions-=r
-set guioptions-=R
-set guioptions-=l
-set guioptions-=L
-set guioptions-=b
+set guioptions-=rRlLb
 
 "---------------------------------------------------------------------------
 " keymap:
