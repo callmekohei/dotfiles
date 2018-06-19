@@ -56,10 +56,16 @@ endif
 
 
 "-----------------------------
-" F#
+" F#, dependencies ---> deoplete-fsharpに移動する
+" deoplete-fsharpのs:mysetting=1 で有効にする
 "-----------------------------
 
-autocmd vimrc BufNewFile,BufRead *.dependencies setlocal filetype=dependencies
+autocmd vimrc BufNewFile,BufRead *.dependencies call s:foo()
+
+function! s:foo() abort
+  setlocal filetype=dependencies
+  setlocal dictionary+=~/tmp/mydictionary/foo_dictionary
+endfunction
 
 autocmd vimrc BufNewFile,BufRead *.fs,*.fsi,*.fsx call s:fsharpSettings()
 

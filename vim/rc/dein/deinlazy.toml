@@ -19,13 +19,7 @@ hook_source = '''
   call deoplete#custom#source('_',
   \ 'converters', ['remove_overlap'])
 
-  "---------------------------------
-  " Dictionary
-  "---------------------------------
 
-  if &filetype == 'dependencies'
-    setlocal dictionary+=~/tmp/mydictionary/foo_dictionary
-  endif
 
   " Note: You must call (deoplete#custom#source) before using deoplete.
   call deoplete#enable()
