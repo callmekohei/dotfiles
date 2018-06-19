@@ -38,5 +38,3 @@ endif
 if !filereadable( '~/dotfiles/vim/rc/local.vim' )
   execute 'source' '~/dotfiles/vim/rc/local.vim'
 endif
-
-
