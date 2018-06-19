@@ -1,6 +1,7 @@
 scriptencoding utf-8
+
 "---------------------------------------------------------------------------
-" カラー設定:
+" Color
 "
 " Don't override colorscheme.
 if !exists('g:colors_name')
@@ -8,31 +9,26 @@ if !exists('g:colors_name')
 endif
 
 "---------------------------------------------------------------------------
-" フォント設定:
+" Font
 "
 let s:fontname = 'Droid Sans Mono for Powerline Nerd Font Complete'
 let &guifont = s:fontname.":h14"
 set linespace=3
 
 "---------------------------------------------------------------------------
-" ウインドウに関する設定:
+" Window
 "
-" ウインドウの幅
-set columns=80
-" ウインドウの高さ
-set lines=30
-" コマンドラインの高さ(GUI使用時)
+set columns=80 " width
+set lines=30   " hight
 set cmdheight=2
 
 "---------------------------------------------------------------------------
-" 表示に関する設定:
+" Appearance
 "
 " Hide toolbar.
 set guioptions-=Tt
 " Hide menus.
 set guioptions-=m
-
-
 " Not guitablabel.
 set guioptions-=e
 " Confirm without window.
@@ -40,7 +36,6 @@ set guioptions+=c
 " Don't flick cursor.
 set guicursor&
 set guicursor+=a:blinkon0
-
 " Scrollbar is always off.
 set guioptions-=r
 set guioptions-=R

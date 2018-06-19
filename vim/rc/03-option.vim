@@ -108,7 +108,7 @@ set hidden
 " set nostartofline
 
 " Splitting a window will put the new window below the current one.
-" set splitbelow
+set splitbelow
 
 " Splitting a window will put the new window right the current one.
 set splitright
