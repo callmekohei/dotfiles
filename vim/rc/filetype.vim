@@ -11,7 +11,7 @@ autocmd vimrc BufNewFile,BufRead * call s:foo()
 
 function! s:foo() abort
   if &filetype == 'text' || &filetype == 'markdown'
-    setlocal ambiwidth=double
+  setlocal ambiwidth=double
   endif
 endfunction
 
@@ -75,6 +75,29 @@ function! s:fsharpSettings() abort
   setlocal foldlevel=1
   setlocal foldminlines=3
 endfunction
+
+if exists('g:quickrun_config.fsharpCheck')
+  augroup fsharpCheck
+
+    let s:err     = '%f(%l\,%c):\ %m'
+    let s:blank01 = '%-G %.%#'
+    let s:blank02 = '%-G'
+    let s:invalid = '%-G%[%^/]%.%#'
+
+    let s:lst = [ s:err, s:blank01, s:blank02, s:invalid ]
+
+    autocmd!
+    autocmd FileType fsharp let &errorformat = join( s:lst , ',' )
+
+    " see also:
+    " quick-run can not execute well at vim's launch. #175
+    " https://github.com/thinca/vim-quickrun/issues/175
+    if has('nvim') || has('gui_running')
+      autocmd BufWinEnter *.fsx  call quickrun#run( g:quickrun_config.fsharpCheck )
+    endif
+    autocmd BufWritePost *.fsx  call quickrun#run( g:quickrun_config.fsharpCheck )
+  augroup end
+endif
 
 
 "-----------------------------
