@@ -22,21 +22,21 @@ augroup END
 " Use English interface.
 language message C
 
-execute 'source' '~/dotfiles/vim/rc/02-plugin.vim'
-execute 'source' '~/dotfiles/vim/rc/03-option.vim'
-execute 'source' '~/dotfiles/vim/rc/04-mapping.vim'
-execute 'source' '~/dotfiles/vim/rc/05-filetype.vim'
+execute 'source' '~/dotfiles/vim/rc/plugin.vim'
+execute 'source' '~/dotfiles/vim/rc/option.vim'
+execute 'source' '~/dotfiles/vim/rc/mapping.vim'
+execute 'source' '~/dotfiles/vim/rc/filetype.vim'
 
 if has('nvim')
-  execute 'source' '~/dotfiles/vim/rc/11-neovim.vim'
+  execute 'source' '~/dotfiles/vim/rc/neovim.vim'
 endif
 
 if has('mac')
-  execute 'source' '~/dotfiles/vim/rc/12-macosx.vim'
+  execute 'source' '~/dotfiles/vim/rc/macosx.vim'
 endif
 
-if !filereadable( '~/dotfiles/vim/rc/91-local.vim' )
-  execute 'source' '~/dotfiles/vim/rc/91-local.vim'
+if !filereadable( '~/dotfiles/vim/rc/local.vim' )
+  execute 'source' '~/dotfiles/vim/rc/local.vim'
 endif
 
 
