@@ -1,5 +1,16 @@
 scriptencoding utf-8
 
+" plugin setting
+call textobj#user#plugin('yyy', {} )
+call textobj#user#plugin('yyy', {
+\ 'bbb': {
+\ 'pattern': ["^hook.* = '''","^'''"],
+\ 'select-a': 'aP',
+\ 'select-i': 'iP',
+\ },
+\ })
+
+
 command! Space2from4 call s:space4_to_space2()
 
 function! s:space4_to_space2() abort
