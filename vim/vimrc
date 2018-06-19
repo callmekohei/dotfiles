@@ -15,7 +15,7 @@ endif
 scriptencoding utf-8
 
 " create autocmd group
-augroup MyAutoCmd
+augroup vimrc
   autocmd!
 augroup END
 
