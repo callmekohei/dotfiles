@@ -4,7 +4,7 @@ scriptencoding utf-8
 "
 " Don't override colorscheme.
 if !exists('g:colors_name')
-    colorscheme default
+  colorscheme default
 endif
 
 "---------------------------------------------------------------------------
@@ -42,7 +42,6 @@ set guicursor&
 set guicursor+=a:blinkon0
 
 " Scrollbar is always off.
-" set guioptions-=rL
 set guioptions-=r
 set guioptions-=R
 set guioptions-=l

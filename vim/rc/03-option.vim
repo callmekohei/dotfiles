@@ -3,9 +3,7 @@ scriptencoding utf-8
 "---------------------------------------------------------------------------
 " Search:
 "
-" 検索時に大文字小文字を無視 (noignorecase:無視しない)
 set ignorecase
-" 大文字小文字の両方が含まれている場合は大文字小文字を区別
 set smartcase
 set incsearch
 set hlsearch
@@ -13,19 +11,12 @@ set hlsearch
 "---------------------------------------------------------------------------
 " Edit:
 "
-" タブの画面上での幅
 set tabstop=4 softtabstop=4 shiftwidth=4
-" タブをスペースに展開する
 set expandtab smarttab
-" 自動的にインデントする
 set autoindent "smartindent
-" バックスペースでインデントや改行を削除できるようにする
 set backspace=indent,eol,start
-" 検索時にファイルの最後まで行ったら最初に戻る (nowrapscan:戻らない)
 set wrapscan
-" 括弧入力時に対応する括弧を表示 (noshowmatch:表示しない)
 set noshowmatch
-" コマンドライン補完するときに強化されたものを使う(参照 :help wildmenu)
 set wildmenu
 " テキスト挿入中の自動折り返しを日本語に対応させる
 set formatoptions+=mM
@@ -65,8 +56,6 @@ set noswapfile
 set backupdir-=.
 
 
-
-
 "---------------------------------------------------------------------------
 " マウスに関する設定:
 "
@@ -75,7 +64,7 @@ set mouse=a
 " マウスの移動でフォーカスを自動的に切替えない (mousefocus:切替る)
 set nomousefocus
 " 入力時にマウスポインタを隠す (nomousehide:隠さない)
-set mousehide
+set nomousehide
 " ビジュアル選択(D&D他)を自動的にクリップボードへ (:help guioptions_a)
 "set guioptions+=a
 

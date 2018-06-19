@@ -3,8 +3,8 @@ scriptencoding utf-8
 " Disable default plugins
 
 if has('gui_running')
-    " Disable menu.vim
-    set guioptions=Mc
+  " Disable menu.vim
+  set guioptions=Mc
 endif
 
 let g:loaded_2html_plugin      = 1
