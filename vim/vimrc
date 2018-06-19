@@ -11,7 +11,7 @@ if !has('gui_running') && &encoding != 'utf-8'
   set termencoding=utf-8
 endif
 
-"vimrc's scriptencoding
+" vimrc's scriptencoding
 scriptencoding utf-8
 
 " create autocmd group

@@ -36,10 +36,6 @@ repo = 'callmekohei/deoplete-fsharp'
 build = 'bash install.bash'
 on_ft = 'fsharp'
 
-
-
-
-
 [[plugins]]
 repo = 'zchee/deoplete-jedi'
 on_ft = 'python'

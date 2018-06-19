@@ -7,20 +7,15 @@ scriptencoding utf-8
 " Remove space at end of line ( exception: markdown, text )
 autocmd vimrc BufWritePre * if index(['markdown','text'], &ft)==-1 | :%s/\s\+$//e | endif
 
-autocmd vimrc BufNewFile,BufRead * call s:foo()
+autocmd vimrc FileType text,markdown setlocal ambiwidth=double wrap display=lastline
 
-function! s:foo() abort
-  if &filetype == 'text' || &filetype == 'markdown'
-  setlocal ambiwidth=double
-  endif
-endfunction
 
 
 "-----------------------------
 " Vim script
 "-----------------------------
 
-autocmd vimrc BufNewFile,BufRead *.vim setlocal tabstop=2 softtabstop=2 shiftwidth=2
+autocmd vimrc BufNewFile,BufRead vimrc,gvimrc,*.vim setlocal tabstop=2 softtabstop=2 shiftwidth=2
 
 
 "-----------------------------
@@ -76,32 +71,10 @@ function! s:fsharpSettings() abort
   setlocal foldminlines=3
 endfunction
 
-if exists('g:quickrun_config.fsharpCheck')
-  augroup fsharpCheck
-
-    let s:err     = '%f(%l\,%c):\ %m'
-    let s:blank01 = '%-G %.%#'
-    let s:blank02 = '%-G'
-    let s:invalid = '%-G%[%^/]%.%#'
-
-    let s:lst = [ s:err, s:blank01, s:blank02, s:invalid ]
-
-    autocmd!
-    autocmd FileType fsharp let &errorformat = join( s:lst , ',' )
-
-    " see also:
-    " quick-run can not execute well at vim's launch. #175
-    " https://github.com/thinca/vim-quickrun/issues/175
-    if has('nvim') || has('gui_running')
-      autocmd BufWinEnter *.fsx  call quickrun#run( g:quickrun_config.fsharpCheck )
-    endif
-    autocmd BufWritePost *.fsx  call quickrun#run( g:quickrun_config.fsharpCheck )
-  augroup end
-endif
 
 
 "-----------------------------
 " Python
 "-----------------------------
 
-autocmd vimrc BufRead,BufRead,BufNewFile *.pdbrc setfiletype python
+autocmd vimrc BufRead,BufNewFile *.pdbrc setfiletype python

@@ -7,6 +7,7 @@ set ignorecase
 set smartcase
 set incsearch
 set hlsearch
+set wrapscan
 
 "---------------------------------------------------------------------------
 " Edit:
@@ -15,7 +16,6 @@ set tabstop=4 softtabstop=4 shiftwidth=4
 set expandtab smarttab
 set autoindent "smartindent
 set backspace=indent,eol,start
-set wrapscan
 set noshowmatch
 set wildmenu
 " テキスト挿入中の自動折り返しを日本語に対応させる

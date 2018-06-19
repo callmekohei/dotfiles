@@ -25,31 +25,6 @@ let g:quickrun_config.bashCheck = {
   \ ,'outputter/buffer/split'          : ':set splitblow',
 \}
 
-let g:quickrun_config.fsharp = {
-  \  'command'                          : 'fsharpi --readline-'
-  \ ,'runner'                           : 'concurrent_process'
-  \ ,'runner/concurrent_process/load'   : '#load "%S";;'
-  \ ,'runner/concurrent_process/prompt' : '> '
-\}
-
-let g:quickrun_config.fsharpCheck = {
-  \  'command'                          : 'fsharpi --readline-'
-  \ ,'runner'                           : 'concurrent_process'
-  \ ,'runner/concurrent_process/load'   : '#load "%S";;'
-  \ ,'runner/concurrent_process/prompt' : '> '
-  \ ,'hook/time/enable'                 : 0
-  \ ,"outputter/buffer/close_on_empty"  : 1
-  \ ,"outputter"                        : 'quickfix'
-  \ ,'outputter/buffer/split'           : ':set splitblow',
-\}
-
-let g:quickrun_config.fsharpi = {
-  \  'exec'    : [ '%c %s:p:r.fsx' ]
-  \ ,'command' : 'fsharpi'
-  \ ,'args'    : '%{input("args> ")}'
-\}
-
 let g:quickrun_config.python = {
   \ 'command': 'python3'
 \}
-
