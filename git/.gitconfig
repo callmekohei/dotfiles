@@ -7,9 +7,13 @@
     name  = callmekohei
     email = callmekohei@gmail.com
 
+[merge]
+    ff = false
+
 [pull]
     # 他の人の変更とのマージコミットはいらないので rebase = true にしておく
     rebase = true
+    ff = only
 
 [core]
 
