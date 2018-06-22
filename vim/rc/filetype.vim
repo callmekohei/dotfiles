@@ -79,8 +79,8 @@ scriptencoding utf-8
 
 " dependencies {{{
 
-  autocmd vimrc BufNewFile,BufRead *.dependencies call s:foo()
-  function! s:foo() abort
+  autocmd vimrc BufNewFile,BufRead *.dependencies call s:dependencies_settings()
+  function! s:dependencies_settings() abort
     setlocal filetype=dependencies
     setlocal dictionary+=~/tmp/mydictionary/foo_dictionary
   endfunction
