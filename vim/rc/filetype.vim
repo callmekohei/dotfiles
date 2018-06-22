@@ -34,7 +34,6 @@ scriptencoding utf-8
 
   " code from : https://gist.github.com/juanpabloaj/5845848#file-adjustwindowheight-vim
   autocmd vimrc FileType qf call AdjustWindowHeight(3, 10)
-
   function! AdjustWindowHeight(minheight, maxheight)
     let l = 1
     let n_lines = 0
@@ -49,15 +48,21 @@ scriptencoding utf-8
     exe max([min([n_lines, a:maxheight]), a:minheight]) . "wincmd _"
   endfunction
 
-
 " }}}
 
 
 " Bash script {{{
 
+  autocmd vimrc FileType sh call s:bash_settings()
+  function! s:bash_settings() abort
+    let g:is_bash = 1
+    let g:sh_no_error = 1
+    let &errorformat = '%f:\ line\ %l:\ %m'
+  endfunction
+
+  " quickrun settings
   let g:quickrun_config.sh = {}
   let g:quickrun_config.bashCheck = {}
-
   let g:quickrun_config.sh = { 'command': 'bash' }
   let g:quickrun_config.bashCheck = {
     \  'exec'                            : [ '%c -n %s:p:r.bash' ]
@@ -67,12 +72,7 @@ scriptencoding utf-8
     \ ,"outputter"                       : 'quickfix'
     \ ,'outputter/buffer/split'          : ':set splitblow',
   \}
-
-  autocmd vimrc FileType sh let g:is_bash = 1
-  autocmd vimrc FileType sh let g:sh_no_error = 1
-  autocmd vimrc FileType sh let &errorformat = '%f:\ line\ %l:\ %m'
-  autocmd vimrc BufWinEnter  *.bash  call quickrun#run( g:quickrun_config.bashCheck )
-  autocmd vimrc BufWritePost *.bash  call quickrun#run( g:quickrun_config.bashCheck )
+  autocmd vimrc BufWinEnter,BufWritePost *.bash call quickrun#run( g:quickrun_config.bashCheck )
 
 " }}}
 
