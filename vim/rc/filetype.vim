@@ -62,8 +62,8 @@ scriptencoding utf-8
 
   " quickrun settings
   let g:quickrun_config.sh = {}
-  let g:quickrun_config.bashCheck = {}
   let g:quickrun_config.sh = { 'command': 'bash' }
+  let g:quickrun_config.bashCheck = {}
   let g:quickrun_config.bashCheck = {
     \  'exec'                            : [ '%c -n %s:p:r.bash' ]
     \ ,'command'                         : 'bash'
