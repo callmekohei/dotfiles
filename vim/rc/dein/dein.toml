@@ -39,8 +39,10 @@ hook_add = 'source ~/dotfiles/vim/rc/dein/plugins/fzf.rc.vim'
 [[plugins]]
 repo = 'romainl/Apprentice'
 hook_add = '''
-  function! MyHighlights() abort
-    highlight Comment ctermfg=245 guifg=#8a8a8a
+  function!   MyHighlights() abort
+    highlight Comment     ctermfg=245   guifg=#8a8a8a
+    highlight FoldColumn  ctermfg=245   guifg=#8a8a8a
+    highlight Folded      ctermfg=245   guifg=#8a8a8a
   endfunction
 
   autocmd callmekohei-vimrc ColorScheme * call MyHighlights()

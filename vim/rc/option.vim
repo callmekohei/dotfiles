@@ -5,6 +5,7 @@ scriptencoding utf-8
 " Folding:
 "
 set foldmethod=marker
+set foldcolumn=3
 
 "---------------------------------------------------------------------------
 " Search:

@@ -45,7 +45,7 @@ nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
 " Editing
 "
 nnoremap Y y$
-nnoremap co zo
-nnoremap cc zc
-nnoremap cm zm
-nnoremap cr zr
+" nnoremap co zo
+" nnoremap cc zc
+" nnoremap cm zm
+" nnoremap cr zr
