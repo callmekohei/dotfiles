@@ -1,21 +1,21 @@
-scriptencoding utf-8
+ criptencoding utf-8
 
-" Color
+" Color {{{
 if !exists('g:colors_name')
   colorscheme default
 endif
-
-" Font
+" }}}
+" Font {{{
 let s:fontname = 'Droid Sans Mono for Powerline Nerd Font Complete'
 let &guifont = s:fontname.":h14"
 set linespace=3
-
-" Window
+" }}}
+" Window {{{
 set columns=80 " width
 set lines=30   " hight
 set cmdheight=2
-
-" Appearance
+" }}}
+" Appearance {{{
 " Hide toolbar.
 set guioptions-=Tt
 " Hide menus.
@@ -29,14 +29,18 @@ set guioptions+=c
 " Don't flick cursor.
 set guicursor&
 set guicursor+=a:blinkon0
+" }}}
+" keymap {{{
 
-" keymap ( see also: h: map.txt >> map-overview map-modes )
-" Normal, Visual, Select, Operator-pending
+" see also: h: map.txt >> map-overview map-modes
+" noremap  ---> Normal, Visual, Select, Operator-pending
+" lnoremap ---> Insert, Command-line, Lang-Arg
+" tnoremap ---> Terminal-Job
+
 noremap  ; :
 noremap  : ;
-" Insert, Command-line, Lang-Arg
 lnoremap ; :
 lnoremap : ;
-" Terminal-Job
 tnoremap ; :
 tnoremap : ;
+" }}}

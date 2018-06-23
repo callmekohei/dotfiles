@@ -31,6 +31,22 @@ function! s:space2_to_space4() abort
 endfunction
 
 
+" https://qiita.com/grohiro/items/e3dbcc93510bc8c4c812
+let g:toggle_window_size = 0
+function! ToggleWindowSize()
+  if g:toggle_window_size == 1
+    exec "normal \<C-w>="
+    let g:toggle_window_size = 0
+  else
+    :resize
+    :vertical resize
+    let g:toggle_window_size = 1
+  endif
+endfunction
+nnoremap M :call ToggleWindowSize()<CR>
+
+
+" temporary commands
 command! Dotfiles : edit $HOME/dotfiles
 command! Vimrc    : edit $HOME/dotfiles/vim/rc/local.rc.vim
 command! Bashrc   : edit $HOME/dotfiles/bash/local.bash

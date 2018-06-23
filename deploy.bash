@@ -12,10 +12,10 @@ ln -sf "${FROMDIR}"/bash/.inputrc      "${DISTDIR}"/.inputrc
 ln -sf ${FROMDIR}/git/.gitconfig ${DISTDIR}/.gitconfig
 
 # Vim/Neovim
-ln -sf "${FROMDIR}"/vim/vimrc                 "${DISTDIR}"/.vimrc
-ln -sf "${FROMDIR}"/vim/vimrc                 "${DISTDIR}"/.config/nvim/init.vim
-ln -sf "${FROMDIR}"/vim/rc/dein/dein.toml     "${DISTDIR}"/.config/nvim/dein.toml
-ln -sf "${FROMDIR}"/vim/rc/dein/deinlazy.toml "${DISTDIR}"/.config/nvim/deinlazy.toml
+ln -sf "${FROMDIR}"/vim/vimrc         "${DISTDIR}"/.vimrc
+ln -sf "${FROMDIR}"/vim/vimrc         "${DISTDIR}"/.config/nvim/init.vim
+ln -sf "${FROMDIR}"/vim/dein.toml     "${DISTDIR}"/.config/nvim/dein.toml
+ln -sf "${FROMDIR}"/vim/deinlazy.toml "${DISTDIR}"/.config/nvim/deinlazy.toml
 
 # MacVim
 ln -fs "${FROMDIR}"/vim/gvimrc "${DISTDIR}"/.gvimrc

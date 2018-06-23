@@ -34,7 +34,7 @@ repo = 'mattn/sonictemplate-vim'
 [[plugins]]
 repo   = 'junegunn/fzf.vim'
 build  = './install --all'
-hook_add = 'source ~/dotfiles/vim/rc/dein/plugins/fzf.rc.vim'
+hook_add = 'source ~/dotfiles/vim/plugins/fzf.rc.vim'
 
 [[plugins]]
 repo = 'romainl/Apprentice'
