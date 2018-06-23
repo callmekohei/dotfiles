@@ -15,7 +15,7 @@ endif
 scriptencoding utf-8
 
 " create autocmd group
-augroup vimrc
+augroup callmekohei-vimrc
   autocmd!
 augroup END
 
