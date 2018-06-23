@@ -22,21 +22,21 @@ set guioptions-=Tt
 set guioptions-=m
 " Not guitablabel.
 set guioptions-=e
+" Scrollbar is always off.
+set guioptions-=rRlLb
 " Confirm without window.
 set guioptions+=c
 " Don't flick cursor.
 set guicursor&
 set guicursor+=a:blinkon0
-" Scrollbar is always off.
-set guioptions-=rRlLb
 
-" keymap:
-" exchange colon and semi-colon
-nnoremap ; :
-nnoremap : ;
-inoremap ; :
-inoremap : ;
-vnoremap ; :
-vnoremap : ;
-cnoremap ; :
-cnoremap : ;
+" keymap ( see also: h: map.txt >> map-overview map-modes )
+" Normal, Visual, Select, Operator-pending
+noremap  ; :
+noremap  : ;
+" Insert, Command-line, Lang-Arg
+lnoremap ; :
+lnoremap : ;
+" Terminal-Job
+tnoremap ; :
+tnoremap : ;
