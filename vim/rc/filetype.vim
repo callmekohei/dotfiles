@@ -53,8 +53,8 @@ scriptencoding utf-8
 
 " Bash script {{{
 
-  autocmd callmekohei-vimrc FileType sh call s:bash_settings()
-  function! s:bash_settings() abort
+  autocmd callmekohei-vimrc FileType sh call s:vimrc_bash()
+  function! s:vimrc_bash() abort
     let g:is_bash = 1
     let g:sh_no_error = 1
     let &errorformat = '%f:\ line\ %l:\ %m'
@@ -79,8 +79,8 @@ scriptencoding utf-8
 
 " dependencies {{{
 
-  autocmd callmekohei-vimrc BufNewFile,BufRead *.dependencies call s:dependencies_settings()
-  function! s:dependencies_settings() abort
+  autocmd callmekohei-vimrc BufNewFile,BufRead *.dependencies call s:vimrc_dependencies()
+  function! s:vimrc_dependencies() abort
     setlocal filetype=dependencies
     setlocal dictionary+=~/tmp/mydictionary/foo_dictionary
   endfunction

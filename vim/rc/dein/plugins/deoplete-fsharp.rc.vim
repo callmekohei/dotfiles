@@ -4,9 +4,9 @@ augroup aufsharp
   autocmd!
 augroup END
 
-autocmd aufsharp FileType fsharp call s:fsharpSettings()
+autocmd aufsharp FileType fsharp call s:vimrc_fsharp()
 
-function! s:fsharpSettings() abort
+function! s:vimrc_fsharp() abort
   let &errorformat = '%f(%l\,%c):\ %m,%-G %.%#,%-G,%-G%[%^/]%.%#'
   setlocal previewheight=5
   setlocal nosplitbelow
