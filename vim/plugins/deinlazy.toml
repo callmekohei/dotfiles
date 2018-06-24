@@ -51,7 +51,7 @@ hook_source='''
 repo = 'kannokanno/previm'
 on_ft = 'markdown'
 hook_source = '''
-  source ~/dotfiles/vim/rc/dein/plugins/previm.rc.vim
+  source ~/dotfiles/vim/plugins/previm.rc.vim
 '''
 
 #---------------------------------------------------------------------------
