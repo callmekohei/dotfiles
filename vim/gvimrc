@@ -20,7 +20,7 @@ set linespace=3
 " }}}
 " Window {{{
 
-  " toolbar etc ---> see vimrc/prepare for gvim
+" toolbar etc ---> see vimrc/prepare for gvim
 
 set columns=80 " width
 set lines=30   " hight
@@ -29,10 +29,10 @@ set cmdheight=2
 " }}}
 " keymaps {{{
 
-  " see also: h: map.txt >> map-overview map-modes
-  " noremap  ---> Normal, Visual, Select, Operator-pending
-  " lnoremap ---> Insert, Command-line, Lang-Arg
-  " tnoremap ---> Terminal-Job
+" see also: h: map.txt >> map-overview map-modes
+" noremap  ---> Normal, Visual, Select, Operator-pending
+" lnoremap ---> Insert, Command-line, Lang-Arg
+" tnoremap ---> Terminal-Job
 
 noremap  ; :
 noremap  : ;
