@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# -----------------------------
+#   callmekohei's bashrc
+# -----------------------------
 
 FROMDIR="${HOME}"/dotfiles
 DISTDIR="${HOME}"
