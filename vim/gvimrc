@@ -5,14 +5,18 @@
 scriptencoding utf-8
 
 " Color {{{
+
 if !exists('g:colors_name')
   colorscheme default
 endif
+
 " }}}
 " Font {{{
+
 let s:fontname = 'Droid Sans Mono for Powerline Nerd Font Complete'
 let &guifont = s:fontname.":h14"
 set linespace=3
+
 " }}}
 " Window {{{
 
