@@ -8,7 +8,6 @@
 # see also: $ man path_helper 8
 # put homebrew path before /usr/bin ---> $ sudo vim /etc/paths
 
-
 function setExtraPath () {
     local openssl=/usr/local/opt/openssl/bin
     export PATH="${openssl}":"${PATH}"
@@ -186,4 +185,5 @@ dictionary () { cd ~/tmp/mydictionary ; }
 
 # }}}
 # __END__  "{{{1
-# vim: foldmethod=marker foldcolumn=2
+# vim: foldmethod=marker
+# vim: foldcolumn=2
