@@ -168,7 +168,7 @@ vimrc  () { vim ~/dotfiles/vim/vimrc ; }
 alias loto6="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe)"
 alias loto7="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe 7 )"
 
-memo () { cd ~/tmp/memo_folder ; vim ~/tmp/memo_folder/memo.txt ; }
+memo () { cd ~/Documents/memo_folder ; vim ~/Documents/memo_folder/memo.txt ; }
 myapp () { cd ~/myApp ; ls; }
 deopletefsharp () { cd ~/.cache/dein/repos/github.com/callmekohei/deoplete-fsharp ; }
 
