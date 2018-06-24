@@ -29,6 +29,14 @@ augroup END
 language message C
 
 " }}}
+" prepare for gvim {{{
+
+" Disable menu.vim
+if has('gui_running')
+  set guioptions=Mc
+endif
+
+" }}}
 " plugins {{{
 
 autocmd callmekohei-vimrc CursorHold *.toml syntax sync minlines=300

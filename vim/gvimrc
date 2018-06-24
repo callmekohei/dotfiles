@@ -1,4 +1,8 @@
- criptencoding utf-8
+" -----------------------------
+"   callmekohei's gvimrc
+" -----------------------------
+
+scriptencoding utf-8
 
 " Color {{{
 if !exists('g:colors_name')
@@ -11,31 +15,20 @@ let &guifont = s:fontname.":h14"
 set linespace=3
 " }}}
 " Window {{{
+
+  " toolbar etc ---> see vimrc/prepare for gvim
+
 set columns=80 " width
 set lines=30   " hight
 set cmdheight=2
-" }}}
-" Appearance {{{
-" Hide toolbar.
-set guioptions-=Tt
-" Hide menus.
-set guioptions-=m
-" Not guitablabel.
-set guioptions-=e
-" Scrollbar is always off.
-set guioptions-=rRlLb
-" Confirm without window.
-set guioptions+=c
-" Don't flick cursor.
-set guicursor&
-set guicursor+=a:blinkon0
-" }}}
-" keymap {{{
 
-" see also: h: map.txt >> map-overview map-modes
-" noremap  ---> Normal, Visual, Select, Operator-pending
-" lnoremap ---> Insert, Command-line, Lang-Arg
-" tnoremap ---> Terminal-Job
+" }}}
+" keymaps {{{
+
+  " see also: h: map.txt >> map-overview map-modes
+  " noremap  ---> Normal, Visual, Select, Operator-pending
+  " lnoremap ---> Insert, Command-line, Lang-Arg
+  " tnoremap ---> Terminal-Job
 
 noremap  ; :
 noremap  : ;

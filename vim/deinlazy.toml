@@ -21,7 +21,7 @@ on_ft = 'fsharp'
 hook_source = '''
   " TODO: 設定で読み込めるようにする
   " let g:deoplete#fsharp#eazysetting = 1
-  source ~/dotfiles/vim/rc/dein/plugins/deoplete-fsharp.rc.vim
+  source ~/dotfiles/vim/plugins/deoplete-fsharp.rc.vim
 '''
 
 [[plugins]]
