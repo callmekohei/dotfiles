@@ -1,4 +1,6 @@
-# .bashrc
+# -----------------------------
+#   callmekohei's bashrc
+# -----------------------------
 
 # Set extra path {{{
 
@@ -19,7 +21,6 @@ setExtraPath
 unset setExtraPath
 
 # }}}
-
 # ENVIRONMENT {{{
 
 export EDITOR=vim
@@ -49,7 +50,6 @@ export LESS_TERMCAP_ue=$'\E[0m'           # end underline
 export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 
 # }}}
-
 # Load files for Completions {{{
 
 # Bash's auto-complete is already implimented. ( requires > 4.x )
@@ -69,7 +69,6 @@ bashComplete
 unset bashComplete
 
 # }}}
-
 # Prompt{{{
 function set_prompts () {
 
@@ -115,7 +114,6 @@ set_prompts
 unset set_prompts
 
 # }}}
-
 # Load .bashlocalrc {{{
 
 function load_localbash () {
@@ -131,4 +129,61 @@ load_localbash
 unset load_localbash
 
 # }}}
+# util alias {{{
 
+    alias la='ls -a'
+    alias ll='ls -a -l'
+    alias cd..='cd ..'
+
+# }}}
+# local {{{
+
+# fzf
+export FZF_DEFAULT_OPTS='--height 40% --reverse --border --ansi'
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+f () { vim $(fzf) ; }
+
+# git/github
+eval "$(hub alias -s)"
+
+export MONO_GAC_PREFIX=/usr/local
+export WINEPREFIX=~/.wine
+export XDG_CONFIG_HOME=~/.config
+
+export PYTHONPATH=~/pdb/
+export SDB_PATH=~/sdbplg/bin/
+export SDB_PATH=~/myApp/sdbplg/bin/
+
+# }}}
+# local2 {{{
+
+# dotfiles
+dotfile () { cd ~/dotfiles ; }
+deploy () { bash ~/dotfiles/deploy.bash ; echo 'update links' ; }
+bashrc () { vim ~/dotfiles/bash/bashrc ; }
+vimrc  () { vim ~/dotfiles/vim/vimrc ; }
+
+alias loto6="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe)"
+alias loto7="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe 7 )"
+
+memo () { cd ~/tmp/memo_folder ; vim ~/tmp/memo_folder/memo.txt ; }
+myapp () { cd ~/myApp ; ls; }
+deopletefsharp () { cd ~/.cache/dein/repos/github.com/callmekohei/deoplete-fsharp ; }
+
+function v () {
+    vim -N -u $HOME/tmp/minimal.vimrc $1
+}
+
+dictionary () { cd ~/tmp/mydictionary ; }
+
+# }}}
+# second home {{{
+
+    if [ ! -e $HOME/tmp/ ] ; then
+        mkdir ./tmp/
+    fi
+    cd $HOME/tmp/
+
+# }}}
+# __END__  "{{{1
+# vim: foldmethod=marker foldcolumn=2

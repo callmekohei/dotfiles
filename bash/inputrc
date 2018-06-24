@@ -1,3 +1,7 @@
+# -----------------------------
+#   callmekohei's inputrc
+# -----------------------------
+
 # see also: https://wiki.archlinux.jp/index.php/Readline
 
 $include /etc/inputrc
