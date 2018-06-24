@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # -----------------------------
-#   callmekohei's bashrc
+#   callmekohei's deploy.bash
 # -----------------------------
 
 FROMDIR="${HOME}"/dotfiles
