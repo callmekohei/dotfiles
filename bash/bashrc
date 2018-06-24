@@ -14,6 +14,10 @@ function setExtraPath () {
 
     local sqlite3=/usr/local/opt/sqlite3/bin
     export PATH="${sqlite3}":"${PATH}"
+
+
+    local icu4c=/usr/local/opt/icu4c/bin
+    export PATH="${icu4c}":"${PATH}"
 }
 
 setExtraPath
