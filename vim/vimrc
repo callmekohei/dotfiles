@@ -73,17 +73,12 @@ endif
 syntax on
 filetype plugin indent on
 
-
 " }}}
 " optins {{{
 
 " Color scheme（ set on gvimrc in MacVim )
 set background=dark
 colorscheme Apprentice
-
-" Folding
-" set foldmethod=marker
-" set foldcolumn=3
 
 " Search
 set ignorecase
@@ -147,54 +142,9 @@ set backupdir-=.
 " }}}
 " key mappings {{{
 
-"----------------------------------------------------------
-" Searching
-"
-
-" Cancel hilight search
-nnoremap <silent><Esc><Esc> :<C-u>nohlsearch<CR><C-l>
-
-" Search by selected word/sentence
-" Practical Vim (ja) : https://pragprog.com/titles/dnvim/source_code
-xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<C-R>=@/<CR><CR>
-xnoremap # :<C-u>call <SID>VSetSearch()<CR>?<C-R>=@/<CR><CR>
-function! s:VSetSearch()
-  let temp = @s
-  norm! gv"sy
-  let @/ = '\V' . substitute(escape(@s, '/\'), '\n', '\\n', 'g')
-  let @s = temp
-endfunction
-
-
-"----------------------------------------------------------
-" Moving
-"
-
-" Editor lines
-nnoremap j gj
-nnoremap k gk
-
-" buffers
-nnoremap <silent> <C-j> :bprevious<CR>
-nnoremap <silent> <C-k> :bnext<CR>
-
-" Switch CWD to the directory of the open buffer
-nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
-
-
-"----------------------------------------------------------
-" Editing
-"
-nnoremap Y y$
-
-
-"----------------------------------------------------------
-" Folding
-"
-
+" Folding ( http://d.hatena.ne.jp/leafcage/20111223/1324705686 )
 noremap [space] <nop>
 nmap <Space> [space]
-
 noremap [space]j zj
 noremap [space]k zk
 noremap [space]n ]z
@@ -207,8 +157,34 @@ noremap [space]i zMzv
 noremap [space]r zR
 noremap [space]f zf
 
-" max window size
-" https://qiita.com/grohiro/items/e3dbcc93510bc8c4c812
+" Cancel hilight search
+nnoremap <silent><Esc><Esc> :<C-u>nohlsearch<CR><C-l>
+
+" Search by selected word/sentence ( Practical Vim (ja) : https://pragprog.com/titles/dnvim/source_code )
+xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<C-R>=@/<CR><CR>
+xnoremap # :<C-u>call <SID>VSetSearch()<CR>?<C-R>=@/<CR><CR>
+function! s:VSetSearch()
+  let temp = @s
+  norm! gv"sy
+  let @/ = '\V' . substitute(escape(@s, '/\'), '\n', '\\n', 'g')
+  let @s = temp
+endfunction
+
+" Editor lines
+nnoremap j gj
+nnoremap k gk
+
+" buffers
+nnoremap <silent> <C-j> :bprevious<CR>
+nnoremap <silent> <C-k> :bnext<CR>
+
+" Switch CWD to the directory of the open buffer
+nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
+
+" yank half
+nnoremap Y y$
+
+" max window size ( https://qiita.com/grohiro/items/e3dbcc93510bc8c4c812 )
 let g:toggle_window_size = 0
 function! ToggleWindowSize()
   if g:toggle_window_size == 1
@@ -222,15 +198,14 @@ function! ToggleWindowSize()
 endfunction
 nnoremap M :call ToggleWindowSize()<CR>
 
+" vimrc
+nnoremap <Space>. :edit $MYVIMRC<CR>
 
 " temporary commands
-nnoremap <Space>. :edit $MYVIMRC<CR>
-command! Memo     : edit $HOME/tmp/memo_folder/memo.txt | : silent cd %:p:h | :silent pwd
-
+command! Memo : edit $HOME/tmp/memo_folder/memo.txt | : silent cd %:p:h | :silent pwd
 
 " }}}
 " filetypes {{{
-
 " General, Text, Markdown {{{
 
   autocmd callmekohei-vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
@@ -240,23 +215,17 @@ command! Memo     : edit $HOME/tmp/memo_folder/memo.txt | : silent cd %:p:h | :s
   autocmd callmekohei-vimrc BufWritePre * if index(['markdown','text'], &ft)==-1 | :%s/\s\+$//e | endif
 
 " }}}
-
-
 " Toml {{{
 
   autocmd callmekohei-vimrc FileType toml setlocal tabstop=2 softtabstop=2 shiftwidth=2
 
 " }}}
-
-
 " Vim script {{{
 
   autocmd callmekohei-vimrc BufNewFile,BufRead vimrc,gvimrc setfiletype vim
   autocmd callmekohei-vimrc FileType vim setlocal tabstop=2 softtabstop=2 shiftwidth=2
 
 " }}}
-
-
 " QuickFix {{{
 
   " code from : https://gist.github.com/juanpabloaj/5845848#file-adjustwindowheight-vim
@@ -276,8 +245,6 @@ command! Memo     : edit $HOME/tmp/memo_folder/memo.txt | : silent cd %:p:h | :s
   endfunction
 
 " }}}
-
-
 " Bash script {{{
 
   autocmd callmekohei-vimrc FileType sh call s:vimrc_bash()
@@ -302,8 +269,6 @@ command! Memo     : edit $HOME/tmp/memo_folder/memo.txt | : silent cd %:p:h | :s
   autocmd callmekohei-vimrc BufWinEnter,BufWritePost *.bash call quickrun#run( g:quickrun_config.bashCheck )
 
 " }}}
-
-
 " dependencies {{{
 
   autocmd callmekohei-vimrc BufNewFile,BufRead *.dependencies call s:vimrc_dependencies()
@@ -313,8 +278,6 @@ command! Memo     : edit $HOME/tmp/memo_folder/memo.txt | : silent cd %:p:h | :s
   endfunction
 
 " }}}
-
-
 " Python {{{
 
   let g:quickrun_config.python = {}
@@ -322,8 +285,6 @@ command! Memo     : edit $HOME/tmp/memo_folder/memo.txt | : silent cd %:p:h | :s
   autocmd callmekohei-vimrc BufRead,BufNewFile *.pdbrc setfiletype python
 
 " }}}
-
-
 " }}}
 " nvim {{{
 
@@ -337,7 +298,7 @@ endif
 " }}}
 " mac {{{
 
-" Macではデフォルトの'iskeyword'がcp932に対応しきれていないので修正
+" Macではデフォルトの'iskeyword'がcp932に対応しきれていないので修正 (https://github.com/koron/vim-kaoriya/blob/master/kaoriya/vim/vimrc#L221)
 set iskeyword=@,48-57,_,128-167,224-235
 
 " }}}
