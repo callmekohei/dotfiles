@@ -281,17 +281,13 @@ noremap [space]f zf
 " }}}
 " filetypes {{{
 
-" General {{{
+" General, Text, Markdown {{{
+
+  autocmd callmekohei-vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
+  autocmd callmekohei-vimrc FileType text,markdown setlocal ambiwidth=double wrap display=lastline
 
   " Remove space at end of line ( exception: markdown, text )
   autocmd callmekohei-vimrc BufWritePre * if index(['markdown','text'], &ft)==-1 | :%s/\s\+$//e | endif
-
-" }}}
-
-
-" Text, Markdown {{{
-
-  autocmd callmekohei-vimrc FileType text,markdown setlocal ambiwidth=double wrap display=lastline
 
 " }}}
 
