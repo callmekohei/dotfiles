@@ -47,8 +47,5 @@ nnoremap M :call ToggleWindowSize()<CR>
 
 
 " temporary commands
-command! Dotfiles : edit $HOME/dotfiles
-command! Vimrc    : edit $HOME/dotfiles/vim/rc/local.rc.vim
-command! Bashrc   : edit $HOME/dotfiles/bash/local.bash
-command! Deinrc   : edit $HOME/dotfiles/vim/rc/dein/dein.toml
+nnoremap <Space>. :edit $MYVIMRC<CR>
 command! Memo     : edit $HOME/tmp/memo_folder/memo.txt | : silent cd %:p:h | :silent pwd
