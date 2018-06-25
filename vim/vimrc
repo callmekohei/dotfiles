@@ -74,7 +74,7 @@ syntax on
 filetype plugin indent on
 
 " }}}
-" optins {{{
+" options {{{
 
 " Color scheme（ set on gvimrc in MacVim )
 set background=dark
