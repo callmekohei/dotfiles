@@ -60,3 +60,7 @@ function create_alias_macvim {
 }
 
 create_alias_macvim
+
+# template
+MEMODIR="${HOME}/Documents/memo"
+ln -sf ${FROMDIR}/template/memolist/txt.txt ${MEMODIR}/

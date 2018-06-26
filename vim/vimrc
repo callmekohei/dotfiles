@@ -201,6 +201,9 @@ nnoremap M :call ToggleWindowSize()<CR>
 " vimrc
 nnoremap <Space>. :edit $MYVIMRC<CR>
 
+" memo
+nnoremap <Space>n :MemoNew<CR>
+
 " }}}
 " filetypes {{{
 " General, Text, Markdown {{{
