@@ -5,6 +5,16 @@ repo = 'Shougo/dein.vim'
 repo = 'mattn/sonictemplate-vim'
 
 
+[[plugins]]
+repo='glidenote/memolist.vim'
+hook_add = '''
+let g:memolist_path = "$HOME/Documents/memo"
+let g:memolist_memo_suffix = "txt"
+let g:memolist_ex_cmd = 'Files'
+autocmd callmekohei-vimrc VimEnter * command! -nargs=* MemoGrep
+  \ call fzf#vim#ag( <q-args> , fzf#vim#with_preview( {'dir':g:memolist_path}, 'right:50%' ) )
+'''
+
 # [[plugins]]
 # repo = 'fsharp/vim-fsharp'
 # on_ft = 'fsharp'

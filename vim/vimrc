@@ -201,9 +201,6 @@ nnoremap M :call ToggleWindowSize()<CR>
 " vimrc
 nnoremap <Space>. :edit $MYVIMRC<CR>
 
-" temporary commands
-command! Memo : edit $HOME/tmp/memo_folder/memo.txt | : silent cd %:p:h | :silent pwd
-
 " }}}
 " filetypes {{{
 " General, Text, Markdown {{{
@@ -300,6 +297,17 @@ endif
 
 " Macではデフォルトの'iskeyword'がcp932に対応しきれていないので修正 (https://github.com/koron/vim-kaoriya/blob/master/kaoriya/vim/vimrc#L221)
 set iskeyword=@,48-57,_,128-167,224-235
+
+
+" if has('mac')
+"   set ttimeoutlen=1
+"   let s:async = '&'
+"   let s:imeoff = 'osascript -e "tell application \"System Events\" to key code 102"' . ' ' . s:async
+"   autocmd callmekohei-vimrc InsertLeave * :call system(s:imeoff)
+"   noremap <silent> <ESC> <ESC>:call system(s:imeoff)<CR>
+" endif
+
+
 
 " }}}
 " local {{{
