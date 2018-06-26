@@ -199,10 +199,12 @@ endfunction
 nnoremap M :call ToggleWindowSize()<CR>
 
 " vimrc
-nnoremap <Space>. :edit $MYVIMRC<CR>
+nnoremap <Space>v :edit $MYVIMRC<CR>
 
 " memo
-nnoremap <Space>n :MemoNew<CR>
+nnoremap <Space>, :MemoNew<CR>
+nnoremap <Space>. :MemoList<CR>
+nnoremap <Space>/ :MemoGrep<CR>
 
 " }}}
 " filetypes {{{
