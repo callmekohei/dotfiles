@@ -1,6 +1,4 @@
-" -----------------------------
-"   callmekohei's vimrc
-" -----------------------------
+" callmekohei's vimrc
 
 " prepare {{{
 
@@ -145,13 +143,7 @@ set backupdir-=.
 let g:mapleader      = "\<Space>"
 let g:maplocalleader = "\<Space>"
 
-
-
 " Folding ( http://d.hatena.ne.jp/leafcage/20111223/1324705686 )
-" initialize <Space> key mappings
-" noremap [space] <nop>
-" nmap <Space> [space]
-
 noremap <localleader>j zj
 noremap <localleader>k zk
 noremap <localleader>n ]z
@@ -217,7 +209,29 @@ nnoremap <Space>/ :MemoGrep<CR>
 " filetypes {{{
 " tododraft {{{
 
-  " autocmd callmekohei-vimrc BufNewFile,BufRead tododraft.txt set filetype=text.tododraft
+  function! s:foo() abort
+
+    " todoリストを簡単に入力する
+    abbreviate tl - [ ]
+
+    function! ToggleCheckbox()
+      let l:line = getline('.')
+      if l:line =~ '^\-\s\[\s\]'
+        let l:result = substitute(l:line, '^-\s\[\s\]', '- [x]', '')
+        call setline('.', l:result)
+      elseif l:line =~ '^\-\s\[x\]'
+        let l:result = substitute(l:line, '^-\s\[x\]', '- [ ]', '')
+        call setline('.', l:result)
+      end
+    endfunction
+
+    " todoリストのon/offを切り替える
+    nnoremap <buffer> <Leader><Leader> :call ToggleCheckbox()<CR>
+
+  endfunction
+
+
+  autocmd callmekohei-vimrc BufNewFile,BufRead tododraft.txt call s:foo()
 
 " }}}
 " General, Text, Markdown {{{
@@ -356,8 +370,6 @@ endif
 
 " }}}
 " local {{{
-
-
 
 " plugin setting
 call textobj#user#plugin('yyy', {} )

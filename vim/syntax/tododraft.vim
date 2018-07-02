@@ -1,6 +1,7 @@
 syntax match foo "vim:.*$"
 syntax match lineComments "//.*$"
 syntax region blockComments start="(\*" end="\*)"
+syntax region blockComments2 start="```" end="```"
 syntax keyword todo TODO FIXME XXX NOTE
 syntax match titelKeywords "^.*\ze\s*{{{"
 syntax match startBraces "{{{"
@@ -8,6 +9,7 @@ syntax match endBraces   "}}}"
 highlight link foo Comment
 highlight link lineComments Comment
 highlight link blockComments Comment
+highlight link blockComments2 String
 highlight link todo Todo
 highlight link titelKeywords Statement
 highlight link startBraces Comment
