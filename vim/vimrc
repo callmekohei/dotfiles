@@ -142,6 +142,9 @@ set backupdir-=.
 " }}}
 " key mappings {{{
 
+let mapleader      = "\<Space>"
+let maplocalleader = "\<Space>"
+
 " Folding ( http://d.hatena.ne.jp/leafcage/20111223/1324705686 )
 noremap [space] <nop>
 nmap <Space> [space]
@@ -208,6 +211,11 @@ nnoremap <Space>/ :MemoGrep<CR>
 
 " }}}
 " filetypes {{{
+" tododraft {{{
+
+  autocmd callmekohei-vimrc BufNewFile,BufRead tododraft.txt set filetype=text.tododraft
+
+" }}}
 " General, Text, Markdown {{{
 
   autocmd callmekohei-vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
@@ -216,6 +224,29 @@ nnoremap <Space>/ :MemoGrep<CR>
   " Remove space at end of line ( exception: markdown, text )
   autocmd callmekohei-vimrc BufWritePre * if index(['markdown','text'], &ft)==-1 | :%s/\s\+$//e | endif
 
+" }}}
+" markdown{{{
+  " " 折り返しを有効にする
+  " set wrap
+  " " 80文字で折り返す
+  " set textwidth=80
+  " " マルチバイト文字の場合も折り返しを有効にする
+  " set formatoptions+=m
+  " " todoリストを簡単に入力する
+  " abbreviate tl - [ ]
+  " " todoリストのon/offを切り替える
+  " nnoremap <buffer> <Leader><Leader> :call ToggleCheckbox()<CR>
+
+  " function! ToggleCheckbox()
+  "   let l:line = getline('.')
+  "   if l:line =~ '^\-\s\[\s\]'
+  "     let l:result = substitute(l:line, '^-\s\[\s\]', '- [x]', '')
+  "     call setline('.', l:result)
+  "   elseif l:line =~ '^\-\s\[x\]'
+  "     let l:result = substitute(l:line, '^-\s\[x\]', '- [ ]', '')
+  "     call setline('.', l:result)
+  "   end
+  " endfunction
 " }}}
 " Toml {{{
 
@@ -290,20 +321,27 @@ nnoremap <Space>/ :MemoGrep<CR>
 " }}}
 " nvim {{{
 
-let g:python_host_prog  = '/usr/local/bin/python2'
-let g:python3_host_prog = '/usr/local/bin/python3'
+if has('nvim')
+  let g:python_host_prog  = '/usr/local/bin/python2'
+  let g:python3_host_prog = '/usr/local/bin/python3'
 
-if exists('&inccommand')
-  set inccommand=nosplit
+  if exists('&inccommand')
+    set inccommand=nosplit
+  endif
+
+  " enable to local syntax highlight
+  set runtimepath+=$HOME/.vim
 endif
 
 " }}}
 " mac {{{
 
 " Macではデフォルトの'iskeyword'がcp932に対応しきれていないので修正 (https://github.com/koron/vim-kaoriya/blob/master/kaoriya/vim/vimrc#L221)
-set iskeyword=@,48-57,_,128-167,224-235
+if has('mac')
+  set iskeyword=@,48-57,_,128-167,224-235
+endif
 
-
+" ふむ〜 日本語自動offをon にするとなんとなく挙動がおかしくなる・・・
 " if has('mac')
 "   set ttimeoutlen=1
 "   let s:async = '&'
@@ -312,10 +350,10 @@ set iskeyword=@,48-57,_,128-167,224-235
 "   noremap <silent> <ESC> <ESC>:call system(s:imeoff)<CR>
 " endif
 
-
-
 " }}}
 " local {{{
+
+
 
 " plugin setting
 call textobj#user#plugin('yyy', {} )

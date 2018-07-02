@@ -166,6 +166,12 @@ export SDB_PATH=~/myApp/sdbplg/bin/
 # }}}
 # local2 {{{
 
+fe() {
+  local files
+  IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
+  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+}
+
 # dotfiles
 dotfile () { cd ~/dotfiles ; }
 deploy () { bash ~/dotfiles/deploy.bash ; echo 'update links' ; }
@@ -183,6 +189,26 @@ function v () {
 }
 
 dictionary () { cd ~/tmp/mydictionary ; }
+
+# TODO
+# function gif() {
+    # # scale is 320, 480, 640, 800, 1280
+    # filename=''
+    # if [ $1 = "" ] ; then
+    #     filename=Untitled
+    # else
+    #     filename=$(basename "$1" .mov)
+    # fi
+    #
+    # scale=''
+    # if [ $2 = "" ] ; then
+    #     scale=600
+    # else
+    #     scale=$2
+    # fi
+    #
+    # ffmpeg -i ${filename}.mov -vf scale=${scale}:-1  -r 10 ${filename}.gif
+# }
 
 # }}}
 # second home {{{

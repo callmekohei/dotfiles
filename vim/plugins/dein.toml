@@ -4,11 +4,21 @@ repo = 'Shougo/dein.vim'
 [[plugins]]
 repo = 'mattn/sonictemplate-vim'
 
+[[plugins]]
+repo = 'dbeniamine/todo.txt-vim'
+hook_add = '''
+let g:TodoTxtForceDoneName='done.txt'
+au callmekohei-vimrc filetype todo setlocal omnifunc=todo#Complete
+au callmekohei-vimrc filetype todo imap <buffer> + +<C-X><C-O>
+au callmekohei-vimrc filetype todo imap <buffer> @ @<C-X><C-O>
+au callmekohei-vimrc filetype todo setlocal completeopt-=preview
+'''
+
 
 [[plugins]]
 repo='glidenote/memolist.vim'
 hook_add = '''
-let g:memolist_path = "$HOME/Documents/memo"
+let g:memolist_path = "$HOME/Dropbox/memo"
 let g:memolist_memo_suffix = "txt"
 let g:memolist_template_dir_path = g:memolist_path
 let g:memolist_ex_cmd = 'Files'
