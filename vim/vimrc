@@ -381,6 +381,8 @@ call textobj#user#plugin('yyy', {
 \ },
 \ })
 
+command! SelfFileDelete call delete(expand('%'))
+
 command! Space2from4 call s:space4_to_space2()
 function! s:space4_to_space2() abort
   set ts=4 sts=4 noet
