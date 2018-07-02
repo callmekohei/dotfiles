@@ -19,7 +19,21 @@ ln -sf "${FROMDIR}"/vim/vimrc                 "${DISTDIR}"/.vimrc
 ln -sf "${FROMDIR}"/vim/vimrc                 "${DISTDIR}"/.config/nvim/init.vim
 ln -sf "${FROMDIR}"/vim/plugins/dein.toml     "${DISTDIR}"/.config/nvim/dein.toml
 ln -sf "${FROMDIR}"/vim/plugins/deinlazy.toml "${DISTDIR}"/.config/nvim/deinlazy.toml
-ln -sf "${FROMDIR}"/vim/syntax/tododraft.vim  "${DISTDIR}"/.vim/syntax/tododraft.vim
+
+function localSyntax () {
+
+    local filePath
+    local fileName
+    for filePath in "${FROMDIR}"/vim/syntax/* ; do
+        fileName=$(basename "${filePath}")
+        [ -r "$filePath" ] && ln -sf "${filePath}" "${DISTDIR}"/.vim/syntax/"${fileName}"
+    done
+    unset file
+
+}
+
+localSyntax
+unset localSyntax
 
 # MacVim
 ln -fs "${FROMDIR}"/vim/gvimrc "${DISTDIR}"/.gvimrc

@@ -142,23 +142,27 @@ set backupdir-=.
 " }}}
 " key mappings {{{
 
-let mapleader      = "\<Space>"
-let maplocalleader = "\<Space>"
+let g:mapleader      = "\<Space>"
+let g:maplocalleader = "\<Space>"
+
+
 
 " Folding ( http://d.hatena.ne.jp/leafcage/20111223/1324705686 )
-noremap [space] <nop>
-nmap <Space> [space]
-noremap [space]j zj
-noremap [space]k zk
-noremap [space]n ]z
-noremap [space]p [z
-noremap [space]h zc
-noremap [space]l zo
-noremap [space]a za
-noremap [space]m zM
-noremap [space]i zMzv
-noremap [space]r zR
-noremap [space]f zf
+" initialize <Space> key mappings
+" noremap [space] <nop>
+" nmap <Space> [space]
+
+noremap <localleader>j zj
+noremap <localleader>k zk
+noremap <localleader>n ]z
+noremap <localleader>p [z
+noremap <localleader>h zc
+noremap <localleader>l zo
+noremap <localleader>a za
+noremap <localleader>m zM
+noremap <localleader>i zMzv
+noremap <localleader>r zR
+noremap <localleader>f zf
 
 " Cancel hilight search
 nnoremap <silent><Esc><Esc> :<C-u>nohlsearch<CR><C-l>
@@ -213,7 +217,7 @@ nnoremap <Space>/ :MemoGrep<CR>
 " filetypes {{{
 " tododraft {{{
 
-  autocmd callmekohei-vimrc BufNewFile,BufRead tododraft.txt set filetype=text.tododraft
+  " autocmd callmekohei-vimrc BufNewFile,BufRead tododraft.txt set filetype=text.tododraft
 
 " }}}
 " General, Text, Markdown {{{
