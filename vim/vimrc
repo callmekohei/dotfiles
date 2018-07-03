@@ -374,6 +374,11 @@ endif
 
 inoreabbrev <expr> --- repeat('-', 60 - col('.'))
 
+command! -range=% ClearEmptyLines call s:clearEmptyLines(<line1>,<line2>)
+function! s:clearEmptyLines(fst,lst) abort
+  execute (a:fst).",".(a:lst).'vglobal/\S/d'
+endfunction
+
 command! -range=% Center2 call s:center2(<line1>,<line2>)
 function! s:center2(fst,lst) abort
   let l:maxcol = max(map(getline(a:fst,a:lst),'strlen(v:val)'))
