@@ -93,6 +93,7 @@ set backspace=indent,eol,start
 set noshowmatch
 set wildmenu
 set formatoptions+=mM " テキスト挿入中の自動折り返しを日本語に対応させる
+set virtualedit=block " 行末以降の同じ列にテキストを入力できるようにする
 
 " View
 set number                                                 " 行番号を非表示 (number:表示)
@@ -370,6 +371,14 @@ endif
 
 " }}}
 " local {{{
+
+inoreabbrev <expr> --- repeat('-', 60 - col('.'))
+
+command! -range=% Center2 call s:center2(<line1>,<line2>)
+function! s:center2(fst,lst) abort
+  let l:maxcol = max(map(getline(a:fst,a:lst),'strlen(v:val)'))
+  execute (a:fst).",".(a:lst)."center".l:maxcol
+endfunction
 
 " plugin setting
 call textobj#user#plugin('yyy', {} )
