@@ -1,14 +1,37 @@
 [[plugins]]
 repo = 'Shougo/dein.vim'
 
-[[plugins]]
-repo = 'taku-o/vim-vis'
+# [[plugins]]
+# repo = 'taku-o/vim-vis'
 
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
 
 [[plugins]]
 repo = 'mattn/sonictemplate-vim'
+
+[[plugins]]
+repo ='thinca/vim-ref'
+hook_add = '''
+let g:ref_man_cmd = 'man'
+let g:ref_pydoc_cmd = 'python3 -m pydoc'
+let g:ref_source_webdict_cmd = 'w3m -dump %s'
+let g:ref_use_vimproc = v:true
+
+"webdictサイトの設定
+let g:ref_source_webdict_sites = {
+\     'fsharp': { 'url'   : 'https://github.com/MicrosoftDocs/visualfsharpdocs/tree/live/docs/conceptual/%s'}
+\   , 'alk' : { 'url' : 'http://eow.alc.co.jp/%s/UTF-8/' }
+\ }
+
+" 出力に対するフィルタ
+function! g:ref_source_webdict_sites.fsharp.filter(output)
+  let l:lst  = split(a:output, "\n")
+  call filter(l:lst,{idx, val -> val =~ '.md'} )
+  return join(l:lst,"\n")
+endfunction
+'''
+
 
 [[plugins]]
 repo = 'dbeniamine/todo.txt-vim'

@@ -150,24 +150,21 @@ nnoremap q: <Nop>
 nnoremap q/ <Nop>
 nnoremap q? <Nop>
 
-
-" let g:mapleader      = "\<Space>"
+let g:mapleader      = "\<Space>"
 let g:maplocalleader = "\<Space>"
 
 " Folding ( http://d.hatena.ne.jp/leafcage/20111223/1324705686 )
-noremap [space] <nop>
-nmap <Space> [space]
-noremap [space]j zj
-noremap [space]k zk
-noremap [space]n ]z
-noremap [space]p [z
-noremap [space]h zc
-noremap [space]l zo
-noremap [space]a za
-noremap [space]m zM
-noremap [space]i zMzv
-noremap [space]r zR
-noremap [space]f zf
+noremap <leader>j zj
+noremap <leader>k zk
+noremap <leader>n ]z
+noremap <leader>p [z
+noremap <leader>h zc
+noremap <leader>l zo
+noremap <leader>a za
+noremap <leader>m zM
+noremap <leader>i zMzv
+noremap <leader>r zR
+noremap <leader>f zf
 
 " Cancel hilight search
 nnoremap <silent><Esc><Esc> :<C-u>nohlsearch<CR><C-l>
@@ -211,15 +208,28 @@ endfunction
 nnoremap M :call ToggleWindowSize()<CR>
 
 " vimrc
-nnoremap <Space>v :edit $MYVIMRC<CR>
+nnoremap <leader>v :edit $MYVIMRC<CR>
 
 " memo
-nnoremap <Space>, :MemoNew<CR>
-nnoremap <Space>. :MemoList<CR>
-nnoremap <Space>/ :MemoGrep<CR>
+nnoremap <leader>, :MemoNew<CR>
+nnoremap <leader>. :MemoList<CR>
+nnoremap <leader>/ :MemoGrep<CR>
 
 " }}}
 " filetypes {{{
+" help {{{
+
+autocmd callmekohei-vimrc FileType help set foldmethod=indent
+
+" help window -> right buffer
+" ふむ〜　あまり使い心地がよくない・・
+command! -nargs=1 -complete=help Help :vertical belowright help <args>
+
+" qでhelpを閉じる
+" なんかものすごく遅い・・・
+" autocmd callmekohei-vimrc FileType help nnoremap <silent><buffer>q :quit<CR>
+
+" }}}
 " fsharp {{{
   autocmd callmekohei-vimrc BufNewFile,BufRead *.fsx,*.fs set filetype=fsharp
 " }}}
@@ -387,30 +397,27 @@ endif
 " }}}
 " local {{{
 
+" message window -> right buffer
+command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
+command! -nargs=0 Messages2 QuickRun -type vim -src message
+command! -nargs=0 Maps2 QuickRun -type vim -src map
 
 
+" line
 inoreabbrev <expr> --- repeat('-', 60 - col('.'))
 
-command! -range=% ClearEmptyLines call s:clearEmptyLines(<line1>,<line2>)
-function! s:clearEmptyLines(fst,lst) abort
-  execute (a:fst).",".(a:lst).'vglobal/\S/d'
-endfunction
-
+" do center selected strings
 command! -range=% Center2 call s:center2(<line1>,<line2>)
 function! s:center2(fst,lst) abort
   let l:maxcol = max(map(getline(a:fst,a:lst),'strlen(v:val)'))
   execute (a:fst).",".(a:lst)."center".l:maxcol
 endfunction
 
-" plugin setting
-call textobj#user#plugin('yyy', {} )
-call textobj#user#plugin('yyy', {
-\ 'bbb': {
-\ 'pattern': ["^hook.* = '''","^'''"],
-\ 'select-a': 'aP',
-\ 'select-i': 'iP',
-\ },
-\ })
+" cleare selected empty lines
+command! -range=% ClearEmptyLines call s:clearEmptyLines(<line1>,<line2>)
+function! s:clearEmptyLines(fst,lst) abort
+  execute (a:fst).",".(a:lst).'vglobal/\S/d'
+endfunction
 
 command! SelfFileDelete call delete(expand('%'))
 
@@ -429,6 +436,16 @@ function! s:space2_to_space4() abort
   set ts=4 sts=4 et
   retab
 endfunction
+
+" select string for dein.toml
+call textobj#user#plugin('yyy', {} )
+call textobj#user#plugin('yyy', {
+\ 'bbb': {
+\ 'pattern': ["^hook.* = '''","^'''"],
+\ 'select-a': 'aP',
+\ 'select-i': 'iP',
+\ },
+\ })
 
 " }}}
 " __END__  "{{{1
