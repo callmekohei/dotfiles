@@ -9,10 +9,10 @@ repo = 'Shougo/dein.vim'
 repo = 'dbeniamine/todo.txt-vim'
 hook_add = '''
   let g:TodoTxtForceDoneName='done.txt'
-  au callmekohei-vimrc filetype todo setlocal omnifunc=todo#Complete
-  au callmekohei-vimrc filetype todo imap <buffer> + +<C-X><C-O>
-  au callmekohei-vimrc filetype todo imap <buffer> @ @<C-X><C-O>
-  au callmekohei-vimrc filetype todo setlocal completeopt-=preview
+  autocmd callmekohei-vimrc filetype todo setlocal omnifunc=todo#Complete
+  autocmd callmekohei-vimrc filetype todo imap <buffer> + +<C-X><C-O>
+  autocmd callmekohei-vimrc filetype todo imap <buffer> @ @<C-X><C-O>
+  autocmd callmekohei-vimrc filetype todo setlocal completeopt-=preview
 '''
 
 [[plugins]]
