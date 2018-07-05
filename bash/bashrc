@@ -139,6 +139,7 @@ unset load_localbash
     alias la='ls -a'
     alias ll='ls -a -l'
     alias cd..='cd ..'
+    alias vim='nvim'
 
 # }}}
 # local {{{

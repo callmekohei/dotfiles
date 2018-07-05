@@ -2,6 +2,12 @@
 repo = 'Shougo/dein.vim'
 
 [[plugins]]
+repo = 'taku-o/vim-vis'
+
+[[plugins]]
+repo = 'vim-jp/vimdoc-ja'
+
+[[plugins]]
 repo = 'mattn/sonictemplate-vim'
 
 [[plugins]]
@@ -61,12 +67,14 @@ hook_add = 'source ~/dotfiles/vim/plugins/fzf.rc.vim'
 repo = 'romainl/Apprentice'
 hook_add = '''
   function!   MyHighlights() abort
-    highlight Comment     ctermfg=245   guifg=#8a8a8a
-    highlight FoldColumn  ctermfg=245   guifg=#8a8a8a
-    highlight Folded      ctermfg=245   guifg=#8a8a8a
+    highlight Comment       ctermfg=245   guifg=#8a8a8a
+    highlight FoldColumn    ctermfg=245   guifg=#8a8a8a
+    highlight Folded        ctermfg=245   guifg=#8a8a8a
+    highlight UnicodeSpaces ctermbg=131   guibg=#af5f5f
   endfunction
 
   autocmd callmekohei-vimrc ColorScheme * call MyHighlights()
+  autocmd callmekohei-vimrc VimEnter,WinEnter * match UnicodeSpaces /\%u180E\|\%u2000\|\%u2001\|\%u2002\|\%u2003\|\%u2004\|\%u2005\|\%u2006\|\%u2007\|\%u2008\|\%u2009\|\%u200A\|\%u2028\|\%u2029\|\%u202F\|\%u205F\|\%u3000/
 '''
 
 [[plugins]]
