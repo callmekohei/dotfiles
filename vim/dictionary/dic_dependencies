@@ -1,0 +1,5 @@
+generate_load_scripts: true
+nuget
+Fsharp.Compiler.Service
+Newtonsoft.Json
+Persimmon.Script

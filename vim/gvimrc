@@ -1,45 +1,43 @@
-" -----------------------------
 "   callmekohei's gvimrc
-" -----------------------------
 
 scriptencoding utf-8
 
 " Color {{{
 
-if !exists('g:colors_name')
-  colorscheme default
-endif
+  if !exists('g:colors_name')
+    colorscheme default
+  endif
 
 " }}}
 " Font {{{
 
-let s:fontname = 'Droid Sans Mono for Powerline Nerd Font Complete'
-let &guifont = s:fontname.":h14"
-set linespace=3
+  let s:fontname = 'Droid Sans Mono for Powerline Nerd Font Complete'
+  let &guifont = s:fontname.":h14"
+  set linespace=3
 
 " }}}
 " Window {{{
 
-" toolbar etc ---> see vimrc/prepare for gvim
+  " toolbar etc ---> see vimrc/prepare for gvim
 
-set columns=80 " width
-set lines=30   " hight
-set cmdheight=2
+  set columns=80 " width
+  set lines=30   " hight
+  set cmdheight=2
 
 " }}}
 " keymaps {{{
 
-" see also: h: map.txt >> map-overview map-modes
-" noremap  ---> Normal, Visual, Select, Operator-pending
-" lnoremap ---> Insert, Command-line, Lang-Arg
-" tnoremap ---> Terminal-Job
+  " see also: h: map.txt >> map-overview map-modes
+  " noremap  ---> Normal, Visual, Select, Operator-pending
+  " lnoremap ---> Insert, Command-line, Lang-Arg
+  " tnoremap ---> Terminal-Job
 
-noremap  ; :
-noremap  : ;
-lnoremap ; :
-lnoremap : ;
-tnoremap ; :
-tnoremap : ;
+  noremap  ; :
+  noremap  : ;
+  lnoremap ; :
+  lnoremap : ;
+  tnoremap ; :
+  tnoremap : ;
 
 " }}}
 " __END__  "{{{1

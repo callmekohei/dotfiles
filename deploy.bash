@@ -25,6 +25,10 @@ ln -sf "${FROMDIR}"/vim/plugins/deinlazy.toml "${DISTDIR}"/.config/nvim/deinlazy
 
 function localSyntax () {
 
+    if [ ! -e "${DISTDIR}"/.vim/syntax ] ; then
+        mkdir -p "${DISTDIR}"/.vim/syntax
+    fi
+
     local filePath
     local fileName
     for filePath in "${FROMDIR}"/vim/syntax/* ; do
@@ -82,3 +86,23 @@ create_alias_macvim
 # template
 MEMODIR="${HOME}/Dropbox/memo"
 ln -sf ${FROMDIR}/template/memolist/txt.txt ${MEMODIR}/
+
+# dictionary
+function localDictionary () {
+
+    if [ ! -e "${DISTDIR}"/.vim/dictionary ] ; then
+        mkdir -p "${DISTDIR}"/.vim/dictionary
+    fi
+
+    local filePath
+    local fileName
+    for filePath in "${FROMDIR}"/vim/dictionary/* ; do
+        fileName=$(basename "${filePath}")
+        [ -r "$filePath" ] && ln -sf "${filePath}" "${DISTDIR}"/.vim/dictionary/"${fileName}"
+    done
+    unset file
+
+}
+
+localDictionary
+unset localDictionary
