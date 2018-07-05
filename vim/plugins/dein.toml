@@ -1,103 +1,83 @@
 [[plugins]]
 repo = 'Shougo/dein.vim'
 
-# [[plugins]]
-# repo = 'taku-o/vim-vis'
+# --------------------------------------------------------
+#                       todo and memo
+# ---------------------------------------------------------
+
+[[plugins]]
+repo = 'dbeniamine/todo.txt-vim'
+hook_add = '''
+  let g:TodoTxtForceDoneName='done.txt'
+  au callmekohei-vimrc filetype todo setlocal omnifunc=todo#Complete
+  au callmekohei-vimrc filetype todo imap <buffer> + +<C-X><C-O>
+  au callmekohei-vimrc filetype todo imap <buffer> @ @<C-X><C-O>
+  au callmekohei-vimrc filetype todo setlocal completeopt-=preview
+'''
+
+[[plugins]]
+repo='glidenote/memolist.vim'
+hook_add = '''
+  let g:memolist_path = "$HOME/Dropbox/memo"
+  let g:memolist_memo_suffix = "txt"
+  let g:memolist_template_dir_path = g:memolist_path
+  let g:memolist_ex_cmd = 'Files'
+  autocmd callmekohei-vimrc VimEnter * command! -nargs=* MemoGrep
+    \ call fzf#vim#ag( <q-args> , fzf#vim#with_preview( {'dir':g:memolist_path}, 'right:50%' ) )
+'''
+
+# ---------------------------------------------------------
+#                       help, viewer
+# ---------------------------------------------------------
 
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
 
 [[plugins]]
-repo = 'mattn/sonictemplate-vim'
-
-[[plugins]]
 repo ='thinca/vim-ref'
 hook_add = '''
-let g:ref_man_cmd = 'man'
-let g:ref_pydoc_cmd = 'python3 -m pydoc'
-let g:ref_source_webdict_cmd = 'w3m -dump %s'
-let g:ref_use_vimproc = v:true
+  let g:ref_man_cmd = 'man'
+  let g:ref_pydoc_cmd = 'python3 -m pydoc'
+  let g:ref_source_webdict_cmd = 'w3m -dump %s'
+  let g:ref_use_vimproc = v:true
 
-"webdictサイトの設定
-let g:ref_source_webdict_sites = {
-\     'fsharp': { 'url'   : 'https://github.com/MicrosoftDocs/visualfsharpdocs/tree/live/docs/conceptual/%s'}
-\   , 'alk' : { 'url' : 'http://eow.alc.co.jp/%s/UTF-8/' }
-\ }
+  "webdictサイトの設定
+  let g:ref_source_webdict_sites = {
+  \     'fsharp': { 'url'   : 'https://github.com/MicrosoftDocs/visualfsharpdocs/tree/live/docs/conceptual/%s'}
+  \   , 'alk' : { 'url' : 'http://eow.alc.co.jp/%s/UTF-8/' }
+  \ }
 
-" 出力に対するフィルタ
-function! g:ref_source_webdict_sites.fsharp.filter(output)
-  let l:lst  = split(a:output, "\n")
-  call filter(l:lst,{idx, val -> val =~ '.md'} )
-  return join(l:lst,"\n")
-endfunction
-'''
-
-
-[[plugins]]
-repo = 'dbeniamine/todo.txt-vim'
-hook_add = '''
-let g:TodoTxtForceDoneName='done.txt'
-au callmekohei-vimrc filetype todo setlocal omnifunc=todo#Complete
-au callmekohei-vimrc filetype todo imap <buffer> + +<C-X><C-O>
-au callmekohei-vimrc filetype todo imap <buffer> @ @<C-X><C-O>
-au callmekohei-vimrc filetype todo setlocal completeopt-=preview
-'''
-
-
-[[plugins]]
-repo='glidenote/memolist.vim'
-hook_add = '''
-let g:memolist_path = "$HOME/Dropbox/memo"
-let g:memolist_memo_suffix = "txt"
-let g:memolist_template_dir_path = g:memolist_path
-let g:memolist_ex_cmd = 'Files'
-autocmd callmekohei-vimrc VimEnter * command! -nargs=* MemoGrep
-  \ call fzf#vim#ag( <q-args> , fzf#vim#with_preview( {'dir':g:memolist_path}, 'right:50%' ) )
-'''
-
-# [[plugins]]
-# repo = 'fsharp/vim-fsharp'
-# on_ft = 'fsharp'
-# build = 'make fsautocomplete'
-
-# [[plugins]]
-# repo = 'ervandew/supertab'
-# on_ft = 'fsharp'
-# hook_add = '''
-#   let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-# '''
-
-
-# on_if が効いてない気がする ( 2018/06/07 )
-# [[plugins]]
-# repo  = 'roxma/vim-hug-neovim-rpc'
-# on_if = '!has("nvim")'
-#
-# [[plugins]]
-# repo  = 'roxma/nvim-yarp'
-# on_if = '!has("nvim")'
-#
-# [[plugins]]
-# repo  = 'callmekohei/tigaDebugger'
-# on_if = '!has("nvim")'
-
-[[plugins]]
-repo   = 'junegunn/fzf.vim'
-build  = './install --all'
-hook_add = 'source ~/dotfiles/vim/plugins/fzf.rc.vim'
-
-[[plugins]]
-repo = 'romainl/Apprentice'
-hook_add = '''
-  function!   MyHighlights() abort
-    highlight Comment       ctermfg=245   guifg=#8a8a8a
-    highlight FoldColumn    ctermfg=245   guifg=#8a8a8a
-    highlight Folded        ctermfg=245   guifg=#8a8a8a
-    highlight UnicodeSpaces ctermbg=131   guibg=#af5f5f
+  " 出力に対するフィルタ
+  function! g:ref_source_webdict_sites.fsharp.filter(output)
+    let l:lst  = split(a:output, "\n")
+    call filter(l:lst,{idx, val -> val =~ '.md'} )
+    return join(l:lst,"\n")
   endfunction
+'''
 
-  autocmd callmekohei-vimrc ColorScheme * call MyHighlights()
-  autocmd callmekohei-vimrc VimEnter,WinEnter * match UnicodeSpaces /\%u180E\|\%u2000\|\%u2001\|\%u2002\|\%u2003\|\%u2004\|\%u2005\|\%u2006\|\%u2007\|\%u2008\|\%u2009\|\%u200A\|\%u2028\|\%u2029\|\%u202F\|\%u205F\|\%u3000/
+# ---------------------------------------------------------
+#                        editing helper
+# ---------------------------------------------------------
+
+# wait for fix (https://github.com/taku-o/vim-vis/blob/master/plugin/cecutil.vim#L45-L50)
+# [[plugins]]
+# repo = 'taku-o/vim-vis'
+
+[[plugins]]
+repo = 'junegunn/vim-easy-align'
+hook_add = '''
+  xmap ga <Plug>(EasyAlign)
+  nmap ga <Plug>(EasyAlign)
+'''
+
+[[plugins]]
+repo = 'kana/vim-textobj-user'
+
+[[plugins]]
+repo = 'thinca/vim-partedit'
+hook_add = '''
+  let g:partedit#opener = 'vsp'
+  let g:partedit#filetype = 'vim'
 '''
 
 [[plugins]]
@@ -108,26 +88,29 @@ hook_add = '''
   endif
   let g:tcomment_types['fsharp'] = '// %s'
   let g:tcomment_types['mql4'] = '// %s'
+  let g:tcomment_types['text'] = '// %s'
+  let g:tcomment_types['text.memo'] = '// %s'
 '''
 
-[[plugins]]
-repo = 'junegunn/vim-easy-align'
-hook_add = '''
-  xmap ga <Plug>(EasyAlign)
-  nmap ga <Plug>(EasyAlign)
-'''
+# ---------------------------------------------------------
+#                          snipet
+# ---------------------------------------------------------
 
 [[plugins]]
-repo = 'nathanaelkane/vim-indent-guides'
-hook_add = '''
-  map <Nop>(disable-IndentGuidesToggle) <Plug>IndentGuidesToggle
-  let g:indent_guides_enable_on_vim_startup = 1
-  let g:indent_guides_start_level = 2
-  let g:indent_guides_guide_size  = 1
-  let g:indent_guides_auto_colors = 0
-  autocmd callmekohei-vimrc VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#3A3C43 ctermbg=0
-  autocmd callmekohei-vimrc VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#3A3C43 ctermbg=0
-'''
+repo = 'mattn/sonictemplate-vim'
+
+# ---------------------------------------------------------
+#                          finder
+# ---------------------------------------------------------
+
+[[plugins]]
+repo   = 'junegunn/fzf.vim'
+build  = './install --all'
+hook_add = 'source ~/dotfiles/vim/plugins/fzf.rc.vim'
+
+# ---------------------------------------------------------
+#                            run
+# ---------------------------------------------------------
 
 [[plugins]]
 repo   = 'thinca/vim-quickrun'
@@ -151,12 +134,45 @@ repo    = 'Shougo/vimproc.vim'
 build   = 'make'
 on_source = ['vim-quickrun']
 
+# ---------------------------------------------------------
+#                    appearance, indent
+# ---------------------------------------------------------
+
 [[plugins]]
-repo = 'thinca/vim-partedit'
+repo = 'romainl/Apprentice'
 hook_add = '''
-  let g:partedit#opener = 'vsp'
-  let g:partedit#filetype = 'vim'
+  function!   MyHighlights() abort
+    highlight Comment       ctermfg=245   guifg=#8a8a8a
+    highlight FoldColumn    ctermfg=245   guifg=#8a8a8a
+    highlight Folded        ctermfg=245   guifg=#8a8a8a
+    highlight UnicodeSpaces ctermbg=131   guibg=#af5f5f
+  endfunction
+  autocmd callmekohei-vimrc ColorScheme * call MyHighlights()
+  autocmd callmekohei-vimrc VimEnter,WinEnter * match UnicodeSpaces /\%u180E\|\%u2000\|\%u2001\|\%u2002\|\%u2003\|\%u2004\|\%u2005\|\%u2006\|\%u2007\|\%u2008\|\%u2009\|\%u200A\|\%u2028\|\%u2029\|\%u202F\|\%u205F\|\%u3000/
 '''
 
 [[plugins]]
-repo = 'kana/vim-textobj-user'
+repo = 'nathanaelkane/vim-indent-guides'
+hook_add = '''
+  map <Nop>(disable-IndentGuidesToggle) <Plug>IndentGuidesToggle
+  let g:indent_guides_enable_on_vim_startup = 1
+  let g:indent_guides_start_level = 2
+  let g:indent_guides_guide_size  = 1
+  let g:indent_guides_auto_colors = 0
+  autocmd callmekohei-vimrc VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#3A3C43 ctermbg=0
+  autocmd callmekohei-vimrc VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#3A3C43 ctermbg=0
+'''
+
+# --------------------------------------------------------
+
+# [[plugins]]
+# repo = 'fsharp/vim-fsharp'
+# on_ft = 'fsharp'
+# build = 'make fsautocomplete'
+
+# [[plugins]]
+# repo = 'ervandew/supertab'
+# on_ft = 'fsharp'
+# hook_add = '''
+#   let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+# '''
