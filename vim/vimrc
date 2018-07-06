@@ -460,7 +460,7 @@
     retab
   endfunction
 
-  " select string for dein.toml
+  " dein.toml に書くと tick の関係でエラーになるので vimrc に書く
   call textobj#user#plugin('yyy', {} )
   call textobj#user#plugin('yyy', {
   \ 'bbb': {
