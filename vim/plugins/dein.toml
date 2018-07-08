@@ -19,7 +19,7 @@ hook_add = '''
 repo='glidenote/memolist.vim'
 hook_add = '''
   let g:memolist_path = "$HOME/Dropbox/memo"
-  let g:memolist_memo_suffix = "txt"
+  let g:memolist_memo_suffix = "memo"
   let g:memolist_template_dir_path = g:memolist_path
   let g:memolist_ex_cmd = 'Files'
   autocmd callmekohei-vimrc VimEnter * command! -nargs=* MemoGrep
@@ -141,13 +141,13 @@ on_source = ['vim-quickrun']
 [[plugins]]
 repo = 'romainl/Apprentice'
 hook_add = '''
-  function!   MyHighlights() abort
+  function!   s:myHighlights() abort
     highlight Comment       ctermfg=245   guifg=#8a8a8a
     highlight FoldColumn    ctermfg=245   guifg=#8a8a8a
     highlight Folded        ctermfg=245   guifg=#8a8a8a
     highlight UnicodeSpaces ctermbg=131   guibg=#af5f5f
   endfunction
-  autocmd callmekohei-vimrc ColorScheme * call MyHighlights()
+  autocmd callmekohei-vimrc ColorScheme * call s:myHighlights()
   autocmd callmekohei-vimrc VimEnter,WinEnter * match UnicodeSpaces /\%u180E\|\%u2000\|\%u2001\|\%u2002\|\%u2003\|\%u2004\|\%u2005\|\%u2006\|\%u2007\|\%u2008\|\%u2009\|\%u200A\|\%u2028\|\%u2029\|\%u202F\|\%u205F\|\%u3000/
 '''
 

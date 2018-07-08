@@ -1,17 +1,33 @@
-syntax match foo "vim:.*$"
-syntax match lineComments "//.*$"
-syntax region blockComments start="(\*" end="\*)"
-syntax region blockComments2 start="```" end="```"
+" memo syntax
+
+let b:current_syntax = 'memo'
+
+" settings
+syntax match settings "vim:.*$"
+highlight link settings Comment
+
+" comment
+syntax match lineComment "//.*$"
+syntax region blockComment start="(\*" end="\*)"
+syntax region blockComment2 start="```" end="```"
+highlight link lineComment Comment
+highlight link blockComment Comment
+highlight link blockComments String
+
+" todo
 syntax keyword todo TODO FIXME XXX NOTE
-syntax match titelKeywords "^.*\ze\s*{{{"
-syntax match startBraces "{{{"
-syntax match endBraces   "}}}"
-highlight link foo Comment
-highlight link lineComments Comment
-highlight link blockComments Comment
-highlight link blockComments2 String
 highlight link todo Todo
-highlight link titelKeywords Statement
+
+" folding headline
+syntax match titleKeywords "^.*\ze\s*{{{.*"
+highlight link titleKeywords Statement
+" TODO: do not make effect :-(
+syntax match titleKeywords2 "^\s.*}}}\zsfoo"
+highlight link titleKeywords2 Statement
+
+" folding brace
+syntax match startBraces "\%\({{{\d\|{{{\)"
 highlight link startBraces Comment
+
+syntax match endBraces  "\(}}}\d\|}}}\)"
 highlight link endBraces Comment
-let b:current_syntax = 'text.tododraft'

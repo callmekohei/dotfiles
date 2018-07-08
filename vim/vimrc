@@ -1,6 +1,84 @@
 " callmekohei's vimrc
 
-" prepare {{{
+" vimrc/vimscript tips {{{1
+  " 00: web info {{{2
+
+      " https://thinca.hatenablog.com/entry/20100205/1265307642
+      " http://rbtnn.hateblo.jp/entry/2014/11/30/174749
+
+  " 01: encoding and scriptencoding {{{2
+
+      " ( first  ) set encoding=utf-8
+      " ( second ) scriptencoding utf-8
+      " ( third  ) " あいうえお ( multi-byte characters )
+
+  " 02: runtimepath and syntax on {{{2
+
+      " ( first  ) set runtimepath+= ...  // set all runtimepath paht
+      " ( second ) syntax on
+
+  " 03: scope {{{2
+
+      " Make the scope as narrow as possible
+
+  " :h internal-variable {{{3
+
+      " buffer-variable    b:   現在のバッファにローカル
+      " window-variable    w:   現在のウィンドウにローカル
+      " tabpage-variable   t:   現在のタブページにローカル
+      " global-variable    g:   グローバル
+      " local-variable     l:   関数にローカル
+      " script-variable    s:   :source されたVim scriptにローカル
+      " function-argument  a:   関数の引数(関数内のみ)
+      " vim-variable       v:   グローバル、Vimがあらかじめ定義
+
+  " :h local-function {{{3
+
+      " スクリプトローカルな関数の名前は "s:" で始めなければならない。スクリプトローカ
+      " ルな関数は、そのスクリプトの中の関数から、またはそのスクリプト内で定義された
+      " ユーザー定義コマンド、オートコマンドからしか呼ぶことができない。そのスクリプト
+      " 内で定義されたマッピングにより呼ぶこともできるが、スクリプトの外部でマッピング
+      " が展開された場合は "s:" の代わりに <SID> をつけなければならない。
+      " ローカル関数はスクリプトローカル関数だけである。バッファローカル関数やウィンド
+      " ウローカル関数というものはない。
+
+  " autocmd group {{{3
+
+      " augroup foo
+      "   autocmd!  //「全ての」foo の自動コマンドを削除する
+      " augroup END
+
+      " // autocmd under foo namespace
+      " autocmd foo FileType cpp setlocal expandtab
+
+  " }}}2 scope
+  " 04: map and noremap {{{2
+
+      " map はキーシーケンスを展開したあと、さらに別のマップを適用しようとします。
+      " noremap は一度だけ展開します。
+      " map は予期せぬ再展開が発生する可能性があるので、多くの場合は noremap を使うことになるでしょう。
+
+      " nnoremap <leader>c :<C-u>copen<CR>
+
+
+  " use build-in functions instead of `for-loop`, `while-loop`
+  " :h function-list
+
+  " Use 'add' command to add item to List ( not try to join last line whit '\' --> slow )
+  " call add( fooList , 'foo')
+  " call add( fooList , 'bar')
+
+  " Space interspersed when concatenating character strings
+  " e.g. let s:foo = 'bar' . 'baz'
+
+  " Avoid ignorecase ( use match case, e.g. ==# )
+  " :h expr4
+
+  " Avoid wildignore ( set second parameter non zero 0 )
+  " glob( path, 1), globpath( path, 1 ) and expand( path, 1 )
+
+" }}}1 vimrc/vimscript tips
+" prepare {{{1
 
   if &compatible
     set nocompatible
@@ -11,7 +89,7 @@
   set fileencoding=utf-8
   set fileencodings=ucs-boms,utf-8,euc-jp,cp932
   set fileformats=unix,dos,mac
-  if !has('gui_running') && &encoding != 'utf-8'
+  if !has('gui_running') && &encoding !=# 'utf-8'
     set termencoding=utf-8
   endif
 
@@ -26,20 +104,18 @@
   " Use English interface.
   language message C
 
-" }}}
-" prepare for gvim {{{
+" prepare for gvim {{{1
 
   " Disable menu.vim
   if has('gui_running')
     set guioptions=Mc
   endif
 
-" }}}
-" plugins {{{
+" plugins {{{1
 
   autocmd callmekohei-vimrc CursorHold *.toml syntax sync minlines=300
 
-  let s:dein_dir = expand('~/.cache/dein')
+  let s:dein_dir = expand('~/.cache/dein',1)
   let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
   if &runtimepath !~# '/dein.vim'
@@ -51,7 +127,7 @@
 
   if dein#load_state(s:dein_dir)
     call dein#begin(s:dein_dir)
-    let s:toml_dir = expand('~/.config/nvim')
+    let s:toml_dir = expand('~/.config/nvim',1)
     call dein#load_toml(s:toml_dir . '/dein.toml'    , {'lazy': 0})
     call dein#load_toml(s:toml_dir . '/deinlazy.toml', {'lazy': 1})
     if !has('nvim')
@@ -71,8 +147,7 @@
   syntax on
   filetype plugin indent on
 
-" }}}
-" options {{{
+" options {{{1
 
   " Japanese help
   set helplang=ja,en
@@ -115,7 +190,7 @@
   set nomousehide   " 入力時にマウスポインタを隠す (nomousehide:隠さない)
 
   " clipboard
-  if (!has('nvim') || $DISPLAY != '') && has('clipboard')
+  if (!has('nvim') || $DISPLAY !=# '') && has('clipboard')
     if has('unnamedplus')
       set clipboard& clipboard+=unnamedplus
     else
@@ -140,8 +215,7 @@
   set noswapfile
   set backupdir-=.
 
-" }}}
-" key mappings {{{
+" key mappings {{{1
 
   " Avoid key mistakes
   nnoremap qqq: <Esc>q:
@@ -195,8 +269,8 @@
 
   " max window size ( https://qiita.com/grohiro/items/e3dbcc93510bc8c4c812 )
   let g:toggle_window_size = 0
-  function! ToggleWindowSize()
-    if g:toggle_window_size == 1
+  function! s:ToggleWindowSize()
+    if g:toggle_window_size ==# 1
       exec "normal \<C-w>="
       let g:toggle_window_size = 0
     else
@@ -205,7 +279,7 @@
       let g:toggle_window_size = 1
     endif
   endfunction
-  nnoremap M :call ToggleWindowSize()<CR>
+  nnoremap M :<C-u>call <SID>ToggleWindowSize()<CR>
 
   " vimrc
   nnoremap <leader>v :edit $MYVIMRC<CR>
@@ -215,22 +289,68 @@
   nnoremap <leader>. :MemoList<CR>
   nnoremap <leader>/ :MemoGrep<CR>
 
-" }}}
-" filetypes {{{
-" Text {{{
+" filetypes {{{1
+" General {{{2
+
+  " Remove space at end of line ( exception: markdown, text )
+  autocmd callmekohei-vimrc BufWritePre * if index(['markdown','text'], &ft)==-1 | :%s/\s\+$//e | endif
+
+" memo {{{2
+
+  autocmd callmekohei-vimrc BufNewFile,BufRead *.memo call s:vimrc_memo()
+  function! s:vimrc_memo() abort
+    setlocal filetype=memo
+    setlocal foldmethod=marker
+    setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    setlocal ambiwidth=double
+    setlocal wrap
+    setlocal display=lastline
+  endfunction
+
+  let s:lst = ['fsharp','vim','sh','python']
+  autocmd callmekohei-vimrc FileType memo
+    \ call map( s:lst, { i,v ->
+      \ call( 's:textEnableCodeSnip', [v:val,'```'.v:val,'```','SpecialComment'] )
+      \ })
+
+  " http://vim.wikia.com/wiki/Different_syntax_highlighting_within_regions_of_a_file
+  function! s:textEnableCodeSnip(filetype,start,end,textSnipHl) abort "{{{3
+    let ft=toupper(a:filetype)
+    let group='textGroup'.ft
+    if exists('b:current_syntax')
+      let s:current_syntax=b:current_syntax
+      " Remove current syntax definition, as some syntax files (e.g. cpp.vim)
+      " do nothing if b:current_syntax is defined.
+      unlet b:current_syntax
+    endif
+    execute 'syntax include @'.group.' syntax/'.a:filetype.'.vim'
+    try
+      execute 'syntax include @'.group.' after/syntax/'.a:filetype.'.vim'
+    catch
+    endtry
+    if exists('s:current_syntax')
+      let b:current_syntax=s:current_syntax
+    else
+      unlet b:current_syntax
+    endif
+    execute 'syntax region textSnip'.ft.'
+    \ matchgroup='.a:textSnipHl.'
+    \ start="'.a:start.'" end="'.a:end.'"
+    \ contains=@'.group
+  endfunction
+  "}}}3
+
+" }}}2
+" Text {{{2
 
   autocmd callmekohei-vimrc FileType text setlocal ambiwidth=double wrap display=lastline
-  autocmd callmekohei-vimrc BufWritePre *txt,*text :%s/\s\+$//e
 
-" }}}
-" Markdown {{{
+" Markdown {{{2
 
   autocmd callmekohei-vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
   autocmd callmekohei-vimrc FileType markdown setlocal ambiwidth=double wrap display=lastline
-  autocmd callmekohei-vimrc BufWritePre *.{md,mdwn,mkd,mkdn,mark*} :%s/\s\+$//e
 
-" }}}
-" help {{{
+" help {{{2
 
   autocmd callmekohei-vimrc FileType help set foldmethod=indent
 
@@ -242,8 +362,7 @@
   " なんかものすごく遅い・・・
   " autocmd callmekohei-vimrc FileType help nnoremap <silent><buffer>q :quit<CR>
 
-" }}}
-" fsharp {{{
+" fsharp {{{2
 
   " https://github.com/fsharp/vim-fsharp/pull/103
   if !has('nvim') && !has('gui_running')
@@ -313,8 +432,7 @@
     autocmd callmekohei-vimrc BufWritePost *.fsx call quickrun#run( g:quickrun_config.fsharpCheck )
   endif
 
-" }}}
-" dependencies {{{
+" dependencies {{{2
 
   autocmd callmekohei-vimrc BufNewFile,BufRead *.dependencies call s:vimrc_dependencies()
   function! s:vimrc_dependencies() abort
@@ -322,19 +440,17 @@
     setlocal dictionary+=~/.vim/dictionary/dic_dependencies
   endfunction
 
-" }}}
-" Toml {{{
+" Toml {{{2
 
   autocmd callmekohei-vimrc FileType toml setlocal tabstop=2 softtabstop=2 shiftwidth=2
 
-" }}}
-" Vim script {{{
+" Vim script {{{2
 
+  let g:vim_indent_cont = 2
   autocmd callmekohei-vimrc BufNewFile,BufRead vimrc,gvimrc setfiletype vim
   autocmd callmekohei-vimrc FileType vim setlocal tabstop=2 softtabstop=2 shiftwidth=2
 
-" }}}
-" QuickFix {{{
+" QuickFix {{{2
 
   " https://gist.github.com/juanpabloaj/5845848#file-adjustwindowheight-vim
   autocmd callmekohei-vimrc FileType qf call AdjustWindowHeight(3, 10)
@@ -352,8 +468,7 @@
     exe max([min([n_lines, a:maxheight]), a:minheight]) . "wincmd _"
   endfunction
 
-" }}}
-" Bash script {{{
+" Bash script {{{2
 
   autocmd callmekohei-vimrc FileType sh call s:vimrc_bash()
   function! s:vimrc_bash() abort
@@ -376,16 +491,14 @@
   \}
   autocmd callmekohei-vimrc BufWinEnter,BufWritePost *.bash call quickrun#run( g:quickrun_config.bashCheck )
 
-" }}}
-" Python {{{
+" Python {{{2
 
   let g:quickrun_config.python = {}
   let g:quickrun_config.python = { 'command': 'python3' }
   autocmd callmekohei-vimrc BufRead,BufNewFile *.pdbrc setfiletype python
 
-" }}}
-" }}}
-" nvim {{{
+" }}}1 filetypes
+" nvim {{{1
 
   if has('nvim')
     let g:python_host_prog  = '/usr/local/bin/python2'
@@ -399,8 +512,7 @@
     set runtimepath+=$HOME/.vim
   endif
 
-" }}}
-" mac {{{
+" mac {{{1
 
   " Macではデフォルトの'iskeyword'がcp932に対応しきれていないので修正
   " https://github.com/koron/vim-kaoriya/blob/master/kaoriya/vim/vimrc#L221
@@ -418,8 +530,7 @@
   "   noremap <silent> <ESC> <ESC>:call system(s:imeoff)<CR>
   " endif
 
-" }}}
-" local {{{
+" local {{{1
 
   " message window -> right buffer ( https://qiita.com/sgur/items/9e243f13caa4ff294fa8 )
   command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
@@ -427,22 +538,22 @@
   command! -nargs=0 Maps2 QuickRun -type vim -src map
 
   " line ( Vimテクニックバイブル )
-  inoreabbrev <expr> --- repeat('-', 60 - col('.'))
+  inoreabbrev <expr> ---- repeat('-', 60 - col('.'))
 
   " do center selected strings
   command! -range=% Center2 call s:center2(<line1>,<line2>)
   function! s:center2(fst,lst) abort
     let l:maxcol = max(map(getline(a:fst,a:lst),'strlen(v:val)'))
-    execute (a:fst).",".(a:lst)."center".l:maxcol
+    execute (a:fst) "," (a:lst) "center" l:maxcol
   endfunction
 
   " cleare selected empty lines
   command! -range=% ClearEmptyLines call s:clearEmptyLines(<line1>,<line2>)
   function! s:clearEmptyLines(fst,lst) abort
-    execute (a:fst).",".(a:lst).'vglobal/\S/d'
+    execute (a:fst) "," (a:lst) 'vglobal/\S/d'
   endfunction
 
-  command! SelfFileDelete call delete(expand('%'))
+  command! SelfFileDelete call delete(expand('%',1))
 
   command! Space2from4 call s:space4_to_space2()
   function! s:space4_to_space2() abort
@@ -470,8 +581,15 @@
   \ },
   \ })
 
-" }}}
+
+
+
+
+
+" Fin.  "{{{1
+  set secure " must be written at the last. see :help 'secure'.
 " __END__  "{{{1
-" vim: expandtab softtabstop=2 shiftwidth=2
-" vim: foldmethod=marker
-" vim: foldcolumn=3
+
+  " vim: expandtab softtabstop=2 shiftwidth=2
+  " vim: foldmethod=marker
+  " vim: foldcolumn=5
