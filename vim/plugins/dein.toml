@@ -149,10 +149,6 @@ hook_add = '''
     highlight UnicodeSpaces ctermbg=131   guibg=#af5f5f
   endfunction
 
-  autocmd callmekohei-vimrc BufNewFile,BufRead * call matchadd( 'UnicodeSpaces', '\%u180E\|\%u2000\|\%u2001\|\%u2002\|\%u2003\|\%u2004\|\%u2005\|\%u2006\|\%u2007\|\%u2008\|\%u2009\|\%u200A\|\%u2028\|\%u2029\|\%u202F\|\%u205F\|\%u3000' )
-  autocmd callmekohei-vimrc BufNewFile,BufRead *.vim call matchadd( 'OptionKeyword', '\s&\zs\w*\ze\s')
-  autocmd callmekohei-vimrc BufNewFile,BufRead *.vim call matchadd( 'OptionKeyword', '\s&\(g:\|l:\)\zs\w*\ze\s')
-
   autocmd callmekohei-vimrc ColorScheme * call s:myHighlights()
 '''
 
