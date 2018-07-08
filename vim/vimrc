@@ -71,7 +71,7 @@ let s:OFF = 0
   " Use English interface.
   language message C
 
-" }}}1
+" }}}1 -------------------------------------------------
 " prepare for gvim {{{1
 
   " Disable menu.vim
@@ -79,6 +79,7 @@ let s:OFF = 0
     let &guioptions = 'Mc'
   endif
 
+" }}}1 -------------------------------------------------
 " plugins {{{1
 
   autocmd callmekohei-vimrc CursorHold *.toml syntax sync minlines=300
@@ -115,6 +116,7 @@ let s:OFF = 0
   syntax on
   filetype plugin indent on
 
+" }}}1 -------------------------------------------------
 " options {{{1
 
   " Japanese help
@@ -187,6 +189,7 @@ let s:OFF = 0
   let &swapfile    = s:OFF
   set backupdir-=.
 
+" }}}1 -------------------------------------------------
 " key mappings {{{1
 
   " Avoid key mistakes
@@ -261,6 +264,7 @@ let s:OFF = 0
   nnoremap <leader>. :MemoList<CR>
   nnoremap <leader>/ :MemoGrep<CR>
 
+" }}}1 -------------------------------------------------
 " filetypes {{{1
 " General {{{2
 
@@ -280,12 +284,31 @@ let s:OFF = 0
 
   endfunction
 
-" }}}2
+" }}}2 -------------------------------------------------
+" Vim script {{{2
+
+  autocmd callmekohei-vimrc BufNewFile,BufRead vimrc,gvimrc setfiletype vim
+  autocmd callmekohei-vimrc FileType vim call s:vimrc_vim()
+  function! s:vimrc_vim() abort
+
+    let g:vim_indent_cont = 2
+    let &l:tabstop        = 2
+    let &l:softtabstop    = 2
+    let &l:shiftwidth     = 2
+
+    " Add syntax of let-option
+    call matchadd( 'OptionKeyword', '\s&\zs\w*\ze$' )
+    call matchadd( 'OptionKeyword', '\s&\zs\w*\ze\s')
+    call matchadd( 'OptionKeyword', '\s&\(g:\|l:\)\zs\w*\ze\s')
+
+  endfunction
+
+" }}}2 -------------------------------------------------
 " quickrun {{{2
 
   autocmd callmekohei-vimrc FileType quickrun let &l:wrap = s:ON
 
-" }}}2
+" }}}2 -------------------------------------------------
 " memo {{{2
 
   autocmd callmekohei-vimrc BufNewFile,BufRead *.memo call s:vimrc_memo()
@@ -334,21 +357,24 @@ let s:OFF = 0
   endfunction
   "}}}3
 
-" }}}2
+" }}}2 -------------------------------------------------
 " Text {{{2
 
   " conflict ambiwidth=double and let &fillchars = vert:│,fold:
   " autocmd callmekohei-vimrc FileType text setlocal ambiwidth=double wrap display=lastline
 
+" }}}2 -------------------------------------------------
 " Markdown {{{2
 
   autocmd callmekohei-vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
   autocmd callmekohei-vimrc FileType markdown setlocal ambiwidth=double wrap display=lastline
 
+" }}}2 -------------------------------------------------
 " help {{{2
 
   autocmd callmekohei-vimrc FileType help let &l:foldmethod = 'indent'
 
+" }}}2 -------------------------------------------------
 " fsharp {{{2
 
   " https://github.com/fsharp/vim-fsharp/pull/103
@@ -423,6 +449,7 @@ let s:OFF = 0
     autocmd callmekohei-vimrc BufWritePost *.fsx call quickrun#run( g:quickrun_config.fsharpCheck )
   endif
 
+" }}}2 -------------------------------------------------
 " dependencies {{{2
 
   autocmd callmekohei-vimrc BufNewFile,BufRead *.dependencies call s:vimrc_dependencies()
@@ -431,28 +458,12 @@ let s:OFF = 0
     let &l:dictionary = join( [ &l:dictionary, expand('~/.vim/dictionary/dic_dependencies', 1) ] , ',' )
   endfunction
 
+" }}}2 -------------------------------------------------
 " Toml {{{2
 
   autocmd callmekohei-vimrc FileType toml setlocal tabstop=2 softtabstop=2 shiftwidth=2
 
-" Vim script {{{2
-
-  autocmd callmekohei-vimrc BufNewFile,BufRead vimrc,gvimrc setfiletype vim
-  autocmd callmekohei-vimrc FileType vim call s:vimrc_vim()
-  function! s:vimrc_vim() abort
-
-    let g:vim_indent_cont = 2
-    let &l:tabstop        = 2
-    let &l:softtabstop    = 2
-    let &l:shiftwidth     = 2
-
-    " Add syntax of let-option
-    call matchadd( 'OptionKeyword', '\s&\zs\w*\ze$' )
-    call matchadd( 'OptionKeyword', '\s&\zs\w*\ze\s')
-    call matchadd( 'OptionKeyword', '\s&\(g:\|l:\)\zs\w*\ze\s')
-
-  endfunction
-
+" }}}2 -------------------------------------------------
 " QuickFix {{{2
 
   " https://gist.github.com/juanpabloaj/5845848#file-adjustwindowheight-vim
@@ -471,6 +482,7 @@ let s:OFF = 0
     exe max([min([n_lines, a:maxheight]), a:minheight]) . "wincmd _"
   endfunction
 
+" }}}2 -------------------------------------------------
 " Bash script {{{2
 
   autocmd callmekohei-vimrc FileType sh call s:vimrc_bash()
@@ -498,6 +510,7 @@ let s:OFF = 0
 
   endfunction
 
+" }}}2 -------------------------------------------------
 " Python {{{2
 
   autocmd callmekohei-vimrc BufRead,BufNewFile *.pdbrc setfiletype python
@@ -506,8 +519,8 @@ let s:OFF = 0
     let g:quickrun_config.python = {}
     let g:quickrun_config.python = { 'command': 'python3' }
   endfunction
-
-" }}}1 filetypes
+" }}}2 -------------------------------------------------
+" }}}1 -------------------------------------------------
 " nvim {{{1
 
   if has('nvim')
@@ -522,6 +535,7 @@ let s:OFF = 0
     let &g:runtimepath = join( [ &g:runtimepath , expand(',~/.vim',1) ] , ',' )
   endif
 
+" }}}1 -------------------------------------------------
 " mac {{{1
 
   " Macではデフォルトの'iskeyword'がcp932に対応しきれていないので修正
@@ -540,6 +554,7 @@ let s:OFF = 0
   "   noremap <silent> <ESC> <ESC>:call system(s:imeoff)<CR>
   " endif
 
+" }}}1 -------------------------------------------------
 " util {{{1
 
   " message window -> right buffer ( https://qiita.com/sgur/items/9e243f13caa4ff294fa8 )
@@ -599,9 +614,11 @@ let s:OFF = 0
   \ },
   \ })
 
+" }}}1 -------------------------------------------------
 " Fin.  "{{{1
   " must be written at the last. see :help 'secure'.
   let &g:secure = s:ON
+" }}}1 -------------------------------------------------
 " __END__  "{{{1
   " vim: expandtab softtabstop=2 shiftwidth=2
   " vim: foldmethod=marker
