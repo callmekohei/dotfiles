@@ -12,7 +12,7 @@ syntax region blockComment start="(\*" end="\*)"
 syntax region blockComment2 start="```" end="```"
 highlight link lineComment Comment
 highlight link blockComment Comment
-highlight link blockComments String
+highlight link blockComment2 String
 
 " todo
 syntax keyword todo TODO FIXME XXX NOTE

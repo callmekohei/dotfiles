@@ -1,96 +1,63 @@
 " callmekohei's vimrc
 
-" vimrc/vimscript tips {{{1
-  " 00: web info {{{2
+" option boolean
+let s:ON  = 1
+let s:OFF = 0
 
-      " https://thinca.hatenablog.com/entry/20100205/1265307642
-      " http://rbtnn.hateblo.jp/entry/2014/11/30/174749
-
-  " 01: encoding and scriptencoding {{{2
-
-      " ( first  ) set encoding=utf-8
-      " ( second ) scriptencoding utf-8
-      " ( third  ) " あいうえお ( multi-byte characters )
-
-  " 02: runtimepath and syntax on {{{2
-
-      " ( first  ) set runtimepath+= ...  // set all runtimepath paht
-      " ( second ) syntax on
-
-  " 03: scope {{{2
-
-      " Make the scope as narrow as possible
-
-  " :h internal-variable {{{3
-
-      " buffer-variable    b:   現在のバッファにローカル
-      " window-variable    w:   現在のウィンドウにローカル
-      " tabpage-variable   t:   現在のタブページにローカル
-      " global-variable    g:   グローバル
-      " local-variable     l:   関数にローカル
-      " script-variable    s:   :source されたVim scriptにローカル
-      " function-argument  a:   関数の引数(関数内のみ)
-      " vim-variable       v:   グローバル、Vimがあらかじめ定義
-
-  " :h local-function {{{3
-
-      " スクリプトローカルな関数の名前は "s:" で始めなければならない。スクリプトローカ
-      " ルな関数は、そのスクリプトの中の関数から、またはそのスクリプト内で定義された
-      " ユーザー定義コマンド、オートコマンドからしか呼ぶことができない。そのスクリプト
-      " 内で定義されたマッピングにより呼ぶこともできるが、スクリプトの外部でマッピング
-      " が展開された場合は "s:" の代わりに <SID> をつけなければならない。
-      " ローカル関数はスクリプトローカル関数だけである。バッファローカル関数やウィンド
-      " ウローカル関数というものはない。
-
-  " autocmd group {{{3
-
-      " augroup foo
-      "   autocmd!  //「全ての」foo の自動コマンドを削除する
-      " augroup END
-
-      " // autocmd under foo namespace
-      " autocmd foo FileType cpp setlocal expandtab
-
-  " }}}2 scope
-  " 04: map and noremap {{{2
-
-      " map はキーシーケンスを展開したあと、さらに別のマップを適用しようとします。
-      " noremap は一度だけ展開します。
-      " map は予期せぬ再展開が発生する可能性があるので、多くの場合は noremap を使うことになるでしょう。
-
-      " nnoremap <leader>c :<C-u>copen<CR>
-
-
-  " use build-in functions instead of `for-loop`, `while-loop`
-  " :h function-list
-
-  " Use 'add' command to add item to List ( not try to join last line whit '\' --> slow )
-  " call add( fooList , 'foo')
-  " call add( fooList , 'bar')
-
-  " Space interspersed when concatenating character strings
-  " e.g. let s:foo = 'bar' . 'baz'
-
-  " Avoid ignorecase ( use match case, e.g. ==# )
-  " :h expr4
-
-  " Avoid wildignore ( set second parameter non zero 0 )
-  " glob( path, 1), globpath( path, 1 ) and expand( path, 1 )
-
-" }}}1 vimrc/vimscript tips
 " prepare {{{1
 
   if &compatible
-    set nocompatible
+    let &compatible = s:OFF
   endif
 
+  " neovim options {{{2
+  if !has('nvim')
+
+    " :h nvim-defaults
+
+    let &autoindent     = s:ON
+    let &autoread       = s:ON
+    let &backspace      = 'indent,eol,start'
+    let &backupdir      = '.' . ',' . expand('~/.local/share/nvim/backup',1)
+    let &belloff        = 'all'
+    let &complete       = '.,w,b,u,t'
+    let &cscopeverbose  = s:ON
+    let &directory      = expand('~/.local/share/nvim/swap//',1)
+    let &display        = 'lastline,msgsep'
+    let &encoding       = 'utf-8'
+    let &fillchars      = "vert:│,fold:·"
+    let &fsync          = s:OFF
+    let &formatoptions  = 'jcroql'
+    let &history        = 10000
+    let &hlsearch       = s:ON
+    let &incsearch      = s:ON
+    let &langnoremap    = s:ON
+    let &langremap      = s:OFF
+    let &laststatus     = 2
+    let &listchars      = 'tab:> ,trail:-,nbsp:+'
+    let &nrformats      = 'bin,hex'
+    let &ruler          = s:ON
+    let &sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize'
+    let &showcmd        = s:ON
+    let &sidescroll     = s:ON
+    let &smarttab       = s:ON
+    let &tabpagemax     = 50
+    let &tags           = './tags;,tags'
+    let &ttyfast        = s:ON
+    let &undodir        = expand('~/.local/share/nvim/undo',1)
+    let &viminfo        = "!,'100,<50,s10,h"
+    let &wildmenu       = s:ON
+
+  endif
+  " }}}2
+
   " encoding
-  set encoding=utf-8
-  set fileencoding=utf-8
-  set fileencodings=ucs-boms,utf-8,euc-jp,cp932
-  set fileformats=unix,dos,mac
+  let &encoding      = 'utf-8'
+  let &fileencoding  = 'utf-8'
+  let &fileencodings = 'ucs-boms,utf-8,euc-jp,cp932'
+  let &fileformats   = 'unix,dos,mac'
   if !has('gui_running') && &encoding !=# 'utf-8'
-    set termencoding=utf-8
+    let &termencoding = 'utf-8'
   endif
 
   " vimrc's scriptencoding
@@ -104,11 +71,12 @@
   " Use English interface.
   language message C
 
+" }}}1
 " prepare for gvim {{{1
 
   " Disable menu.vim
   if has('gui_running')
-    set guioptions=Mc
+    let &guioptions = 'Mc'
   endif
 
 " plugins {{{1
@@ -150,69 +118,73 @@
 " options {{{1
 
   " Japanese help
-  set helplang=ja,en
+  let &helplang = 'ja,en'
 
   " Color scheme（ set on gvimrc in MacVim )
-  set background=dark
+  let &background = 'dark'
   colorscheme Apprentice
 
   " Search
-  set ignorecase
-  set smartcase
-  set incsearch
-  set hlsearch
-  set wrapscan
+  let &ignorecase = s:ON
+  let &smartcase  = s:ON
+  let &incsearch  = s:ON
+  let &hlsearch   = s:ON
+  let &wrapscan   = s:ON
 
   " Edit
-  set tabstop=4 softtabstop=4 shiftwidth=4
-  set expandtab smarttab
-  set autoindent "smartindent
-  set backspace=indent,eol,start
-  set noshowmatch
-  set wildmenu
-  set formatoptions+=mM " テキスト挿入中の自動折り返しを日本語に対応させる
-  set virtualedit=block " 行末以降の同じ列にテキストを入力できるようにする
+  let &tabstop         = 4
+  let &softtabstop     = 4
+  let &shiftwidth      = 4
+  let &expandtab       = s:ON
+  let &smarttab        = s:ON
+  let &autoindent      = s:ON
+  let &smartindent     = s:OFF
+  let &backspace       = 'indent,eol,start'
+  let &showmatch       = s:OFF
+  let &wildmenu        = s:ON
+  let &formatoptions   = &formatoptions . 'mM' " テキスト挿入中の自動折り返しを日本語に対応させる
+  let &virtualedit     = 'block'
 
   " View
-  set number                                                 " 行番号を非表示 (number:表示)
-  set noruler                                                " ルーラーを表示 (noruler:非表示)
-  set list                                                   " タブや改行を非表示 (list:表示)
-  set listchars=tab:▸\ ,trail:-,extends:»,precedes:«,nbsp:%  " どの文字でタブや改行を表示するかを設定
-  set nowrap                                                 " 長い行を折り返して表示 (nowrap:折り返さない)
-  set laststatus=2                                           " 常にステータス行を表示 (詳細は:he laststatus)
-  set cmdheight=2                                            " コマンドラインの高さ (Windows用gvim使用時はgvimrcを編集すること)
-  set noshowcmd                                              " コマンドをステータス行に表示（noshowcmd；非表示）
-  set title                                                  " タイトルを表示
+  let &number     = s:ON                                         " 行番号を非表示 (number:表示)
+  let &ruler      = s:OFF                                        " ルーラーを表示 (noruler:非表示)
+  let &list       = s:ON                                         " タブや改行を非表示 (list:表
+  let &listchars  = 'tab:> ,trail:-,nbsp:+,extends:»,precedes:«,'  " どの文字でタブや改行を表示するかを設定
+  let &wrap       = s:OFF                                        " 長い行を折り返して表示 (nowrap:折り返さない)
+  let &laststatus = 2                                              " 常にステータス行を表示 (詳細は:he laststatus)
+  let &cmdheight  = 2                                              " コマンドラインの高さ (Windows用gvim使用時はgvimrcを編集すること)
+  let &showcmd    = s:OFF                                        " コマンドをステータス行に表示（noshowcmd；非表示）
+  let &title      = s:ON                                         " タイトルを表示
 
   " mouse
-  set mouse=a       " どのモードでもマウスを使えるようにする
-  set nomousefocus  " マウスの移動でフォーカスを自動的に切替えない (mousefocus:切替る)
-  set nomousehide   " 入力時にマウスポインタを隠す (nomousehide:隠さない)
+  let &mouse      = 'a'       " どのモードでもマウスを使えるようにする
+  let &mousefocus = s:OFF   " マウスの移動でフォーカスを自動的に切替えない (mousefocus:切替る)
+  let &mousehide  = s:OFF   " 入力時にマウスポインタを隠す (nomousehide:隠さない)
 
   " clipboard
   if (!has('nvim') || $DISPLAY !=# '') && has('clipboard')
     if has('unnamedplus')
-      set clipboard& clipboard+=unnamedplus
+      let &clipboard = 'unnamedplus'
     else
-      set clipboard& clipboard+=unnamed
+      let &clipboard = 'unnamed'
     endif
   endif
 
   " others
-  set lazyredraw  " stop rendering duraing command executing
-  set hidden      " Display another buffer when current buffer isn't saved.
-  set splitright  " Splitting a window will put the new window right the current one.
-  set ttyfast     " fast mouse scroll
+  let &lazyredraw = s:ON " stop rendering duraing command executing
+  let &hidden     = s:ON " Display another buffer when current buffer isn't saved.
+  let &splitright = s:ON " Splitting a window will put the new window right the current one.
+  let &ttyfast    = s:ON " fast mouse scroll
 
   " Disable bell.
-  set t_vb=
-  set novisualbell
-  set belloff=all
+  let &t_vb       = ''
+  let &visualbell = s:OFF
+  let &belloff    = 'all'
 
   " Don't create backup.
-  set nowritebackup
-  set nobackup
-  set noswapfile
+  let &writebackup = s:OFF
+  let &backup      = s:OFF
+  let &swapfile    = s:OFF
   set backupdir-=.
 
 " key mappings {{{1
@@ -292,19 +264,36 @@
 " filetypes {{{1
 " General {{{2
 
-  " Remove space at end of line ( exception: markdown, text )
-  autocmd callmekohei-vimrc BufWritePre * if index(['markdown','text'], &ft)==-1 | :%s/\s\+$//e | endif
+  autocmd callmekohei-vimrc BufWritePre * call s:deleteTailSpace()
+  function! s:deleteTailSpace() abort
 
+    " Replace unicode spaces to normal space
+    silent! execute( ':%s/\%u00A0\|\%u180E\|\%u2000\|\%u2001\|\%u2002\|\%u2003\|\%u2004\|\%u2005\|\%u2006\|\%u2007\|\%u2008\|\%u2009\|\%u200A\|\%u2028\|\%u2029\|\%u202F\|\%u205F\|\%u3000/ /ge' )
+
+    " Trim trailing spaces
+    if index(['markdown','text'], &ft)==-1
+      silent! execute( '%s/\s\+$//e' )
+    endif
+  endfunction
+
+" }}}2
+" quickrun {{{2
+
+  autocmd callmekohei-vimrc FileType quickrun setlocal wrap
+
+" }}}2
 " memo {{{2
 
   autocmd callmekohei-vimrc BufNewFile,BufRead *.memo call s:vimrc_memo()
   function! s:vimrc_memo() abort
-    setlocal filetype=memo
-    setlocal foldmethod=marker
-    setlocal tabstop=2 softtabstop=2 shiftwidth=2
-    setlocal ambiwidth=double
-    setlocal wrap
-    setlocal display=lastline
+    let &l:filetype    = 'memo'
+    let &l:foldmethod  = 'marker'
+    let &l:tabstop     = 2
+    let &l:softtabstop = 2
+    let &l:shiftwidth  = 2
+    let &l:ambiwidth   = 'double'
+    let &l:wrap        = s:ON
+    let &l:display     = 'lastline'
   endfunction
 
   let s:lst = ['fsharp','vim','sh','python']
@@ -343,7 +332,7 @@
 " }}}2
 " Text {{{2
 
-  autocmd callmekohei-vimrc FileType text setlocal ambiwidth=double wrap display=lastline
+  " autocmd callmekohei-vimrc FileType text setlocal ambiwidth=double wrap display=lastline
 
 " Markdown {{{2
 
@@ -352,7 +341,7 @@
 
 " help {{{2
 
-  autocmd callmekohei-vimrc FileType help set foldmethod=indent
+  autocmd callmekohei-vimrc FileType help setlocal foldmethod=indent
 
   " help window -> right buffer
   " ふむ〜 あまり使い心地がよくない・・
@@ -373,12 +362,12 @@
 
   " TODO: needs to ajust fold settings
   function! s:vimrc_fsharp() abort
-    let &errorformat = '%f(%l\,%c):\ %m,%-G %.%#,%-G,%-G%[%^/]%.%#'
-    setlocal previewheight=5
-    setlocal nosplitbelow
-    setlocal foldmethod=indent
-    setlocal foldlevel=1
-    setlocal foldminlines=3
+    let &l:errorformat   = '%f(%l\,%c):\ %m,%-G %.%#,%-G,%-G%[%^/]%.%#'
+    let &l:previewheight = 5
+    let &l:splitbelow    = s:OFF
+    let &l:foldmethod    = 'indent'
+    let &l:foldlevel     = 1
+    let &l:foldminlines  = 3
   endfunction
 
   autocmd callmekohei-vimrc FileType fsharp call s:vimrc_fsharp()
@@ -436,8 +425,8 @@
 
   autocmd callmekohei-vimrc BufNewFile,BufRead *.dependencies call s:vimrc_dependencies()
   function! s:vimrc_dependencies() abort
-    setlocal filetype=dependencies
-    setlocal dictionary+=~/.vim/dictionary/dic_dependencies
+    let &l:filetype = 'dependencies'
+    let &l:dictionary = &l:dictionary . expand('~/.vim/dictionary/dic_dependencies', 1)
   endfunction
 
 " Toml {{{2
@@ -453,8 +442,8 @@
 " QuickFix {{{2
 
   " https://gist.github.com/juanpabloaj/5845848#file-adjustwindowheight-vim
-  autocmd callmekohei-vimrc FileType qf call AdjustWindowHeight(3, 10)
-  function! AdjustWindowHeight(minheight, maxheight)
+  autocmd callmekohei-vimrc FileType qf call s:adjustWindowHeight(3, 10)
+  function! s:adjustWindowHeight(minheight, maxheight)
     let l = 1
     let n_lines = 0
     let w_width = winwidth(0)
@@ -474,7 +463,7 @@
   function! s:vimrc_bash() abort
     let g:is_bash = 1
     let g:sh_no_error = 1
-    let &errorformat = '%f:\ line\ %l:\ %m'
+    let &l:errorformat = '%f:\ line\ %l:\ %m'
   endfunction
 
   " quickrun settings
@@ -505,11 +494,11 @@
     let g:python3_host_prog = '/usr/local/bin/python3'
 
     if exists('&inccommand')
-      set inccommand=nosplit
+      let &g:inccommand = 'nosplit'
     endif
 
     " enable to local syntax highlight
-    set runtimepath+=$HOME/.vim
+    let &g:runtimepath = join( [ &g:runtimepath , expand(',~/.vim',1) ] , ',' )
   endif
 
 " mac {{{1
@@ -517,7 +506,7 @@
   " Macではデフォルトの'iskeyword'がcp932に対応しきれていないので修正
   " https://github.com/koron/vim-kaoriya/blob/master/kaoriya/vim/vimrc#L221
   if has('mac')
-    set iskeyword=@,48-57,_,128-167,224-235
+    let &iskeyword = '@,48-57,_,128-167,224-235'
   endif
 
   " TODO: needs more infomations!
@@ -557,17 +546,25 @@
 
   command! Space2from4 call s:space4_to_space2()
   function! s:space4_to_space2() abort
-    set ts=4 sts=4 noet
+    let &l:tabstop     = 4
+    let &l:softtabstop = 4
+    let &l:expandtab   = s:OFF
     retab!
-    set ts=2 sts=2 et
+    let &l:tabstop     = 2
+    let &l:softtabstop = 2
+    let &l:expandtab   = s:ON
     retab
   endfunction
 
   command! Space4from2 call s:space2_to_space4()
   function! s:space2_to_space4() abort
-    set ts=2 sts=2 noet
+    let &l:tabstop     = 2
+    let &l:softtabstop = 2
+    let &l:expandtab   = s:OFF
     retab!
-    set ts=4 sts=4 et
+    let &l:tabstop     = 4
+    let &l:softtabstop = 4
+    let &l:expandtab   = s:ON
     retab
   endfunction
 
@@ -580,11 +577,6 @@
   \ 'select-i': 'iP',
   \ },
   \ })
-
-
-
-
-
 
 " Fin.  "{{{1
   set secure " must be written at the last. see :help 'secure'.
