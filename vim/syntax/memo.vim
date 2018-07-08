@@ -17,7 +17,7 @@ syntax match endBraces   "\(}}}\d\|}}}\)"
 
 " folding headline ( "tailTitle: \zs do not work well :-(
 syntax match headTitle "^.*\ze\s*{{{.*"
-syntax match tailTitle "\%(\(}}}\d\|}}}\)\s*\)\@<=[a-zA-Z.]\+"
+syntax match tailTitle "\%(\(}}}\d\|}}}\)\s*\)\@<=\([a-zA-Z.]\|-.*\)\+"
 
 highlight link settings      Comment
 highlight link lineComment   Comment
