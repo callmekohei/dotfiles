@@ -331,7 +331,7 @@ let s:OFF = 0
 " quickrun {{{2
 
   autocmd callmekohei-vimrc FileType quickrun let &l:wrap = s:ON
-  autocmd FileType quickrun nnoremap <nowait><silent><buffer> q :quit<CR>
+  autocmd callmekohei-vimrc FileType quickrun nnoremap <nowait><silent><buffer> q :quit<CR>
 
 " }}}2 -------------------------------------------------
 " memo {{{2
@@ -352,7 +352,7 @@ let s:OFF = 0
   let s:lst = ['fsharp','vim','sh','python']
   autocmd callmekohei-vimrc FileType memo
     \ call map( s:lst, { i,v ->
-      \ call( 's:textEnableCodeSnip', [v:val,'```'.v:val,'```','SpecialComment'] )
+      \ call( 's:textEnableCodeSnip', [v, '```' . v , '```' , 'SpecialComment'] )
       \ })
 
   " http://vim.wikia.com/wiki/Different_syntax_highlighting_within_regions_of_a_file
