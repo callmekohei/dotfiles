@@ -1,36 +1,38 @@
 "   callmekohei's gvimrc
 
-scriptencoding utf-8
+" gui-prepare {{{1
 
-" Color {{{
+  scriptencoding utf-8
+
+" }}}1 -------------------------------------------------
+" gui-colorscheme {{{1
 
   if !exists('g:colors_name')
     colorscheme default
   endif
 
-" }}}
-" Font {{{
+" }}}1 -------------------------------------------------
+" gui-font {{{1
 
   let s:fontname = 'Droid Sans Mono for Powerline Nerd Font Complete'
-  let &guifont = s:fontname.":h14"
-  set linespace=3
+  let &guifont   = s:fontname.":h14"
+  let &linespace = 3
 
-" }}}
-" Window {{{
+" }}}1 -------------------------------------------------
+" gui-appearance {{{1
 
-  " toolbar etc ---> see vimrc/prepare for gvim
+  " (toolbar settings) see ---> $MYVIMRC:75
 
-  set columns=80 " width
-  set lines=30   " hight
-  set cmdheight=2
+  let &columns   = 80 " width
+  let &lines     = 30 " hight
+  let &cmdheight = 2
 
-" }}}
-" keymaps {{{
+  " Don't flick cursor.
+  set guicursor&
+  set guicursor+=a:blinkon0
 
-  " see also: h: map.txt >> map-overview map-modes
-  " noremap  ---> Normal, Visual, Select, Operator-pending
-  " lnoremap ---> Insert, Command-line, Lang-Arg
-  " tnoremap ---> Terminal-Job
+" }}}1 -------------------------------------------------
+" gui-keymaps {{{1
 
   noremap  ; :
   noremap  : ;
@@ -39,8 +41,12 @@ scriptencoding utf-8
   tnoremap ; :
   tnoremap : ;
 
-" }}}
+" }}}1 -------------------------------------------------
 " __END__  "{{{1
-" vim: expandtab softtabstop=2 shiftwidth=2
-" vim: foldmethod=marker
-" vim: foldcolumn=2
+
+  " must be written at the last. see :help 'secure'
+  let &g:secure = 1
+
+  " vim: expandtab softtabstop=2 shiftwidth=2
+  " vim: foldmethod=marker
+  " vim: foldcolumn=5
