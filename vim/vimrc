@@ -42,7 +42,7 @@ let s:OFF = 0
     let &sidescroll     = s:ON
     let &smarttab       = s:ON
     let &tabpagemax     = 50
-    let &tags           = './tags;,tags'
+    let &tags           = './tags,tags'
     let &ttyfast        = s:ON
     let &undodir        = expand('~/.local/share/nvim/undo',1)
     let &viminfo        = "!,'100,<50,s10,h"
@@ -117,14 +117,22 @@ let s:OFF = 0
   filetype plugin indent on
 
 " }}}1 -------------------------------------------------
-" options {{{1
+" colorscheme {{{1
 
-  " Japanese help
-  let &helplang = 'ja,en'
+  function! s:myHighlights() abort
+    highlight Comment       ctermfg=245   guifg=#8a8a8a
+    highlight FoldColumn    ctermfg=245   guifg=#8a8a8a
+    highlight Folded        ctermfg=245   guifg=#8a8a8a
+    highlight OptionKeyword ctermfg=103   guifg=#8787af
+    highlight UnicodeSpaces ctermbg=131   guibg=#af5f5f
+  endfunction
+  autocmd callmekohei-vimrc ColorScheme * call s:myHighlights()
 
-  " Color scheme
   let &background = 'dark'
   colorscheme Apprentice
+
+" }}}1 -------------------------------------------------
+" options {{{1
 
   " Search
   let &ignorecase = s:ON
@@ -192,6 +200,16 @@ let s:OFF = 0
 " }}}1 -------------------------------------------------
 " key mappings {{{1
 
+  let g:mapleader      = "\<Space>"
+  let g:maplocalleader = "\<Space>"
+
+  " open file wiht line number
+  nnoremap gf gF
+  vnoremap gf gF
+
+  nmap <leader><leader> gx
+  " URL ( 使わなかったら破棄 ）
+
   " Avoid key mistakes
   nnoremap qqq: <Esc>q:
   nnoremap qqq/ <Esc>q/
@@ -199,8 +217,6 @@ let s:OFF = 0
   nnoremap q/ <Nop>
   nnoremap q? <Nop>
 
-  let g:mapleader      = "\<Space>"
-  let g:maplocalleader = "\<Space>"
 
   " Folding ( http://d.hatena.ne.jp/leafcage/20111223/1324705686 )
   noremap <leader>j zj
@@ -285,6 +301,14 @@ let s:OFF = 0
   endfunction
 
 " }}}2 -------------------------------------------------
+" todo {{{2
+
+  autocmd callmekohei-vimrc FileType todo call s:vimrc_todo()
+  function! s:vimrc_todo() abort
+    let g:Todo_fold_char='+'
+  endfunction
+
+" }}} --------------------------------------------------
 " Vim script {{{2
 
   autocmd callmekohei-vimrc BufNewFile,BufRead vimrc,gvimrc setfiletype vim
@@ -307,6 +331,7 @@ let s:OFF = 0
 " quickrun {{{2
 
   autocmd callmekohei-vimrc FileType quickrun let &l:wrap = s:ON
+  autocmd FileType quickrun nnoremap <nowait><silent><buffer> q :quit<CR>
 
 " }}}2 -------------------------------------------------
 " memo {{{2
@@ -363,6 +388,12 @@ let s:OFF = 0
   " conflict ambiwidth=double and let &fillchars = vert:│,fold:
   " autocmd callmekohei-vimrc FileType text setlocal ambiwidth=double wrap display=lastline
 
+  " extensionsがfooだったらfiletypeをfooにする
+  autocmd callmekohei-vimrc BufNewFile,BufRead *.foo setfiletype foo
+  " syntaxを追加する
+  autocmd callmekohei-vimrc FileType foo call matchadd( 'Foo', 'foo' )
+
+
 " }}}2 -------------------------------------------------
 " Markdown {{{2
 
@@ -371,6 +402,15 @@ let s:OFF = 0
 
 " }}}2 -------------------------------------------------
 " help {{{2
+
+  " Japanese help text
+  let &helplang = 'ja,en'
+
+  " Open Vim internal help by K command
+  let &keywordprg = ':help'
+
+  " Close by q
+  autocmd FileType help nnoremap <nowait><silent><buffer>q :quit<CR>
 
   autocmd callmekohei-vimrc FileType help let &l:foldmethod = 'indent'
 
@@ -557,12 +597,20 @@ let s:OFF = 0
 " }}}1 -------------------------------------------------
 " util {{{1
 
+  " use fzf :BLines or :Lines
+  " line search ( and or )
+  " command! -nargs=+ AndLineSearhc call execute( '/\v'. s:lineSearchString('&',<f-args>) )
+  " command! -nargs=+ OrLineSearch  call execute( '/\v'. s:lineSearchString('|',<f-args>) )
+  " function! s:lineSearchString(...) abort
+  "   return join(map( a:000[1:], { i,v -> '(^|.*\s)' . v . '(\s.*|$)' }) , a:000[0] )
+  " endfunction
+
   " message window -> right buffer ( https://qiita.com/sgur/items/9e243f13caa4ff294fa8 )
   command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
   command! -nargs=0 Messages2 QuickRun -type vim -src message
   command! -nargs=0 Maps2 QuickRun -type vim -src map
 
-  " line ( Vimテクニックバイブル )
+  " line length 60
   inoreabbrev <expr> ---- repeat('-', 60 - col('.'))
 
   " do center selected strings
@@ -573,7 +621,7 @@ let s:OFF = 0
   endfunction
 
   " cleare selected empty lines
-  command! -range=% ClearEmptyLines call s:clearEmptyLines(<line1>,<line2>)
+  command! -range ClearEmptyLines call s:clearEmptyLines(<line1>,<line2>)
   function! s:clearEmptyLines(fst,lst) abort
     execute (a:fst) "," (a:lst) 'vglobal/\S/d'
   endfunction
@@ -615,11 +663,11 @@ let s:OFF = 0
   \ })
 
 " }}}1 -------------------------------------------------
-" Fin.  "{{{1
-  " must be written at the last. see :help 'secure'.
-  let &g:secure = s:ON
-" }}}1 -------------------------------------------------
 " __END__  "{{{1
+
+  " must be written at the last. see :help 'secure'
+  let &g:secure = s:ON
+
   " vim: expandtab softtabstop=2 shiftwidth=2
   " vim: foldmethod=marker
   " vim: foldcolumn=5

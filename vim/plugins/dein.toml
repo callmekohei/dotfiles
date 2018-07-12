@@ -140,17 +140,6 @@ on_source = ['vim-quickrun']
 
 [[plugins]]
 repo = 'romainl/Apprentice'
-hook_add = '''
-  function!   s:myHighlights() abort
-    highlight Comment       ctermfg=245   guifg=#8a8a8a
-    highlight FoldColumn    ctermfg=245   guifg=#8a8a8a
-    highlight Folded        ctermfg=245   guifg=#8a8a8a
-    highlight OptionKeyword ctermfg=103   guifg=#8787af
-    highlight UnicodeSpaces ctermbg=131   guibg=#af5f5f
-  endfunction
-
-  autocmd callmekohei-vimrc ColorScheme * call s:myHighlights()
-'''
 
 [[plugins]]
 repo = 'nathanaelkane/vim-indent-guides'
