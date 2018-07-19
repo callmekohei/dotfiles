@@ -226,6 +226,7 @@ let s:OFF = 0
 
   " }}}
   " thinca/vim-partedit {{{
+
     let g:partedit#opener = 'vsp'
     let g:partedit#filetype = 'vim'
 
@@ -332,7 +333,7 @@ let s:OFF = 0
   nnoremap gf gF
   vnoremap gf gF
 
-  " URL ( 使わなかったら破棄 ）
+  " open url with web browser
   nmap <leader><leader> gx
 
   " Avoid key mistakes
@@ -382,7 +383,7 @@ let s:OFF = 0
   " yank half
   nnoremap Y y$
 
-  " expand window ( https://qiita.com/grohiro/items/e3dbcc93510bc8c4c812 )
+  " https://qiita.com/grohiro/items/e3dbcc93510bc8c4c812
   nnoremap M :<C-u>call <SID>toggleWindowSize()<CR>
   let s:toggle_window_size = 0
   function! s:toggleWindowSize()
@@ -753,6 +754,7 @@ endfunction "}}}
   endfunction
 
 " }}}2 -------------------------------------------------
+
 " }}}1 -------------------------------------------------
 " nvim {{{1
 
@@ -789,6 +791,10 @@ endfunction "}}}
 
 " }}}1 -------------------------------------------------
 " util {{{1
+
+  command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
+  command! SelfFileDelete call delete(expand('%',1))
+  inoreabbrev <expr> ---- repeat('-', 60 - col('.'))
 
   function! s:trim() abort "{{{2
 
@@ -884,18 +890,6 @@ endfunction "}}}
     let &l:expandtab   = s:ON
     retab
   endfunction "}}}2
-  " message window -> right buffer "{{{2
-  " ( https://qiita.com/sgur/items/9e243f13caa4ff294fa8 )
-  command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
-  command! -nargs=0 Messages2 QuickRun -type vim -src message
-  command! -nargs=0 Maps2 QuickRun -type vim -src map
-  "}}}2
-
-  command! SelfFileDelete call delete(expand('%',1))
-
-  " line length 60
-  inoreabbrev <expr> ---- repeat('-', 60 - col('.'))
-
 
 " }}}1 -------------------------------------------------
 " __END__  "{{{1
