@@ -691,8 +691,8 @@ endfunction "}}}
 
   function! s:vimrc_toml() abort
     setlocal tabstop=2 softtabstop=2 shiftwidth=2
-    let b:partedit#opener   = 'vsplit'
-    let b:partedit#filetype = 'vim'
+    let b:partedit_opener   = 'vsplit'
+    let b:partedit_filetype = 'vim'
   endfunction
 
 " }}}2 -------------------------------------------------
