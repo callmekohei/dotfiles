@@ -92,7 +92,7 @@ let s:OFF = 0
       call dein#add('callmekohei/tigaDebugger')
     endif
 
-    call dein#add(expand('$HOME/tmp/vim-partedit'))
+    call dein#add(expand('$HOME/tmp/vim-partedit',1))
 
     call dein#add('Shougo/dein.vim')
     call dein#add('Shougo/vimproc.vim',{'build':'make'})
@@ -111,8 +111,8 @@ let s:OFF = 0
   endfunction "}}}2
   function! s:dein_easy_settings() abort "{{{2
 
-    let l:config_home = empty($XDG_CONFIG_HOME) ? expand('~/.config') : $XDG_CONFIG_HOME
-    let l:cache_home  = empty($XDG_CACHE_HOME)  ? expand('~/.cache')  : $XDG_CACHE_HOME
+    let l:config_home = empty($XDG_CONFIG_HOME) ? expand('~/.config',1) : $XDG_CONFIG_HOME
+    let l:cache_home  = empty($XDG_CACHE_HOME)  ? expand('~/.cache',1)  : $XDG_CACHE_HOME
     let l:nvim_home   = l:config_home . '/nvim'
     let l:dein_home   = l:cache_home  . '/dein'
     let l:dein_dir    = l:dein_home   . '/repos/github.com/Shougo/dein.vim'
@@ -201,7 +201,7 @@ let s:OFF = 0
   " }}}
   " glidenote/memolist.vim {{{
 
-    let g:memolist_path = expand("$HOME/Dropbox/memo")
+    let g:memolist_path = expand("$HOME/Dropbox/memo",1)
     let g:memolist_memo_suffix = "memo"
     let g:memolist_template_dir_path = g:memolist_path
     let g:memolist_ex_cmd = 'Files'
@@ -766,7 +766,7 @@ endfunction "}}}
     endif
 
     " enable to local settings
-    let &g:runtimepath = &g:runtimepath . ',' . expand('~/.vim/')
+    let &g:runtimepath = &g:runtimepath . ',' . expand('~/.vim/',1)
   endif
 
 " }}}1 -------------------------------------------------
