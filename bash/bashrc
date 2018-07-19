@@ -158,7 +158,12 @@ eval "$(hub alias -s)"
 
 export MONO_GAC_PREFIX=/usr/local
 export WINEPREFIX=~/.wine
+
+# XDG Base Directory Specification
 export XDG_CONFIG_HOME=~/.config
+export XDG_DATA_HOME=~/.local/share/nvim
+export XDG_CACHE_HOME=~/.cache
+export NVIM_LOG_FILE=~/.local/share/nvim/log
 
 export PYTHONPATH=~/pdb/
 export SDB_PATH=~/sdbplg/bin/
