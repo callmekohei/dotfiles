@@ -82,41 +82,166 @@ let s:OFF = 0
 " }}}1 -------------------------------------------------
 " plugins {{{1
 
-  autocmd callmekohei-vimrc CursorHold *.toml syntax sync minlines=300
+  function! s:dein_load_plugins(nvim_home) abort "{{{2
 
-  let s:dein_dir = expand('~/.cache/dein',1)
-  let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+    call dein#load_toml( a:nvim_home . '/deinlazy.toml', {'lazy': 1} )
 
-  if &runtimepath !~# '/dein.vim'
-    if !isdirectory(s:dein_repo_dir)
-      execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
-    endif
-    execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
-  endif
-
-  if dein#load_state(s:dein_dir)
-    call dein#begin(s:dein_dir)
-    let s:toml_dir = expand('~/.config/nvim',1)
-    call dein#load_toml(s:toml_dir . '/dein.toml'    , {'lazy': 0})
-    call dein#load_toml(s:toml_dir . '/deinlazy.toml', {'lazy': 1})
     if !has('nvim')
       call dein#add('roxma/nvim-yarp')
       call dein#add('roxma/vim-hug-neovim-rpc')
       call dein#add('callmekohei/tigaDebugger')
     endif
-    call dein#end()
-    call dein#save_state()
+
+    call dein#add(expand('$HOME/tmp/vim-partedit'))
+
+    call dein#add('Shougo/dein.vim')
+    call dein#add('Shougo/vimproc.vim',{'build':'make'})
+    call dein#add('glidenote/memolist.vim')
+    call dein#add('junegunn/fzf.vim',{'build':'./install --all','hook_add':'source ~/dotfiles/vim/plugins/fzf.rc.vim'})
+    call dein#add('junegunn/vim-easy-align')
+    call dein#add('kana/vim-textobj-user')
+    call dein#add('mattn/sonictemplate-vim')
+    call dein#add('nathanaelkane/vim-indent-guides')
+    call dein#add('romainl/Apprentice')
+    call dein#add('thinca/vim-quickrun',{'depends':'Shougo/vimproc.vim'})
+    call dein#add('thinca/vim-ref')
+    call dein#add('tomtom/tcomment_vim')
+    call dein#add('vim-jp/vimdoc-ja')
+
+  endfunction "}}}2
+  function! s:dein_easy_settings() abort "{{{2
+
+    let l:config_home = empty($XDG_CONFIG_HOME) ? expand('~/.config') : $XDG_CONFIG_HOME
+    let l:cache_home  = empty($XDG_CACHE_HOME)  ? expand('~/.cache')  : $XDG_CACHE_HOME
+    let l:nvim_home   = l:config_home . '/nvim'
+    let l:dein_home   = l:cache_home  . '/dein'
+    let l:dein_dir    = l:dein_home   . '/repos/github.com/Shougo/dein.vim'
+
+    if !isdirectory(l:dein_dir )
+      call system('git clone --depth 1 https://github.com/Shougo/dein.vim ' . shellescape(l:dein_dir ))
+    endif
+
+    let &runtimepath = l:dein_dir  . "," . &runtimepath
+
+    if dein#load_state(l:dein_home)
+      call dein#begin(l:dein_home)
+      call s:dein_load_plugins(l:nvim_home)
+      call dein#end()
+      call dein#save_state()
+    endif
+
+    if has('vim_starting') && dein#check_install()
+      call dein#install()
+    endif
+
+  endfunction "}}}2
+  function! s:plugins_settings() abort "{{{
+
+" tomtom/tcomment_vim {{{
+
+  if !exists('g:tcomment_types')
+    let g:tcomment_types = {}
   endif
 
-  if dein#check_install()
-    call dein#install()
-  endif
+  let g:tcomment_types['']          = '// %s'
+  let g:tcomment_types['fsharp']    = '// %s'
+  let g:tcomment_types['mql4']      = '// %s'
+  let g:tcomment_types['text']      = '// %s'
+  let g:tcomment_types['text.memo'] = '// %s'
+
+" }}}
+" junegunn/vim-easy-align {{{
+
+  xmap ga <Plug>(EasyAlign)
+  nmap ga <Plug>(EasyAlign)
+
+" }}}
+" thinca/vim-ref {{{
+
+  let g:ref_man_cmd = 'man'
+  let g:ref_pydoc_cmd = 'python3 -m pydoc'
+  let g:ref_source_webdict_cmd = 'w3m -dump %s'
+  let g:ref_use_vimproc = v:true
+
+  "webdictサイトの設定
+  let g:ref_source_webdict_sites = {
+  \     'fsharp': { 'url'   : 'https://github.com/MicrosoftDocs/visualfsharpdocs/tree/live/docs/conceptual/%s'}
+  \   , 'alk' : { 'url' : 'http://eow.alc.co.jp/%s/UTF-8/' }
+  \ }
+
+  " 出力に対するフィルタ
+  function! g:ref_source_webdict_sites.fsharp.filter(output)
+    let l:lst  = split(a:output, "\n")
+    call filter(l:lst,{idx, val -> val =~ '.md'} )
+    return join(l:lst,"\n")
+  endfunction
+
+" }}}
+" thinca/vim-quickrun {{{
+
+  let g:quickrun_no_default_key_mappings = 1
+  let g:quickrun_config = {}
+  let g:quickrun_config._ = {
+  \  'runner'                          : 'vimproc'
+  \ ,'runner/vimproc/updatetime'       : 60
+  \ ,'hook/time/enable'                : 1
+  \ ,'hook/time/format'                : "\n*** time : %g s ***"
+  \ ,'hook/time/dest'                  : ''
+  \ ,"outputter/buffer/split"          : 'vertical'
+  \ ,'outputter/buffer/close_on_empty' : 1
+  \}
+
+" }}}
+" glidenote/memolist.vim {{{
+
+  let g:memolist_path = expand("$HOME/Dropbox/memo")
+  let g:memolist_memo_suffix = "memo"
+  let g:memolist_template_dir_path = g:memolist_path
+  let g:memolist_ex_cmd = 'Files'
+  autocmd callmekohei-vimrc VimEnter * command! -nargs=* MemoGrep
+    \ call fzf#vim#ag( <q-args> , fzf#vim#with_preview( {'dir':g:memolist_path}, 'right:50%' ) )
+
+" }}}
+" nathanaelkane/vim-indent-guides {{{
+
+  map <Nop>(disable-IndentGuidesToggle) <Plug>IndentGuidesToggle
+  let g:indent_guides_enable_on_vim_startup = 1
+  let g:indent_guides_start_level = 2
+  let g:indent_guides_guide_size  = 1
+  let g:indent_guides_auto_colors = 0
+  autocmd callmekohei-vimrc VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#3A3C43 ctermbg=0
+  autocmd callmekohei-vimrc VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#3A3C43 ctermbg=0
+
+" }}}
+" kana/textobj {{{
+
+  call textobj#user#plugin('yyy', {} )
+  call textobj#user#plugin('yyy', {
+  \ 'bbb': {
+  \ 'pattern': ["^hook.* = '''","^'''"],
+  \ 'select-a': 'aP',
+  \ 'select-i': 'iP',
+  \ },
+  \ })
+
+" }}}
+" thinca/vim-partedit {{{
+  let g:partedit#opener = 'vsp'
+  let g:partedit#filetype = 'vim'
+
+" }}}
+
+  endfunction "}}}
+
+  autocmd callmekohei-vimrc CursorHold *.toml syntax sync minlines=300
+  call s:dein_easy_settings()
+  call s:plugins_settings()
 
   " turn plugins on
   syntax on
   filetype plugin indent on
 
-" }}}1 -------------------------------------------------
+" }}}1 plugins   ---------------------------------------
 " colorscheme {{{1
 
   function! s:myHighlights() abort
@@ -203,12 +328,12 @@ let s:OFF = 0
   let g:mapleader      = "\<Space>"
   let g:maplocalleader = "\<Space>"
 
-  " open file wiht line number
+  " open file with line number
   nnoremap gf gF
   vnoremap gf gF
 
-  nmap <leader><leader> gx
   " URL ( 使わなかったら破棄 ）
+  nmap <leader><leader> gx
 
   " Avoid key mistakes
   nnoremap qqq: <Esc>q:
@@ -216,7 +341,6 @@ let s:OFF = 0
   nnoremap q: <Nop>
   nnoremap q/ <Nop>
   nnoremap q? <Nop>
-
 
   " Folding ( http://d.hatena.ne.jp/leafcage/20111223/1324705686 )
   noremap <leader>j zj
@@ -282,58 +406,9 @@ let s:OFF = 0
 
 " }}}1 -------------------------------------------------
 " filetypes {{{1
-" General {{{2
 
-  " Add syntax of UnicodeSpaces
-  autocmd callmekohei-vimrc BufNewFile,BufRead * call matchadd( 'UnicodeSpaces', '\%u180E\|\%u2000\|\%u2001\|\%u2002\|\%u2003\|\%u2004\|\%u2005\|\%u2006\|\%u2007\|\%u2008\|\%u2009\|\%u200A\|\%u2028\|\%u2029\|\%u202F\|\%u205F\|\%u3000' )
+  source $HOME/tmp/callmekoheiTODO/callmekoheiTODO.vim
 
-  " Trim trailing spaces
-  autocmd callmekohei-vimrc BufWritePre * call s:deleteTailSpace()
-  function! s:deleteTailSpace() abort
-
-    " Replace unicode spaces to normal space
-    silent! execute( ':%s/\%u00A0\|\%u180E\|\%u2000\|\%u2001\|\%u2002\|\%u2003\|\%u2004\|\%u2005\|\%u2006\|\%u2007\|\%u2008\|\%u2009\|\%u200A\|\%u2028\|\%u2029\|\%u202F\|\%u205F\|\%u3000/ /ge' )
-
-    if index(['markdown','text'], &ft)==-1
-      silent! execute( '%s/\s\+$//e' )
-    endif
-
-  endfunction
-
-" }}}2 -------------------------------------------------
-" todo {{{2
-
-  autocmd callmekohei-vimrc FileType todo call s:vimrc_todo()
-  function! s:vimrc_todo() abort
-    let g:Todo_fold_char='+'
-  endfunction
-
-" }}} --------------------------------------------------
-" Vim script {{{2
-
-  autocmd callmekohei-vimrc BufNewFile,BufRead vimrc,gvimrc setfiletype vim
-  autocmd callmekohei-vimrc FileType vim call s:vimrc_vim()
-  function! s:vimrc_vim() abort
-
-    let g:vim_indent_cont = 2
-    let &l:tabstop        = 2
-    let &l:softtabstop    = 2
-    let &l:shiftwidth     = 2
-
-    " Add syntax of let-option
-    call matchadd( 'OptionKeyword', '\s&\zs\w*\ze$' )
-    call matchadd( 'OptionKeyword', '\s&\zs\w*\ze\s')
-    call matchadd( 'OptionKeyword', '\s&\(g:\|l:\)\zs\w*\ze\s')
-
-  endfunction
-
-" }}}2 -------------------------------------------------
-" quickrun {{{2
-
-  autocmd callmekohei-vimrc FileType quickrun let &l:wrap = s:ON
-  autocmd callmekohei-vimrc FileType quickrun nnoremap <nowait><silent><buffer> q :quit<CR>
-
-" }}}2 -------------------------------------------------
 " memo {{{2
 
   autocmd callmekohei-vimrc BufNewFile,BufRead *.memo call s:vimrc_memo()
@@ -383,22 +458,133 @@ let s:OFF = 0
   "}}}3
 
 " }}}2 -------------------------------------------------
+" General {{{2
+
+  " Add syntax of UnicodeSpaces
+  autocmd callmekohei-vimrc BufNewFile,BufRead * call matchadd( 'UnicodeSpaces', '\%u180E\|\%u2000\|\%u2001\|\%u2002\|\%u2003\|\%u2004\|\%u2005\|\%u2006\|\%u2007\|\%u2008\|\%u2009\|\%u200A\|\%u2028\|\%u2029\|\%u202F\|\%u205F\|\%u3000' )
+
+  " Trim tail spaces
+  autocmd callmekohei-vimrc BufWritePre * call s:trimEnd()
+
+" }}}2 -------------------------------------------------
+" Vim script {{{2
+
+  autocmd callmekohei-vimrc BufNewFile,BufRead vimrc,gvimrc setfiletype vim
+  autocmd callmekohei-vimrc FileType vim call s:vimrc_vim()
+  function! s:vimrc_vim() abort
+
+    let g:vim_indent_cont = 2
+    let &l:tabstop        = 2
+    let &l:softtabstop    = 2
+    let &l:shiftwidth     = 2
+    let &l:foldmethod     = 'markder'
+
+    " Add syntax of let-option
+    call matchadd( 'OptionKeyword', '\s&\zs\w*\ze$' )
+    call matchadd( 'OptionKeyword', '\s&\zs\w*\ze\s')
+    call matchadd( 'OptionKeyword', '\s&\(g:\|l:\)\zs\w*\ze\s')
+
+  endfunction
+
+" }}}2 -------------------------------------------------
+" quickrun {{{2
+
+  autocmd callmekohei-vimrc FileType quickrun let &l:wrap = s:ON
+  autocmd callmekohei-vimrc FileType quickrun nnoremap <nowait><silent><buffer> q :quit<CR>
+
+" }}}2 -------------------------------------------------
 " Text {{{2
 
   " conflict ambiwidth=double and let &fillchars = vert:│,fold:
   " autocmd callmekohei-vimrc FileType text setlocal ambiwidth=double wrap display=lastline
 
-  " extensionsがfooだったらfiletypeをfooにする
-  autocmd callmekohei-vimrc BufNewFile,BufRead *.foo setfiletype foo
-  " syntaxを追加する
-  autocmd callmekohei-vimrc FileType foo call matchadd( 'Foo', 'foo' )
 
 
 " }}}2 -------------------------------------------------
 " Markdown {{{2
 
   autocmd callmekohei-vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
-  autocmd callmekohei-vimrc FileType markdown setlocal ambiwidth=double wrap display=lastline
+  autocmd callmekohei-vimrc FileType markdown call s:vimrc_markdown()
+
+  function! s:vimrc_markdown() abort
+    let &l:ambiwidth = 'doble'
+    let &wrap        = 1
+    let &display     = 'lastline'
+    let &foldmethod  = 'expr'
+    " let &foldexpr    = get(funcref('s:foldexpr_markdown'), 'name') . '(v:lnum)'
+  endfunction
+
+  function! s:foo(lnum) abort
+    return match(getline(a:lnum),'^#\s') + 1
+  endfunction
+
+function! s:foldexpr_markdown(lnum) "{{{
+    if (a:lnum == 1)
+        let l0 = ''
+    else
+        let l0 = getline(a:lnum-1)
+    endif
+
+    " keep track of fenced code blocks
+    if l0 =~ '````*' || l0 =~ '\~\~\~\~*'
+        if b:fenced_block == 0
+            let b:fenced_block = 1
+        elseif b:fenced_block == 1
+            let b:fenced_block = 0
+        endif
+    elseif g:vim_markdown_frontmatter == 1
+        if b:front_matter == 1
+            if l0 == '---'
+                let b:front_matter = 0
+            endif
+        elseif a:lnum == 2
+            if l0 == '---'
+                let b:front_matter = 1
+            endif
+        endif
+    endif
+
+    if b:fenced_block == 1 || b:front_matter == 1
+        " keep previous foldlevel
+        return '='
+    endif
+
+    let l2 = getline(a:lnum+1)
+    if  l2 =~ '^==\+\s*' && !s:is_mkdCode(a:lnum+1)
+        " next line is underlined (level 1)
+        return '>1'
+    elseif l2 =~ '^--\+\s*' && !s:is_mkdCode(a:lnum+1)
+        " next line is underlined (level 2)
+        if s:vim_markdown_folding_level >= 2
+            return '>1'
+        else
+            return '>2'
+        endif
+    endif
+
+    let l1 = getline(a:lnum)
+    if l1 =~ '^#' && !s:is_mkdCode(a:lnum)
+        " fold level according to option
+        if s:vim_markdown_folding_level == 1 || matchend(l1, '^#\+') > s:vim_markdown_folding_level
+            if a:lnum == line('$')
+                return matchend(l1, '^#\+') - 1
+            else
+                return -1
+            endif
+        else
+            " headers are not folded
+            return 0
+        endif
+    endif
+
+    if l0 =~ '^#' && !s:is_mkdCode(a:lnum-1)
+        " previous line starts with hashes
+        return '>'.matchend(l0, '^#\+')
+    else
+        " keep previous foldlevel
+        return '='
+    endif
+endfunction "}}}
 
 " }}}2 -------------------------------------------------
 " help {{{2
@@ -501,7 +687,13 @@ let s:OFF = 0
 " }}}2 -------------------------------------------------
 " Toml {{{2
 
-  autocmd callmekohei-vimrc FileType toml setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd callmekohei-vimrc FileType toml call s:vimrc_toml()
+
+  function! s:vimrc_toml() abort
+    setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    let b:partedit#opener   = 'vsplit'
+    let b:partedit#filetype = 'vim'
+  endfunction
 
 " }}}2 -------------------------------------------------
 " QuickFix {{{2
@@ -530,15 +722,15 @@ let s:OFF = 0
 
   function! s:vimrc_bash() abort
 
-    let g:is_bash = 1
-    let g:sh_no_error = 1
+    let g:is_bash      = 1
+    let g:sh_no_error  = 1
     let &l:errorformat = '%f:\ line\ %l:\ %m'
 
     " quickrun settings
-    let g:quickrun_config.sh = {}
+    let g:quickrun_config.sh        = {}
     let g:quickrun_config.bashCheck = {}
 
-    let g:quickrun_config.sh = { 'command': 'bash' }
+    let g:quickrun_config.sh        = { 'command': 'bash' }
     let g:quickrun_config.bashCheck = {
       \  'exec'                            : [ '%c -n %s:p:r.bash' ]
       \ ,'command'                         : 'bash'
@@ -559,6 +751,7 @@ let s:OFF = 0
     let g:quickrun_config.python = {}
     let g:quickrun_config.python = { 'command': 'python3' }
   endfunction
+
 " }}}2 -------------------------------------------------
 " }}}1 -------------------------------------------------
 " nvim {{{1
@@ -597,38 +790,79 @@ let s:OFF = 0
 " }}}1 -------------------------------------------------
 " util {{{1
 
-  " use fzf :BLines or :Lines
-  " line search ( and or )
-  " command! -nargs=+ AndLineSearhc call execute( '/\v'. s:lineSearchString('&',<f-args>) )
-  " command! -nargs=+ OrLineSearch  call execute( '/\v'. s:lineSearchString('|',<f-args>) )
-  " function! s:lineSearchString(...) abort
-  "   return join(map( a:000[1:], { i,v -> '(^|.*\s)' . v . '(\s.*|$)' }) , a:000[0] )
-  " endfunction
+  function! s:trim() abort "{{{2
 
-  " message window -> right buffer ( https://qiita.com/sgur/items/9e243f13caa4ff294fa8 )
-  command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
-  command! -nargs=0 Messages2 QuickRun -type vim -src message
-  command! -nargs=0 Maps2 QuickRun -type vim -src map
+    :normal! ma
 
-  " line length 60
-  inoreabbrev <expr> ---- repeat('-', 60 - col('.'))
+    let l:range = '%'
 
-  " do center selected strings
+    " Replace unicode spaces to normal space
+    let l:unicodeSpaces  = '\%u00A0\|\%u180E\|\%u2000\|\%u2001\|\%u2002\|\%u2003\|\%u2004\|\%u2005\|\%u2006\|\%u2007\|\%u2008\|\%u2009\|\%u200A\|\%u2028\|\%u2029\|\%u202F\|\%u205F\|\%u3000'
+    :execute l:range 'substitute' '/' . l:unicodeSpaces . '/ /ge'
+
+    " trim head spaces
+    let headSpaces = '^\s+\ze\S'
+    :execute l:range 'substitute' '/\v' . l:headSpaces . '//ge'
+
+    " trim tail spaces
+    let tailSpaces = '\s+$'
+    :execute l:range 'substitute' '/\v' . l:tailSpaces . '//ge'
+
+    :normal! `a
+
+  endfunction "}}}2
+  function! s:trimStart() abort "{{{2
+
+    :normal! ma
+
+    let l:range = '%'
+
+    " Replace unicode spaces to normal space
+    let l:unicodeSpaces  = '\%u00A0\|\%u180E\|\%u2000\|\%u2001\|\%u2002\|\%u2003\|\%u2004\|\%u2005\|\%u2006\|\%u2007\|\%u2008\|\%u2009\|\%u200A\|\%u2028\|\%u2029\|\%u202F\|\%u205F\|\%u3000'
+    :execute l:range 'substitute' '/' . l:unicodeSpaces . '/ /ge'
+
+    " trim head spaces
+    let headSpaces = '^\s+\ze\S'
+    :execute l:range 'substitute' '/\v' . l:headSpaces . '//ge'
+
+    :normal! `a
+
+  endfunction "}}}2
+  function! s:trimEnd() abort "{{{2
+
+    :normal! ma
+
+    let l:range = '%'
+
+    " Replace unicode spaces to normal space
+    let l:unicodeSpaces  = '\%u00A0\|\%u180E\|\%u2000\|\%u2001\|\%u2002\|\%u2003\|\%u2004\|\%u2005\|\%u2006\|\%u2007\|\%u2008\|\%u2009\|\%u200A\|\%u2028\|\%u2029\|\%u202F\|\%u205F\|\%u3000'
+    :execute l:range 'substitute' '/' . l:unicodeSpaces . '/ /ge'
+
+    " trim tail spaces
+    let tailSpaces = '\s+$'
+    :execute l:range 'substitute' '/\v' . l:tailSpaces . '//ge'
+
+    :normal! `a
+
+  endfunction "}}}2
+  " do center selected strings {{{2
+
   command! -range Center2 call s:center2(<line1>,<line2>)
   function! s:center2(fst,lst) abort
     let l:maxcol = max(map(getline(a:fst,a:lst),'strlen(v:val)'))
     execute (a:fst) "," (a:lst) "center" l:maxcol
   endfunction
 
-  " cleare selected empty lines
+  "}}}2
+  " cleare selected empty lines {{{2
+
   command! -range ClearEmptyLines call s:clearEmptyLines(<line1>,<line2>)
   function! s:clearEmptyLines(fst,lst) abort
     execute (a:fst) "," (a:lst) 'vglobal/\S/d'
   endfunction
 
-  command! SelfFileDelete call delete(expand('%',1))
-
-  command! Space2from4 call s:space2from4()
+  "}}}2
+  command! Space2from4 call s:space2from4() "{{{2
   function! s:space2from4() abort
     let &l:tabstop     = 4
     let &l:softtabstop = 4
@@ -638,9 +872,8 @@ let s:OFF = 0
     let &l:softtabstop = 2
     let &l:expandtab   = s:ON
     retab
-  endfunction
-
-  command! Space4from2 call s:space4from2()
+  endfunction "}}}2
+  command! Space4from2 call s:space4from2() "{{{2
   function! s:space4from2() abort
     let &l:tabstop     = 2
     let &l:softtabstop = 2
@@ -650,17 +883,19 @@ let s:OFF = 0
     let &l:softtabstop = 4
     let &l:expandtab   = s:ON
     retab
-  endfunction
+  endfunction "}}}2
+  " message window -> right buffer "{{{2
+  " ( https://qiita.com/sgur/items/9e243f13caa4ff294fa8 )
+  command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
+  command! -nargs=0 Messages2 QuickRun -type vim -src message
+  command! -nargs=0 Maps2 QuickRun -type vim -src map
+  "}}}2
 
-  " dein.toml に書くと tick の関係でエラーになるので vimrc に書く
-  call textobj#user#plugin('yyy', {} )
-  call textobj#user#plugin('yyy', {
-  \ 'bbb': {
-  \ 'pattern': ["^hook.* = '''","^'''"],
-  \ 'select-a': 'aP',
-  \ 'select-i': 'iP',
-  \ },
-  \ })
+  command! SelfFileDelete call delete(expand('%',1))
+
+  " line length 60
+  inoreabbrev <expr> ---- repeat('-', 60 - col('.'))
+
 
 " }}}1 -------------------------------------------------
 " __END__  "{{{1
