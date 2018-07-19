@@ -76,7 +76,7 @@ let s:OFF = 0
 
   " Disable menu.vim
   if has('gui_running')
-    let &guioptions = 'Mc'
+    let &g:guioptions = 'Mc'
   endif
 
 " }}}1 -------------------------------------------------
@@ -121,7 +121,7 @@ let s:OFF = 0
       call system('git clone --depth 1 https://github.com/Shougo/dein.vim ' . shellescape(l:dein_dir ))
     endif
 
-    let &runtimepath = l:dein_dir  . "," . &runtimepath
+    let &g:runtimepath = l:dein_dir  . "," . &g:runtimepath
 
     if dein#load_state(l:dein_home)
       call dein#begin(l:dein_home)
@@ -158,10 +158,11 @@ let s:OFF = 0
   " }}}
   " thinca/vim-ref {{{
 
-    let g:ref_man_cmd = 'man'
-    let g:ref_pydoc_cmd = 'python3 -m pydoc'
+    " TODO:urlをよみこめない
+    let g:ref_man_cmd            = 'man'
+    let g:ref_pydoc_cmd          = 'python3 -m pydoc'
     let g:ref_source_webdict_cmd = 'w3m -dump %s'
-    let g:ref_use_vimproc = v:true
+    let g:ref_use_vimproc        = v:true
 
     "webdictサイトの設定
     let g:ref_source_webdict_sites = {
@@ -180,7 +181,7 @@ let s:OFF = 0
   " thinca/vim-quickrun {{{
 
     let g:quickrun_no_default_key_mappings = 1
-    let g:quickrun_config = {}
+    let g:quickrun_config   = {}
     let g:quickrun_config._ = {
     \  'runner'                          : 'vimproc'
     \ ,'runner/vimproc/updatetime'       : 60
@@ -190,6 +191,12 @@ let s:OFF = 0
     \ ,"outputter/buffer/split"          : 'vertical'
     \ ,'outputter/buffer/close_on_empty' : 1
     \}
+
+  " }}}
+  " thinca/vim-partedit {{{
+
+    let g:partedit#opener   = 'vsplit'
+    let g:partedit#filetype = 'vim'
 
   " }}}
   " glidenote/memolist.vim {{{
@@ -218,17 +225,11 @@ let s:OFF = 0
     call textobj#user#plugin('yyy', {} )
     call textobj#user#plugin('yyy', {
     \ 'bbb': {
-    \ 'pattern': ["^hook.* = '''","^'''"],
-    \ 'select-a': 'aP',
-    \ 'select-i': 'iP',
-    \ },
+    \   'pattern': ["^hook.* = '''","^'''"],
+    \   'select-a': 'aP',
+    \   'select-i': 'iP',
+    \   },
     \ })
-
-  " }}}
-  " thinca/vim-partedit {{{
-
-    let g:partedit#opener = 'vsp'
-    let g:partedit#filetype = 'vim'
 
   " }}}
 
@@ -254,7 +255,7 @@ let s:OFF = 0
   endfunction
   autocmd callmekohei-vimrc ColorScheme * call s:myHighlights()
 
-  let &background = 'dark'
+  let &g:background = 'dark'
   colorscheme Apprentice
 
 " }}}1 -------------------------------------------------
@@ -278,7 +279,7 @@ let s:OFF = 0
   let &backspace       = 'indent,eol,start'
   let &showmatch       = s:OFF
   let &wildmenu        = s:ON
-  let &formatoptions   = join( [ &formatoptions , 'mM'] , '' ) " テキスト挿入中の自動折り返しを日本語に対応させる
+  let &formatoptions   = 'mM'
   let &virtualedit     = 'block'
 
   " View
@@ -374,11 +375,11 @@ let s:OFF = 0
   nnoremap k gk
 
   " buffers
-  nnoremap <silent> <C-j> :bprevious<CR>
-  nnoremap <silent> <C-k> :bnext<CR>
+  nnoremap <silent> <C-j> :<C-u>bprevious<CR>
+  nnoremap <silent> <C-k> :<C-u>bnext<CR>
 
   " Switch CWD to the directory of the open buffer
-  nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
+  nnoremap <leader>cd :<C-u>cd %:p:h<cr>:<C-u>pwd<cr>
 
   " yank half
   nnoremap Y y$
@@ -398,12 +399,12 @@ let s:OFF = 0
   endfunction
 
   " vimrc
-  nnoremap <leader>v :edit $MYVIMRC<CR>
+  nnoremap <leader>v :<C-u>edit $MYVIMRC<CR>
 
   " memo
-  nnoremap <leader>, :MemoNew<CR>
-  nnoremap <leader>. :MemoList<CR>
-  nnoremap <leader>/ :MemoGrep<CR>
+  nnoremap <leader>, :<C-u>MemoNew<CR>
+  nnoremap <leader>. :<C-u>MemoList<CR>
+  nnoremap <leader>/ :<C-u>MemoGrep<CR>
 
 " }}}1 -------------------------------------------------
 " filetypes {{{1
@@ -490,7 +491,7 @@ let s:OFF = 0
 " }}}2 -------------------------------------------------
 " quickrun {{{2
 
-  autocmd callmekohei-vimrc FileType quickrun let &l:wrap = s:ON
+  autocmd callmekohei-vimrc FileType quickrun setlocal wrap
   autocmd callmekohei-vimrc FileType quickrun nnoremap <nowait><silent><buffer> q :quit<CR>
 
 " }}}2 -------------------------------------------------
@@ -499,25 +500,23 @@ let s:OFF = 0
   " conflict ambiwidth=double and let &fillchars = vert:│,fold:
   " autocmd callmekohei-vimrc FileType text setlocal ambiwidth=double wrap display=lastline
 
-
-
 " }}}2 -------------------------------------------------
 " Markdown {{{2
 
-  autocmd callmekohei-vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
+  autocmd callmekohei-vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal filetype=markdown
   autocmd callmekohei-vimrc FileType markdown call s:vimrc_markdown()
 
   function! s:vimrc_markdown() abort
-    let &l:ambiwidth = 'doble'
-    let &wrap        = 1
-    let &display     = 'lastline'
-    let &foldmethod  = 'expr'
+    let &l:ambiwidth   = 'doble'
+    let &l:wrap        = 1
+    let &l:display     = 'lastline'
+    let &l:foldmethod  = 'expr'
     " let &foldexpr    = get(funcref('s:foldexpr_markdown'), 'name') . '(v:lnum)'
   endfunction
 
-  function! s:foo(lnum) abort
-    return match(getline(a:lnum),'^#\s') + 1
-  endfunction
+  " function! s:foo(lnum) abort
+  "   return match(getline(a:lnum),'^#\s') + 1
+  " endfunction
 
 function! s:foldexpr_markdown(lnum) "{{{
     if (a:lnum == 1)
@@ -591,15 +590,15 @@ endfunction "}}}
 " help {{{2
 
   " Japanese help text
-  let &helplang = 'ja,en'
+  let &g:helplang = 'ja,en'
 
   " Open Vim internal help by K command
-  let &keywordprg = ':help'
+  let &g:keywordprg = ':help'
 
   " Close by q
   autocmd FileType help nnoremap <nowait><silent><buffer>q :quit<CR>
 
-  autocmd callmekohei-vimrc FileType help let &l:foldmethod = 'indent'
+  autocmd callmekohei-vimrc FileType help setlocal foldmethod=indent
 
 " }}}2 -------------------------------------------------
 " fsharp {{{2
@@ -607,7 +606,7 @@ endfunction "}}}
   " https://github.com/fsharp/vim-fsharp/pull/103
   " needs to set regexpengine before set filetype
   if !has('nvim') && !has('gui_running')
-    autocmd callmekohei-vimrc BufNewFile,BufRead *.fs,*.fsi,*.fsx  let &g:regexpengine = s:ON
+    autocmd callmekohei-vimrc BufNewFile,BufRead *.fs,*.fsi,*.fsx  setglobal regexpengine
   endif
 
   autocmd callmekohei-vimrc BufNewFile,BufRead *.fs,*.fsi,*.fsx setlocal filetype=fsharp
@@ -681,8 +680,8 @@ endfunction "}}}
 
   autocmd callmekohei-vimrc BufNewFile,BufRead *.dependencies call s:vimrc_dependencies()
   function! s:vimrc_dependencies() abort
-    let &l:filetype = 'dependencies'
-    let &l:dictionary = join( [ &l:dictionary, expand('~/.vim/dictionary/dic_dependencies', 1) ] , ',' )
+    let &l:filetype   = 'dependencies'
+    let &l:dictionary = &l:dictionary . ',' . expand('~/.vim/dictionary/dic_dependencies', 1)
   endfunction
 
 " }}}2 -------------------------------------------------
@@ -746,8 +745,8 @@ endfunction "}}}
 " }}}2 -------------------------------------------------
 " Python {{{2
 
-  autocmd callmekohei-vimrc BufRead,BufNewFile *.pdbrc setfiletype python
-  autocmd callmekohei-vimrc FileType sh call s:vimrc_python()
+  autocmd callmekohei-vimrc BufRead,BufNewFile *.pdbrc setlocal filetype=python
+  autocmd callmekohei-vimrc FileType python call s:vimrc_python()
   function! s:vimrc_python() abort
     let g:quickrun_config.python = {}
     let g:quickrun_config.python = { 'command': 'python3' }
@@ -766,8 +765,8 @@ endfunction "}}}
       let &g:inccommand = 'nosplit'
     endif
 
-    " enable to local syntax highlight
-    let &g:runtimepath = join( [ &g:runtimepath , expand(',~/.vim',1) ] , ',' )
+    " enable to local settings
+    let &g:runtimepath = &g:runtimepath . ',' . expand('~/.vim/')
   endif
 
 " }}}1 -------------------------------------------------
