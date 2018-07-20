@@ -1,8 +1,5 @@
-#!/usr/bin/env bash
-# vim: expandtab softtabstop=2 shiftwidth=2 foldmethod=marker
-# --------------------------------------------------------
-#                callmekohei's deploy.bash
-# --------------------------------------------------------
+# !/usr/bin/env bash
+# callmekohei's deploy.bash
 
 FROMDIR="${HOME}/dotfiles"
 VimHOME="${HOME}/.vim"
@@ -122,4 +119,8 @@ NvimHOME="${HOME}/.config/nvim"
   ln -sf ${FROMDIR}/template/memolist/txt.txt ${HOME}/Dropbox/memo
 
 # }}}
+# __END__  "{{{1
 
+  # vim: expandtab softtabstop=2 shiftwidth=2
+  # vim: foldmethod=marker
+  # vim: foldcolumn=3
