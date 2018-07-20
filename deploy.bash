@@ -1,60 +1,90 @@
 #!/usr/bin/env bash
-# -----------------------------
-#   callmekohei's deploy.bash
-# -----------------------------
+# vim: expandtab softtabstop=2 shiftwidth=2 foldmethod=marker
+# --------------------------------------------------------
+#                callmekohei's deploy.bash
+# --------------------------------------------------------
 
-FROMDIR="${HOME}"/dotfiles
-DISTDIR="${HOME}"
+FROMDIR="${HOME}/dotfiles"
+VimHOME="${HOME}/.vim"
+NvimHOME="${HOME}/.config/nvim"
 
-# Shell
-ln -sf "${FROMDIR}"/bash/bashrc       "${DISTDIR}"/.bashrc
-ln -sf "${FROMDIR}"/bash/bash_profile "${DISTDIR}"/.bash_profile
-ln -sf "${FROMDIR}"/bash/inputrc      "${DISTDIR}"/.inputrc
+# rc files {{{
 
-# Git/Github
-ln -sf ${FROMDIR}/git/gitconfig ${DISTDIR}/.gitconfig
+  function rcFiles () {
 
-# Ctags
-ln -sf ${FROMDIR}/ctags/ctags ${DISTDIR}/.ctags
+    # Shell
+    ln -sf "${FROMDIR}"/bash/bashrc        "${HOME}"/.bashrc
+    ln -sf "${FROMDIR}"/bash/bash_profile  "${HOME}"/.bash_profile
+    ln -sf "${FROMDIR}"/bash/inputrc       "${HOME}"/.inputrc
 
-# Vim/Neovim
-ln -sf "${FROMDIR}"/vim/vimrc                 "${DISTDIR}"/.vim/vimrc
-ln -sf "${FROMDIR}"/vim/vimrc                 "${DISTDIR}"/.config/nvim/init.vim
-ln -sf "${FROMDIR}"/vim/plugins/dein.toml     "${DISTDIR}"/.config/nvim/dein.toml
-ln -sf "${FROMDIR}"/vim/plugins/deinlazy.toml "${DISTDIR}"/.config/nvim/deinlazy.toml
+    # Git/Github
+    ln -sf ${FROMDIR}/git/gitconfig ${HOME}/.gitconfig
 
-function localSyntax () {
+    # Ctags
+    ln -sf ${FROMDIR}/ctags/ctags ${HOME}/.ctags
 
-    if [ ! -e "${DISTDIR}"/.vim/syntax ] ; then
-        mkdir -p "${DISTDIR}"/.vim/syntax
+    # Vim/Neovim
+    ln -sf "${FROMDIR}"/vim/vimrc                 "${VimHOME}"/vimrc
+    ln -sf "${FROMDIR}"/vim/vimrc                 "${NvimHOME}"/init.vim
+    ln -sf "${FROMDIR}"/vim/plugins/deinlazy.toml "${NvimHOME}"/deinlazy.toml
+
+  }
+
+  rcFiles
+  unset rcFiles
+
+#}}}
+# rc local files {{{
+
+  function rcLocalFiles () {
+
+    local foo=$1
+    local bar=$2
+
+    if [ -e "${foo}"/"${bar}" ] ; then
+      rm -rf "${foo}"/"${bar}"
     fi
+
+    mkdir "${foo}"/"${bar}"
 
     local filePath
     local fileName
-    for filePath in "${FROMDIR}"/vim/syntax/* ; do
-        fileName=$(basename "${filePath}")
-        [ -r "$filePath" ] && ln -sf "${filePath}" "${DISTDIR}"/.vim/syntax/"${fileName}"
+
+    for filePath in "${FROMDIR}"/vim/"${bar}"/* ; do
+      fileName=$(basename "${filePath}")
+      [ -r "$filePath" ] && ln -sf "${filePath}" "${foo}"/"${bar}"/"${fileName}"
     done
-    unset file
 
-}
+    unset foo
+    unset bar
+    unset filePath
+    unset fileName
 
-localSyntax
-unset localSyntax
+  }
 
-function create_alias_macvim_impl {
+  rcLocalFiles $VimHOME  syntax
+  rcLocalFiles $VimHOME  dictionary
+  rcLocalFiles $NvimHOME syntax
+  rcLocalFiles $NvimHOME dictionary
+  unset rcLocalFiles
+
+# }}}
+# create MacVim alias {{{
+
+  function create_alias_macvim_impl {
 
     local foo=$( type -P mvim )
     local bar=$( readlink ${foo} )
 
     local str=$(
-        cd $( dirname "${foo}" )
-        cd $( dirname "${bar}" )
-        cd ..
-        pwd -P
+      cd $( dirname "${foo}" )
+      cd $( dirname "${bar}" )
+      cd ..
+      pwd -P
     )
 
-    local s="'"
+    local s=''
+    s+="'"
     s+='tell application "Finder" to make alias file to POSIX file'
     s+=' "'
     s+=${str}/MacVim.app
@@ -63,43 +93,33 @@ function create_alias_macvim_impl {
     s+="'"
 
     echo "${s}" | xargs osascript -e > /dev/null 2>&1
-}
 
-function create_alias_macvim {
+  }
+
+  function create_alias_macvim {
 
     local tmp=$( find /Applications -maxdepth 1 -name MacVim.* 2>/dev/null )
+
     if [ $? -ne 0 ]; then
-        echo 'error! please check MacVim alias.'
+      echo 'error! please check MacVim alias.'
     elif [ -z "${tmp}" ]; then
-        create_alias_macvim_impl
+      create_alias_macvim_impl
     else
-        rm /Applications/MacVim.*
-        create_alias_macvim_impl
-    fi
-}
-
-create_alias_macvim
-
-# template
-MEMODIR="${HOME}/Dropbox/memo"
-ln -sf ${FROMDIR}/template/memolist/txt.txt ${MEMODIR}/
-
-# dictionary
-function localDictionary () {
-
-    if [ ! -e "${DISTDIR}"/.vim/dictionary ] ; then
-        mkdir -p "${DISTDIR}"/.vim/dictionary
+      rm /Applications/MacVim.*
+      create_alias_macvim_impl
     fi
 
-    local filePath
-    local fileName
-    for filePath in "${FROMDIR}"/vim/dictionary/* ; do
-        fileName=$(basename "${filePath}")
-        [ -r "$filePath" ] && ln -sf "${filePath}" "${DISTDIR}"/.vim/dictionary/"${fileName}"
-    done
-    unset file
+    unset tmp
 
-}
+  }
 
-localDictionary
-unset localDictionary
+  create_alias_macvim
+  unset create_alias_macvim
+
+# }}}
+# template {{{
+
+  ln -sf ${FROMDIR}/template/memolist/txt.txt ${HOME}/Dropbox/memo
+
+# }}}
+

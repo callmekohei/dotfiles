@@ -1,6 +1,4 @@
-# -----------------------------
-#   callmekohei's gitconfig
-# -----------------------------
+# callmekohei's gitconfig
 
 [user] #{{{
 
@@ -265,11 +263,14 @@
 # }}}
 
 # Reference {{{
-# see also: pro git ( https://git-scm.com/book/ja/v2/ )
-# see also: mathiasbynens/dotfiles ( https://github.com/mathiasbynens/dotfiles/blob/master/.gitconfig )
-# see also: afi/etc-skel ( https://github.com/rafi/etc-skel/blob/master/.config/git/config )
+
+  # see also: pro git ( https://git-scm.com/book/ja/v2/ )
+  # see also: mathiasbynens/dotfiles ( https://github.com/mathiasbynens/dotfiles/blob/master/.gitconfig )
+  # see also: afi/etc-skel ( https://github.com/rafi/etc-skel/blob/master/.config/git/config )
+
 # }}}
 # __END__  "{{{1
-# vim: filetype=sh
-# vim: foldmethod=marker
-# vim: foldcolumn=4
+
+  # vim: filetype=sh
+  # vim: foldmethod=marker
+  # vim: foldcolumn=4

@@ -4,7 +4,9 @@
 !deploy.bash
 
 !bash/*
+!ctags/*
 !git/*
+!template/*
 !vim/*
 
 # black list

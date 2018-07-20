@@ -1,6 +1,4 @@
-# -----------------------------
-#   callmekohei's bash_profile
-# -----------------------------
+# callmekohei's bash_profile
 
 if [ -f ~/.bashrc ]; then
   . ~/.bashrc

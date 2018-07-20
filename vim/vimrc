@@ -716,6 +716,7 @@ endfunction "}}}
 " }}}2 -------------------------------------------------
 " Bash script {{{2
 
+  autocmd callmekohei-vimrc BufNewFile,BufRead inputrc,bash_profile setlocal filetype=sh
   autocmd callmekohei-vimrc FileType sh call s:vimrc_bash()
   autocmd callmekohei-vimrc BufWinEnter,BufWritePost *.bash call quickrun#run( g:quickrun_config.bashCheck )
 
@@ -723,6 +724,11 @@ endfunction "}}}
 
     let g:is_bash      = 1
     let g:sh_no_error  = 1
+
+    let &l:tabstop     = 2
+    let &l:softtabstop = 2
+    let &l:shiftwidth  = 2
+    let &l:foldmethod  = 'markder'
     let &l:errorformat = '%f:\ line\ %l:\ %m'
 
     " quickrun settings
@@ -764,8 +770,6 @@ endfunction "}}}
       let &g:inccommand = 'nosplit'
     endif
 
-    " enable to local settings
-    let &g:runtimepath = &g:runtimepath . ',' . expand('~/.vim/',1)
   endif
 
 " }}}1 -------------------------------------------------

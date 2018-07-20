@@ -1,14 +1,13 @@
-# -----------------------------
-#   callmekohei's bashrc
-# -----------------------------
+# callmekohei's bashrc
 
-# Set extra path {{{
+# Path {{{
 
-# MacOSX already set path by path_helper.
-# see also: $ man path_helper 8
-# put homebrew path before /usr/bin ---> $ sudo vim /etc/paths
+  # MacOSX already set path by path_helper.
+  # see also: path_helper(8)
+  # put brew-bin( /usr/local/bin ) before /usr/bin
+  # see: /etc/paths
 
-function setExtraPath () {
+  function extraPath () {
     local openssl=/usr/local/opt/openssl/bin
     export PATH="${openssl}":"${PATH}"
 
@@ -20,74 +19,109 @@ function setExtraPath () {
 
     local go=/usr/local/opt/go/libexec/bin
     export PATH="${go}":"${PATH}"
-}
+  }
 
-setExtraPath
-unset setExtraPath
+  extraPath
+  unset setExtraPath
 
 # }}}
 # ENVIRONMENT {{{
 
-export EDITOR=vim
+  export EDITOR=vim
 
-# ( language )
-# export LANG=ja_JP.UTF-8
-export LANG=en_us.UTF-8
-export LESSCHARSET=utf-8
-export LC_ALL=$LANG
-export LC_ALLLANG=$LANG
-export LC_CTYPE=$LANG
-export POL_LANG=en.utf-8
+  # Language
+  # export LANG=ja_JP.UTF-8
+  export LANG=en_us.UTF-8
+  export LESSCHARSET=utf-8
+  export LC_ALL=$LANG
+  export LC_ALLLANG=$LANG
+  export LC_CTYPE=$LANG
+  export POL_LANG=en.utf-8
 
-# ( ls )
-export CLICOLOR=1
-export LSCOLORS=ExFxBxDxCxegedabagacad
+  # ls
+  export CLICOLOR=1
+  export LSCOLORS=ExFxBxDxCxegedabagacad
 
-# ( less )
-export LESS='-g -i -M -R -S -W -z-4 -x4'
-export PAGER=less
-export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
-export LESS_TERMCAP_md=$'\E[01;38;5;74m'  # begin bold
-export LESS_TERMCAP_me=$'\E[0m'           # end mode
-export LESS_TERMCAP_se=$'\E[0m'           # end standout-mode
-export LESS_TERMCAP_so=$'\E[00;47;30m'    # begin standout-mode - info box
-export LESS_TERMCAP_ue=$'\E[0m'           # end underline
-export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
+  # less
+  export LESS='-g -i -M -R -S -W -z-4 -x4'
+  export PAGER=less
+  export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
+  export LESS_TERMCAP_md=$'\E[01;38;5;74m'  # begin bold
+  export LESS_TERMCAP_me=$'\E[0m'           # end mode
+  export LESS_TERMCAP_se=$'\E[0m'           # end standout-mode
+  export LESS_TERMCAP_so=$'\E[00;47;30m'    # begin standout-mode - info box
+  export LESS_TERMCAP_ue=$'\E[0m'           # end underline
+  export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
+
+  # XDG Base Directory Specification
+  export XDG_CONFIG_HOME=$HOME/.config
+  export XDG_CACHE_HOME=$HOME/.cache
+  export XDG_DATA_HOME=$HOME/.local/share
 
 # }}}
-# Load files for Completions {{{
+# ENVIRONMENT2 {{{
 
-# Bash's auto-complete is already implimented. ( requires > 4.x )
-function bashComplete () {
+  # Neovim
+  export NVIM_LOG_FILE=$HOME/.local/share/nvim/log
+
+  # fzf
+  export FZF_DEFAULT_OPTS='--height 40% --reverse --border --ansi'
+  [ -f $HOME/.fzf.bash ] && source $HOME/.fzf.bash
+
+  # Mono
+  export MONO_GAC_PREFIX=/usr/local
+
+  # SDB
+  export SDB_PATH=$HOME/sdbplg/bin/
+  export SDB_PATH=$HOME/myApp/sdbplg/bin/
+
+  # Wine
+  export WINEPREFIX=$HOME/.wine
+
+  # Go
+  export GOPATH=$HOME/go
+  export PATH=$PATH:$GOPATH/bin
+
+# }}}
+# Completions {{{
+
+  # Bash's auto-complete is already implimented. ( requires > 4.x )
+  function bashComplete () {
 
     # Load extra complete config files
     local dir=$(brew --prefix)/etc/bash_completion.d
     local file
-    for file in ${dir}/* ; do
-        [ -r "$file" ] && source "$file"
+
+    for fp in ${dir}/*
+    do
+      [ -r "$fp" ] && source "$fp"
     done
+
+    unset fp
+    unset dir
     unset file
 
-}
+  }
 
-bashComplete
-unset bashComplete
+  bashComplete
+  unset bashComplete
 
 # }}}
 # Prompt{{{
-function set_prompts () {
+
+  function set_prompts () {
 
     # colors
-    local black="\[$(  tput setaf 0)\]"
-    local blue="\[$(   tput setaf 4)\]"
-    local cyan="\[$(   tput setaf 6)\]"
-    local gray="\[$(   tput setaf 8)\]"
-    local green="\[$(  tput setaf 2)\]"
-    local purple="\[$( tput setaf 5)\]"
-    local red="\[$(    tput setaf 1)\]"
-    local reset="\[$(  tput sgr0)\]"
-    local white="\[$(  tput setaf 7)\]"
-    local yellow="\[$( tput setaf 3)\]"
+    local black="\[$(tput setaf 0)\]"
+    local blue="\[$(tput setaf 4)\]"
+    local cyan="\[$(tput setaf 6)\]"
+    local gray="\[$(tput setaf 8)\]"
+    local green="\[$(tput setaf 2)\]"
+    local purple="\[$(tput setaf 5)\]"
+    local red="\[$(tput setaf 1)\]"
+    local reset="\[$(tput sgr0)\]"
+    local white="\[$(tput setaf 7)\]"
+    local yellow="\[$(tput setaf 3)\]"
 
     # Automatically trim long paths in the prompt (requires Bash 4.x)
     PROMPT_DIRTRIM=2
@@ -113,118 +147,74 @@ function set_prompts () {
 
     # Debug prompt string  (when using `set -x`)
     export PS4='+ \011\e[1;30m\t\011\e[1;34m${BASH_SOURCE}\e[0m:\e[1;36m${LINENO}\e[0m \011 ${FUNCNAME[0]:+\e[0;35m${FUNCNAME[0]}\e[1;30m()\e[0m:\011\011 }'
-}
+  }
 
-set_prompts
-unset set_prompts
-
-# }}}
-# Load .bashlocalrc {{{
-
-function load_localbash () {
-
-    local bashlocal=~/dotfiles/bash/local.bash
-
-    if [ -f ${bashlocal}  ]; then
-      . ${bashlocal}
-    fi
-}
-
-load_localbash
-unset load_localbash
+  set_prompts
+  unset set_prompts
 
 # }}}
-# util alias {{{
+# Alias {{{
 
-    alias la='ls -a'
-    alias ll='ls -a -l'
-    alias cd..='cd ..'
-    alias vim='nvim'
+  alias la='ls -a'
+  alias ll='ls -a -l'
+  alias cd..='cd ..'
+  alias vim='nvim'
+  alias git='hub'
 
-# }}}
-# local {{{
-
-# Go
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin
-
-# fzf
-export FZF_DEFAULT_OPTS='--height 40% --reverse --border --ansi'
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-f () { vim $(fzf) ; }
-
-# git/github
-eval "$(hub alias -s)"
-
-export MONO_GAC_PREFIX=/usr/local
-export WINEPREFIX=~/.wine
-
-# XDG Base Directory Specification
-export XDG_CONFIG_HOME=~/.config
-export XDG_DATA_HOME=~/.local/share/nvim
-export XDG_CACHE_HOME=~/.cache
-export NVIM_LOG_FILE=~/.local/share/nvim/log
-
-export PYTHONPATH=~/pdb/
-export SDB_PATH=~/sdbplg/bin/
-export SDB_PATH=~/myApp/sdbplg/bin/
+  alias loto6="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe)"
+  alias loto7="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe 7 )"
 
 # }}}
-# local2 {{{
+# Local {{{
 
-fe() {
-  local files
-  IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
-  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
-}
+  # TODO : fzf
+  fe() {
+    local files
+    IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
+    [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+  }
+  f () { vim $(fzf) ; }
 
-# dotfiles
-dotfile () { cd ~/dotfiles ; }
-deploy () { bash ~/dotfiles/deploy.bash ; echo 'update links' ; }
-bashrc () { vim ~/dotfiles/bash/bashrc ; }
-vimrc  () { vim ~/dotfiles/vim/vimrc ; }
+  dotfile () { cd ~/dotfiles ; }
+  deploy () { bash ~/dotfiles/deploy.bash ; echo 'update links' ; }
+  bashrc () { vim ~/dotfiles/bash/bashrc ; }
+  vimrc  () { vim ~/dotfiles/vim/vimrc ; }
+  myapp () { cd ~/myApp ; ls; }
+  deopletefsharp () { cd ~/.cache/dein/repos/github.com/callmekohei/deoplete-fsharp ; }
 
-alias loto6="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe)"
-alias loto7="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe 7 )"
 
-myapp () { cd ~/myApp ; ls; }
-deopletefsharp () { cd ~/.cache/dein/repos/github.com/callmekohei/deoplete-fsharp ; }
-
-function v () {
-    vim -N -u $HOME/tmp/minimal.vimrc $1
-}
-
-dictionary () { cd ~/tmp/mydictionary ; }
-
-# TODO
-# function gif() {
+  # TODO
+  # function gif() {
     # # scale is 320, 480, 640, 800, 1280
     # filename=''
     # if [ $1 = "" ] ; then
-    #     filename=Untitled
+    #   filename=Untitled
     # else
-    #     filename=$(basename "$1" .mov)
+    #   filename=$(basename "$1" .mov)
     # fi
     #
     # scale=''
     # if [ $2 = "" ] ; then
-    #     scale=600
+    #   scale=600
     # else
-    #     scale=$2
+    #   scale=$2
     # fi
     #
     # ffmpeg -i ${filename}.mov -vf scale=${scale}:-1  -r 10 ${filename}.gif
-# }
+  # }
 
 # }}}
-# second home {{{
+# Home2 {{{
 
-    if [ ! -e $HOME/tmp/ ] ; then
-        mkdir ./tmp/
-    fi
-    cd $HOME/tmp/
+  if [ ! -e $HOME/tmp/ ] ; then
+    mkdir ./tmp/
+  fi
+
+  cd $HOME/tmp/
 
 # }}}
-# __END__  "{{{1
-# vim: foldmethod=marker
-# vim: foldcolumn=2
+# __END__  {{{1
+
+  # vim: expandtab softtabstop=2 shiftwidth=2
+  # vim: foldmethod=marker
+  # vim: foldcolumn=3

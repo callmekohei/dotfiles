@@ -1,7 +1,4 @@
-# -----------------------------
-#   callmekohei's inputrc
-# -----------------------------
-
+# callmekohei's inputrc
 # see also: https://wiki.archlinux.jp/index.php/Readline
 
 $include /etc/inputrc
@@ -10,19 +7,19 @@ set editing-mode vi
 
 $if mode=vi
 
-    set keymap vi-command
-    # these are for vi-command mode
-    "\C-p": history-search-backward
-    "\C-n": history-search-forward
-    j:history-search-forward
-    k:history-search-backward
+  set keymap vi-command
+  # these are for vi-command mode
+  "\C-p": history-search-backward
+  "\C-n": history-search-forward
+  j:history-search-forward
+  k:history-search-backward
 
-    set keymap vi-insert
-    # these are for vi-insert mode
-    "\C-p": history-search-backward
-    "\C-n": history-search-forward
-    "\C-h": backward-char
-    "\C-l": forward-char
+  set keymap vi-insert
+  # these are for vi-insert mode
+  "\C-p": history-search-backward
+  "\C-n": history-search-forward
+  "\C-h": backward-char
+  "\C-l": forward-char
 
 $endif
 
