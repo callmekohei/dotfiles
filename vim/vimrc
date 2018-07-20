@@ -72,11 +72,41 @@ let s:OFF = 0 | :lockvar s:OFF
   language message C
 
 " }}}1 -------------------------------------------------
-" prepare for gvim {{{1
+" gvim {{{1
 
-  " Disable menu.vim
   if has('gui_running')
+
+    " Disable menu.vim ( set it before plugin on )
+    let did_install_default_menus = 1
+    let did_install_syntax_menu   = 1
+    let do_no_lazyload_menus      = 1
+    let no_buffers_menu           = 1
     let &g:guioptions = 'Mc'
+    :unmenu-all
+
+    " font
+    let s:fontName = 'Droid Sans Mono for Powerline Nerd Font Complete'
+    let s:fontSize = 'h14'
+    let &g:guifont   = s:fontName . ':' . s:fontSize
+    let &g:linespace = 3
+
+    " window size
+    let &g:columns   = 80 " width
+    let &g:lines     = 30 " hight
+    let &g:cmdheight = 2
+
+    " Don't flick cursor.
+    setglobal guicursor&
+    setglobal guicursor+=a:blinkon0
+
+    " key mappings
+    noremap  ; :
+    noremap  : ;
+    lnoremap ; :
+    lnoremap : ;
+    tnoremap ; :
+    tnoremap : ;
+
   endif
 
 " }}}1 -------------------------------------------------
