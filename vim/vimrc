@@ -1,8 +1,8 @@
 " callmekohei's vimrc
 
 " option flag
-let s:ON  = 1
-let s:OFF = 0
+let s:ON  = 1 | :lockvar s:ON
+let s:OFF = 0 | :lockvar s:OFF
 
 " prepare {{{1
 
