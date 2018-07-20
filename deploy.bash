@@ -18,7 +18,7 @@ ln -sf ${FROMDIR}/git/gitconfig ${DISTDIR}/.gitconfig
 ln -sf ${FROMDIR}/ctags/ctags ${DISTDIR}/.ctags
 
 # Vim/Neovim
-ln -sf "${FROMDIR}"/vim/vimrc                 "${DISTDIR}"/.vimrc
+ln -sf "${FROMDIR}"/vim/vimrc                 "${DISTDIR}"/.vim/vimrc
 ln -sf "${FROMDIR}"/vim/vimrc                 "${DISTDIR}"/.config/nvim/init.vim
 ln -sf "${FROMDIR}"/vim/plugins/dein.toml     "${DISTDIR}"/.config/nvim/dein.toml
 ln -sf "${FROMDIR}"/vim/plugins/deinlazy.toml "${DISTDIR}"/.config/nvim/deinlazy.toml
@@ -41,9 +41,6 @@ function localSyntax () {
 
 localSyntax
 unset localSyntax
-
-# MacVim
-ln -fs "${FROMDIR}"/vim/gvimrc "${DISTDIR}"/.gvimrc
 
 function create_alias_macvim_impl {
 
