@@ -181,6 +181,7 @@
   vimrc  () { vim ~/dotfiles/vim/vimrc ; }
   myapp () { cd ~/myApp ; ls; }
   deopletefsharp () { cd ~/.cache/dein/repos/github.com/callmekohei/deoplete-fsharp ; }
+  todo () { vim ~/Dropbox/memo/todo.txt ; }
 
 
   # TODO
