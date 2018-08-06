@@ -118,7 +118,7 @@ NvimHOME="${HOME}/.config/nvim"
 # }}}
 # memolist template {{{
 
-  ln -sf ${FROMDIR}/template/memolist/txt.txt ${HOME}/Dropbox/memo
+  ln -sf ${FROMDIR}/template/memolist/memo.txt ${HOME}/Dropbox/memo/memo.txt
 
 # }}}
 # __END__  "{{{1
