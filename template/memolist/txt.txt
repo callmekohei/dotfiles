@@ -1,5 +1,5 @@
 # title: {{_title_}}
-vim: filetype=text.memo foldmethod=marker
+vim: filetype=memo foldmethod=marker
 vim: tabstop=2 softtabstop=2 shiftwidth=2
 date: {{_date_}}
 tags: [{{_tags_}}]
