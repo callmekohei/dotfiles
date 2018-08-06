@@ -6,12 +6,18 @@
 repo = 'Shougo/deoplete.nvim'
 on_event = 'InsertEnter'
 hook_source = '''
-  call deoplete#custom#option({
-    \ 'auto_complete_delay': 0,
-    \ 'ignore_case': v:true,
-  \ })
-  call deoplete#custom#source('_', 'converters', ['remove_overlap'])
-  call deoplete#enable()
+" deoplete {{{
+
+call deoplete#custom#option({
+  \ 'auto_complete_delay': 0,
+  \ 'ignore_case': v:true,
+\ })
+
+call deoplete#custom#source('_', 'converters', ['remove_overlap'])
+
+call deoplete#enable()
+
+"}}}
 '''
 
 [[plugins]]
@@ -38,15 +44,20 @@ on_ft = ['markdown','toml']
 repo = 'plasticboy/vim-markdown'
 on_ft = 'markdown'
 hook_source='''
+" markdown {{{
+
   let g:vim_markdown_conceal = 0
   let g:vim_markdown_toml_frontmatter = 1
-  let g:vim_markdown_folding_disabled = 1
+
+"}}}
 '''
 
 [[plugins]]
 repo = 'previm/previm'
 on_ft = 'markdown'
 hook_source = '''
+" previm {{{
+
   let s:url = "https://gist.githubusercontent.com/andyferra/2554919/raw/10ce87fe71b23216e3075d5648b8b9e56f7758e1/github.css"
   let s:cssFolder = expand('~/.cache/dein/repos/github.com/previm/previm/preview/css')
 
@@ -58,6 +69,8 @@ hook_source = '''
   if !filereadable(s:cssFolder.'/github.css')
     execute '!wget' s:url '--directory-prefix' s:cssFolder
   endif
+
+"}}}
 '''
 
 # --------------------------------------------------------

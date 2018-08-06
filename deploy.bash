@@ -23,7 +23,9 @@ NvimHOME="${HOME}/.config/nvim"
     # Vim/Neovim
     ln -sf "${FROMDIR}"/vim/vimrc                 "${VimHOME}"/vimrc
     ln -sf "${FROMDIR}"/vim/vimrc                 "${NvimHOME}"/init.vim
+    ln -sf "${FROMDIR}"/vim/plugins/dein.toml     "${NvimHOME}"/dein.toml
     ln -sf "${FROMDIR}"/vim/plugins/deinlazy.toml "${NvimHOME}"/deinlazy.toml
+    ln -sf "${FROMDIR}"/vim/plugins/deinft.toml   "${NvimHOME}"/deinft.toml
 
   }
 
@@ -114,7 +116,7 @@ NvimHOME="${HOME}/.config/nvim"
   unset create_alias_macvim
 
 # }}}
-# template {{{
+# memolist template {{{
 
   ln -sf ${FROMDIR}/template/memolist/txt.txt ${HOME}/Dropbox/memo
 

@@ -158,7 +158,7 @@
   alias la='ls -a'
   alias ll='ls -a -l'
   alias cd..='cd ..'
-  alias vim='nvim'
+  # alias vim='nvim'
   alias git='hub'
 
   alias loto6="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe)"
