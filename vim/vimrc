@@ -247,12 +247,9 @@ let s:OFF = 0 | :lockvar s:OFF
   let g:mapleader      = "\<Space>"
   let g:maplocalleader = "\<Space>"
 
-  " open file with line number
-  nnoremap gf gF
-  vnoremap gf gF
-
-  " open url with web browser
-  nmap <leader><leader> gx
+  " open file by gF, url by gx and Folding line by partEdit
+  nnoremap <leader><leader> :call <SID>myOpen()<CR>
+  vnoremap <leader><leader> :call <SID>myOpen()<CR>
 
   " Avoid key mistakes
   nnoremap qqq: <Esc>q:
@@ -426,6 +423,66 @@ let s:OFF = 0 | :lockvar s:OFF
 
   inoreabbrev <expr> ---- repeat('-', 60 - col('.'))
 
+  function s:myOpenImpl(...) abort "{{{
+
+    let l:s = expand('<cfile>')
+
+    if l:s ==# ''
+      return
+    endif
+
+    if stridx(l:s,'http') >= 0
+      :normal gx
+      return
+    endif
+
+    let l:fp = split(expand(l:s),':')[0]
+
+    if filereadable(l:fp)
+      :normal gF
+      return
+    endif
+
+    return 9999
+
+  endfunction "}}}
+  function! s:myOpen() range "{{{
+
+    if call('foldclosed',[line('.')]) !=# -1
+
+      normal!v
+      normal!:
+      normal!`<
+      let l:fstline = line(".")
+      normal!`>
+      let l:lstline = line(".")
+
+      execute l:fstline .',' . l:lstline . 'Partedit'
+
+    else
+
+      let l:selectedMultiLines = a:lastline - a:firstline
+
+      if l:selectedMultiLines > 0
+        execute a:firstline .',' . a:lastline . 'Partedit'
+      else
+
+        let l:s = expand('<cfile>')
+
+        if l:s ==# ''
+          execute a:firstline .',' . a:lastline . 'Partedit'
+          return
+        endif
+
+        if call( 's:myOpenImpl', [] ) == 9999
+          execute a:firstline .',' . a:lastline . 'Partedit'
+        endif
+
+      endif
+
+    endif
+
+  endfunction "}}}
   function! s:trimEnd() abort "{{{
 
     :normal! ma

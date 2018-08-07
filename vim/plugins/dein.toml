@@ -109,7 +109,6 @@ hook_add = '''
 " vim-partedit {{{
 
     let g:partedit#opener   = 'vsplit'
-    let g:partedit#filetype = 'vim'
 
 "}}}
 '''
@@ -138,6 +137,6 @@ repo = 'vim-jp/vimdoc-ja'
 [[plugins]]
 repo = 'callmekohei/vim-todoedit'
 hook_add = '''
-  let g:doneTaskFile = '~/tmp/done.txt'
+  let g:doneTaskFile = expand('~/Dropbox/memo/done.txt')
 '''
 
