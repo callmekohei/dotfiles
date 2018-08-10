@@ -334,6 +334,7 @@ let s:OFF = 0 | :lockvar s:OFF
   autocmd callmekohei-vimrc BufNewFile,BufRead *.dependencies setlocal filetype=dependencies
   autocmd callmekohei-vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal filetype=markdown
   autocmd callmekohei-vimrc BufNewFile,BufRead *.memo setlocal filetype=memo
+  autocmd callmekohei-vimrc BufRead,BufNewFile *.pdbrc setlocal filetype=python
 
   autocmd callmekohei-vimrc BufWinEnter,BufWritePost *.bash call quickrun#run( g:quickrun_config.bashCheck )
 

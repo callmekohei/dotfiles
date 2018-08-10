@@ -174,21 +174,22 @@ memo = '''
 python = '''
 " python {{{
 
-" Indent settings.
-setlocal foldmethod=indent
-setlocal softtabstop=4
-setlocal shiftwidth=4
-setlocal textwidth=80
-setlocal smarttab
-setlocal expandtab
-setlocal nosmartindent
 
-autocmd callmekohei-vimrc BufRead,BufNewFile *.pdbrc setlocal filetype=python
-autocmd callmekohei-vimrc FileType python call s:vimrc_python()
+
 function! s:vimrc_python() abort
-  let g:quickrun_config.python = {}
-  let g:quickrun_config.python = { 'command': 'python3' }
+  setlocal foldmethod=indent
+  setlocal softtabstop=4
+  setlocal shiftwidth=4
+  setlocal textwidth=80
+  setlocal smarttab
+  setlocal expandtab
+  setlocal nosmartindent
 endfunction
+
+let g:quickrun_config.python = {}
+let g:quickrun_config.python = { 'command': 'python3' }
+
+call s:vimrc_python()
 
 "}}}
 '''
@@ -276,33 +277,6 @@ function! s:vimrc_toml() abort
 endfunction
 
 call s:vimrc_toml()
-
-function! s:partEdit_Toml() range "{{{
-
-  if call('foldclosed',[line('.')]) !=# -1
-
-    normal!v
-    normal!:
-    normal!`<
-    let l:fstline = line(".")
-    normal!`>
-    let l:lstline = line(".")
-
-    " set foldmethod=indent " Partedit needs fixed original buffer.
-    execute l:fstline .',' . l:lstline . 'Partedit'
-
-  else
-
-    " set foldmethod=indent " Partedit needs fixed original buffer.
-    execute a:firstline .',' . a:lastline . 'Partedit'
-
-  endif
-
-endfunction "}}}
-
-" partEdit_Toml
-nnoremap <silent><buffer><localleader><localleader> :call <SID>partEdit_Toml()<CR>
-vnoremap <silent><buffer><localleader><localleader> :call <SID>partEdit_Toml()<CR>
 
 "}}}
 '''

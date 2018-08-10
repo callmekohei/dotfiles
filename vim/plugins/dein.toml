@@ -2,6 +2,23 @@
 repo = 'Shougo/dein.vim'
 
 [[plugins]]
+repo = 'Shougo/deoplete.nvim'
+hook_add = '''
+" deoplete {{{
+
+call deoplete#custom#option({
+  \ 'auto_complete_delay': 0,
+  \ 'ignore_case': v:true,
+\ })
+
+call deoplete#custom#source('_', 'converters', ['remove_overlap'])
+
+call deoplete#enable()
+
+"}}}
+'''
+
+[[plugins]]
 repo = 'Shougo/vimproc.vim'
 build = 'make'
 
@@ -137,6 +154,10 @@ repo = 'vim-jp/vimdoc-ja'
 [[plugins]]
 repo = 'callmekohei/vim-todoedit'
 hook_add = '''
+" todoedit {{{
+
   let g:doneTaskFile = expand('~/Dropbox/memo/done.txt')
+
+" }}}
 '''
 
