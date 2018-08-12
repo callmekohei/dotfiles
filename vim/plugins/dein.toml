@@ -9,6 +9,7 @@ hook_add = '''
 call deoplete#custom#option({
   \ 'auto_complete_delay': 0,
   \ 'ignore_case': v:true,
+  \ 'refresh_always': v:false,
 \ })
 
 call deoplete#custom#source('_', 'converters', ['remove_overlap'])
@@ -161,3 +162,6 @@ hook_add = '''
 " }}}
 '''
 
+[[plugins]]
+repo = 'callmekohei/deoplete-todoedit'
+on_ft = 'todoedit'

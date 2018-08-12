@@ -164,8 +164,6 @@
   alias loto6="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe)"
   alias loto7="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe 7 )"
 
-# }}}
-# Local {{{
 
   # TODO : fzf
   fe() {
@@ -176,12 +174,22 @@
   f () { vim $(fzf) ; }
 
   dotfile () { cd ~/dotfiles ; }
+
   deploy () { bash ~/dotfiles/deploy.bash ; echo 'update links' ; }
+
   bashrc () { vim ~/dotfiles/bash/bashrc ; }
+
   vimrc  () { vim ~/dotfiles/vim/vimrc ; }
+
   myapp () { cd ~/myApp ; ls; }
+
   deopletefsharp () { cd ~/.cache/dein/repos/github.com/callmekohei/deoplete-fsharp ; }
+
   todo () { vim ~/Dropbox/memo/todo.txt ; }
+
+  home () { vim ~/Dropbox/memo/2018-08-09-home.memo ; }
+
+  callmekohei () { cd ~/.cache/dein/repos/github.com/callmekohei ; }
 
 
   # TODO

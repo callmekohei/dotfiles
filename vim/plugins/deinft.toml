@@ -263,6 +263,15 @@ sh = '''
   "}}}
 '''
 
+todoedit = '''
+" todoedit {{{
+
+  let g:deoplete_todoedit_defaultContext = '06-09 09-12 12-15 15-18 18-21 21-24 PROJECT OFFICE'
+  let g:deoplete_todoedit_defaultFolder = ' TMP HURRY SomeDay'
+
+"}}}
+'''
+
 toml = '''
 " toml {{{
 
