@@ -1,5 +1,10 @@
 " memo syntax highlight
 
+
+if exists("b:current_syntax")
+  finish
+endif
+
 " settings
 syntax match settings "vim:.*$"
 
