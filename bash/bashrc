@@ -187,7 +187,7 @@
 
   todo () { vim ~/Dropbox/memo/todo.txt ; }
 
-  home () { vim ~/Dropbox/memo/2018-08-09-home.memo ; }
+  main () { vim ~/Dropbox/memo/01.main.txt ; }
 
   callmekohei () { cd ~/.cache/dein/repos/github.com/callmekohei ; }
 

@@ -1,6 +1,16 @@
 [[plugins]]
 repo = 'Shougo/dein.vim'
 
+# [[plugins]]
+# repo = 'laishulu/vim-macos-ime'
+# build = './install'
+
+[[plugins]]
+repo = 'Shougo/defx.nvim'
+
+[[plugins]]
+repo = 'https://github.com/vim-scripts/renamer.vim'
+
 [[plugins]]
 repo = 'Shougo/deoplete.nvim'
 hook_add = '''
@@ -29,7 +39,7 @@ hook_add = '''
 " memolist {{{
 
     let g:memolist_path = expand("$HOME/Dropbox/memo",1)
-    let g:memolist_memo_suffix = "memo"
+    let g:memolist_memo_suffix = "txt"
     let g:memolist_template_dir_path = g:memolist_path
     let g:memolist_ex_cmd = 'Files'
     autocmd callmekohei-vimrc VimEnter * command! -nargs=* MemoGrep
@@ -140,11 +150,12 @@ hook_add = '''
       let g:tcomment_types = {}
     endif
 
-    let g:tcomment_types['']          = '// %s'
-    let g:tcomment_types['fsharp']    = '// %s'
-    let g:tcomment_types['mql4']      = '// %s'
-    let g:tcomment_types['text']      = '// %s'
-    let g:tcomment_types['text.memo'] = '// %s'
+    let g:tcomment_types['']       = '// %s'
+    let g:tcomment_types['fsharp'] = '// %s'
+    let g:tcomment_types['mql4']   = '// %s'
+    let g:tcomment_types['text']   = '// %s'
+    let g:tcomment_types['memo']   = '// %s'
+    let g:tcomment_types['osa']    = '// %s'
 
 "}}}
 '''

@@ -335,6 +335,7 @@ let s:OFF = 0 | :lockvar s:OFF
   autocmd callmekohei-vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal filetype=markdown
   autocmd callmekohei-vimrc BufNewFile,BufRead *.memo setlocal filetype=memo
   autocmd callmekohei-vimrc BufRead,BufNewFile *.pdbrc setlocal filetype=python
+  autocmd callmekohei-vimrc BufRead,BufNewFile *.osa setlocal filetype=osa syntax=javascript
 
   autocmd callmekohei-vimrc BufWinEnter,BufWritePost *.bash call quickrun#run( g:quickrun_config.bashCheck )
 
@@ -405,14 +406,70 @@ let s:OFF = 0 | :lockvar s:OFF
   endif
 
   " TODO: needs more infomations!
-  " ふむ〜 日本語自動offを使うとなんとなく挙動がおかしくなる・・・
-  " if has('mac')
-  "   set ttimeoutlen=1
-  "   let s:async = '&'
-  "   let s:imeoff = 'osascript -e "tell application \"System Events\" to key code 102"' . ' ' . s:async
-  "   autocmd callmekohei-vimrc InsertLeave * :call system(s:imeoff)
-  "   noremap <silent> <ESC> <ESC>:call system(s:imeoff)<CR>
-  " endif
+  " insert mode -> normal mode のときに :w するときに時間がかかる
+  if has('mac')
+
+    " set ttimeoutlen=1
+
+    function! s:IME_OFF() abort
+
+      autocmd callmekohei-vimrc InsertLeave * :call system(
+      \ 'osascript -e "tell application \"System Events\" to key code 102" &'
+      \ )
+
+      " <ESC>: の動作がワンテンポ遅くなる・・・
+      noremap <silent><nowait><ESC><ESC>
+      \ :nohlsearch<CR><C-l>
+      \ :<C-u>call system(
+      \ 'osascript -e "tell application \"System Events\" to key code 102" &'
+      \ )<CR>
+
+    endfunction
+
+    :call s:IME_OFF()
+
+  endif
+
+  " とりあえず保留 {{{
+  " ----------------------------------------------------
+
+
+  " set iminsert=2
+  " set imsearch=2
+  " set imcmdline
+
+
+  " function! ImActivate(active)
+  "   if a:active
+  "     call system('fcitx-remote -o')
+  "   else
+  "     call system('fcitx-remote -c')
+  "   endif
+  " endfunction
+
+  " function ImActivateFunc(active)
+  "   if a:active
+  "     call system( 'osascript -e "tell application \"System Events\" to key code 102"' )
+  "   else
+  "     echo 'bar'
+  "   " ... 何らかの処理
+  "   endif
+  "   echo 'hello'
+  "   " 戻り値は使われない
+  " endfunction
+
+  " TODO
+  " function ImStatusFunc()
+  "   " let is_active = ...何らかの処理
+  "   " return is_active ? 1 : 0
+  "   return 1
+  " endfunction
+
+  " set imstatusfunc=ImStatusFunc
+  " set imactivatefunc=ImActivateFunc
+  " set imactivatefunc=ImActivate
+
+  " }}}
 
 " }}}
 " util {{{

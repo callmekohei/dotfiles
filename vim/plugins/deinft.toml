@@ -8,6 +8,17 @@ _ = '''
 "}}}
 '''
 
+osa = '''
+"osa {{{
+
+  let g:quickrun_config.osa = {
+    \  'exec'                            : [ '%c -l JavaScript %s:p:r.osa' ]
+    \ ,'command'                         : 'osascript'
+  \}
+
+"}}}
+'''
+
 dependencies = '''
 " dependencies {{{
 
