@@ -61,6 +61,9 @@
 # }}}
 # ENVIRONMENT2 {{{
 
+  # Python
+  # export PYTHONPATH=$PYTHONPATH:'/System/Library/Frameworks/Carbon.framework/Carbon'
+
   # Neovim
   export NVIM_LOG_FILE=$HOME/.local/share/nvim/log
 
@@ -158,7 +161,7 @@
   alias la='ls -a'
   alias ll='ls -a -l'
   alias cd..='cd ..'
-  # alias vim='nvim'
+  alias vim='nvim'
   alias git='hub'
 
   alias loto6="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe)"
