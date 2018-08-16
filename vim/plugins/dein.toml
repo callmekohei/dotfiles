@@ -6,6 +6,9 @@ repo = 'Shougo/dein.vim'
 # build = './install'
 
 [[plugins]]
+repo = 'callmekohei/switcher.nvim'
+
+[[plugins]]
 repo = 'Shougo/defx.nvim'
 
 [[plugins]]

@@ -130,7 +130,6 @@ let s:OFF = 0 | :lockvar s:OFF
   autocmd callmekohei-vimrc CursorHold *.toml syntax sync minlines=300
   call s:dein_easy_settings()
 
-  set runtimepath+=/Users/callmekohei/tmp/switcher.nvim
 
   " turn plugins on
   syntax on
@@ -276,7 +275,7 @@ let s:OFF = 0 | :lockvar s:OFF
   noremap <leader>f zf
 
   " Cancel hilight search
-  nnoremap <silent><Esc><Esc> :<C-u>nohlsearch<CR><C-l>
+  noremap <silent><C-l> :<C-u>nohlsearch<CR><C-l>
 
   " Search by selected word/sentence ( Practical Vim (ja) : https://pragprog.com/titles/dnvim/source_code )
   xnoremap * :<C-u>call <SID>vSetSearch()<CR>/<C-R>=@/<CR><CR>
@@ -386,6 +385,9 @@ let s:OFF = 0 | :lockvar s:OFF
     tnoremap ; :
     tnoremap : ;
 
+    " auto switch English input source from Japanese input source
+    autocmd callmekohei-vimrc InsertLeave * :call SwitchEnglish('')
+
   endif
 
 " }}}
@@ -399,6 +401,9 @@ let s:OFF = 0 | :lockvar s:OFF
       let &g:inccommand = 'nosplit'
     endif
 
+    " auto switch English input source from Japanese input source
+    autocmd callmekohei-vimrc InsertLeave * :call SwitchEnglish('')
+
   endif
 
 " }}}
@@ -409,38 +414,6 @@ if has('mac')
   " https://github.com/koron/vim-kaoriya/blob/master/kaoriya/vim/vimrc#L221
   let &iskeyword = '@,48-57,_,128-167,224-235'
 
-" util func for ime {{{
-
-  function g:ImActivateFunc(active) abort
-    if !a:active
-      call system( 'osascript -e "tell application \"System Events\" to key code 102" &' )
-    endif
-  endfunction
-
-  function! g:ImStatusFunc() abort
-    let l:cmd = 'ObjC.import("Carbon") ;var current_source = $.TISCopyCurrentKeyboardInputSource(); ;var cfs = $.TISGetInputSourceProperty(current_source, $.kTISPropertyInputSourceID); ;ObjC.bindFunction("CFMakeCollectable", [ "id", [ "void *" ] ]); ;Ref.prototype.toNS = function () { return $.CFMakeCollectable(this) } ;cfs.toNS()'
-    let l:foo = system( 'osascript -l JavaScript -e "' . l:cmd . '" &' )
-    if stridx(l:foo, 'Japanese')
-      return 1
-    endif
-  endfunction
-
-"}}}
-
-  " noremap <silent><nowait><ESC><ESC>
-  " \ :nohlsearch<CR><C-l>
-  " \ :<C-u>call <SID>imDeactivateFunc()<CR>
-
-" 日本語切り替え for vim and macvim {{{
-if ! has('nvim')
-
-  set iminsert=2
-  set imsearch=2
-  set imcmdline
-  set imstatusfunc=g:ImStatusFunc
-  set imactivatefunc=g:ImActivateFunc
-
-endif "}}}
 
 endif " }}}
 " util {{{
