@@ -320,5 +320,10 @@ endfunction
 
 call s:vimrc_vim()
 
+" let-option color
+call matchadd( 'OptionKeyword', '\s&\zs\w*\ze$' )
+call matchadd( 'OptionKeyword', '\s&\zs\w*\ze\s')
+call matchadd( 'OptionKeyword', '\s&\(g:\|l:\)\zs\w*\ze\s')
+
 " }}}
 '''

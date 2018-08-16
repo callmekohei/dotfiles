@@ -138,45 +138,34 @@ let s:OFF = 0 | :lockvar s:OFF
 " }}}
 " colorscheme {{{
 
-  " --------------------------------------------------------
-  "                  local highlight group
-  " --------------------------------------------------------
+  " re-difine highlight group {{{
 
   function! s:myHighlights() abort
     highlight Comment        ctermfg=245  guifg=#8a8a8a
     highlight FoldColumn     ctermfg=245  guifg=#8a8a8a
     highlight Folded         ctermfg=245  guifg=#8a8a8a
-    highlight OptionKeyword  ctermfg=103  guifg=#8787af
     highlight UnicodeSpaces  ctermbg=131  guibg=#af5f5f
+    highlight OptionKeyword  ctermfg=103  guifg=#8787af
   endfunction
 
   autocmd callmekohei-vimrc ColorScheme * call s:myHighlights()
 
-  " --------------------------------------------------------
-  "                     set color scheme
-  " --------------------------------------------------------
+  "}}}
+  " set color scheme {{{
 
   let &g:background = 'dark'
   colorscheme Apprentice
 
-  " --------------------------------------------------------
-  "             local pattern to highlight group
-  " --------------------------------------------------------
+  "}}}
+  " add pattern to highlight group {{{
 
-  function! s:addLocalPatternHilightGroup() abort
+  " unicodeSpaces color
+  call matchadd(
+    \     'UnicodeSpaces'
+    \   , '\v%u180E|%u2028|%u2029|%u00A0|%u2000|%u2001|%u2002|%u2003|%u2004|%u2005|%u2006|%u2007|%u2008|%u2009|%u200A|%u202F|%u205F|%u3000'
+    \ )
 
-    " unicodeSpaces color
-    let l:unicodeSpaces = '\v%u180E|%u2028|%u2029|%u00A0|%u2000|%u2001|%u2002|%u2003|%u2004|%u2005|%u2006|%u2007|%u2008|%u2009|%u200A|%u202F|%u205F|%u3000'
-    call matchadd( 'UnicodeSpaces', l:unicodeSpaces )
-
-    " let-option color
-    call matchadd( 'OptionKeyword', '\s&\zs\w*\ze$' )
-    call matchadd( 'OptionKeyword', '\s&\zs\w*\ze\s')
-    call matchadd( 'OptionKeyword', '\s&\(g:\|l:\)\zs\w*\ze\s')
-
-  endfunction
-
-  call s:addLocalPatternHilightGroup()
+  "}}}
 
 " }}}
 " options {{{
@@ -345,8 +334,9 @@ let s:OFF = 0 | :lockvar s:OFF
 " }}}
 " vim {{{
 
-  " cursor like neovim
   if ! (  has('nvim') && has('gui_running') )
+
+    " cursor like neovim
     if has('vim_starting')
       let &t_SI .= "\e[6 q"
       let &t_EI .= "\e[2 q"
@@ -354,8 +344,10 @@ let s:OFF = 0 | :lockvar s:OFF
       " not work <localleader> if turn on timeoutlen
       " let &timeoutlen = 100
     endif
-  endif
 
+    " TODO: auto switch English input source from Japanese input source
+
+  endif
 
 " }}}
 " macvim {{{
@@ -394,6 +386,7 @@ let s:OFF = 0 | :lockvar s:OFF
 " neovim {{{
 
   if has('nvim')
+
     let g:python_host_prog  = '/usr/local/bin/python2'
     let g:python3_host_prog = '/usr/local/bin/python3'
 
@@ -413,7 +406,6 @@ if has('mac')
   " Macではデフォルトの'iskeyword'がcp932に対応しきれていないので修正
   " https://github.com/koron/vim-kaoriya/blob/master/kaoriya/vim/vimrc#L221
   let &iskeyword = '@,48-57,_,128-167,224-235'
-
 
 endif " }}}
 " util {{{
