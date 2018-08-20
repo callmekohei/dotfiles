@@ -115,8 +115,6 @@ let s:OFF = 0 | :lockvar s:OFF
         " call dein#add('callmekohei/tigaDebugger')
       endif
 
-      " call dein#add(expand("~/tmp/switcher.nvim"))
-
       call dein#end()
       call dein#save_state()
     endif
@@ -129,7 +127,6 @@ let s:OFF = 0 | :lockvar s:OFF
 
   autocmd callmekohei-vimrc CursorHold *.toml syntax sync minlines=300
   call s:dein_easy_settings()
-
 
   " turn plugins on
   syntax on
@@ -332,22 +329,61 @@ let s:OFF = 0 | :lockvar s:OFF
   autocmd callmekohei-vimrc BufWinEnter,BufWritePost *.bash call quickrun#run( g:quickrun_config.bashCheck )
 
 " }}}
-" vim {{{
+" Japanes Input source {{{
 
-  if ! (  has('nvim') && has('gui_running') )
+  " :h CursorIM
+  " if has('multi_byte_ime') || has('xim')
+  "   highlight CursorIM guibg=DarkCyan guifg=NONE
+  " endif
 
-    " cursor like neovim
-    if has('vim_starting')
-      let &t_SI .= "\e[6 q"
-      let &t_EI .= "\e[2 q"
-      let &t_SR .= "\e[4 q"
-      " not work <localleader> if turn on timeoutlen
-      " let &timeoutlen = 100
-    endif
+  " auto switch English input source from Japanese input source
+
+  if has('nvim')
+
+    autocmd callmekohei-vimrc InsertLeave * :call SwitchEnglish('')
+
+  elseif has('gui_running')
+
+    autocmd callmekohei-vimrc InsertLeave * :call SwitchEnglish('')
+
+  else
+
+    " autocmd callmekohei-vimrc InsertLeave * :call SwitchEnglish('')
 
     " TODO: auto switch English input source from Japanese input source
 
+    " function g:ImStatusFunc()
+    "   let is_active = call('IsJapanese',[''])
+    "   return is_active ? 1 : 0
+    " endfunction
+
+    " function g:ImActivateFunc(active)
+    "   if a:active
+    "     call system( 'osascript -e "tell application \"System Events\" to key code 102" &' )
+    "   endif
+    " endfunction
+
+    " set imstatusfunc=g:ImStatusFunc
+    " set imactivatefunc=g:ImActivateFunc
+    " set iminsert=2
+
   endif
+
+" }}}
+" vim {{{
+
+    " cursor like neovim ( :h terminal-option )
+    if has('vim_starting')
+      if ! has('nvim')
+        if ! has ('gui_running')
+          let &t_SI .= "\e[6 q" " start insert mode
+          let &t_EI .= "\e[2 q" " end insert mode
+          let &t_SR .= "\e[4 q"
+          " not work <localleader> if turn on timeoutlen
+          " let &timeoutlen = 100
+        endif
+      endif
+    endif
 
 " }}}
 " macvim {{{
@@ -377,9 +413,6 @@ let s:OFF = 0 | :lockvar s:OFF
     tnoremap ; :
     tnoremap : ;
 
-    " auto switch English input source from Japanese input source
-    autocmd callmekohei-vimrc InsertLeave * :call SwitchEnglish('')
-
   endif
 
 " }}}
@@ -393,9 +426,6 @@ let s:OFF = 0 | :lockvar s:OFF
     if exists('&inccommand')
       let &g:inccommand = 'nosplit'
     endif
-
-    " auto switch English input source from Japanese input source
-    autocmd callmekohei-vimrc InsertLeave * :call SwitchEnglish('')
 
   endif
 

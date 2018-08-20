@@ -163,9 +163,13 @@
   alias cd..='cd ..'
   alias vim='nvim'
   alias git='hub'
+  alias python='Python3'
 
   alias loto6="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe)"
   alias loto7="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe 7 )"
+
+  alias titan='cd "/Applications/TitanFX.app/drive_c/Program Files/Titan FX MetaTrader 4"'
+
 
 
   # TODO : fzf
