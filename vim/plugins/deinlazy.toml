@@ -72,8 +72,20 @@ hook_source = '''
 #                           MQL4
 # --------------------------------------------------------
 
-# [[plugins]]
-# repo = 'vobornik/vim-mql4'
+[[plugins]]
+repo = 'vobornik/vim-mql4'
+on_ft = 'mql4'
+hook_source = '''
+" mql4 {{{
+
+let g:quickrun_config.mql4 = {
+    \  'exec': [ '%c %o %s:p:t' ]
+    \ ,'command':'bash'
+    \ ,'cmdopt' :'$HOME/tmp/quickrunMQL/quickrunMQL.bash'
+  \}
+
+"}}}
+'''
 
 # [[plugins]]
 # repo = 'Shougo/neco-syntax'

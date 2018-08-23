@@ -314,7 +314,7 @@ function! s:vimrc_vim() abort
   let &l:tabstop        = 2
   let &l:softtabstop    = 2
   let &l:shiftwidth     = 2
-  let &l:foldmethod     = 'markder'
+  let &l:foldmethod     = 'marker'
 
 endfunction
 
@@ -326,4 +326,22 @@ call matchadd( 'OptionKeyword', '\s&\zs\w*\ze\s')
 call matchadd( 'OptionKeyword', '\s&\(g:\|l:\)\zs\w*\ze\s')
 
 " }}}
+'''
+
+mql4 = '''
+" mql4 {{{
+
+function! s:vimrc_mql4() abort
+
+  let &l:tabstop        = 3
+  let &l:softtabstop    = 3
+  let &l:shiftwidth     = 3
+  let &l:foldmethod     = 'marker'
+
+endfunction
+
+call s:vimrc_mql4()
+
+
+"}}}
 '''
