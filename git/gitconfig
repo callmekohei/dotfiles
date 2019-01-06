@@ -69,7 +69,7 @@
     tool                = vimdiff
 
 [difftool "vimdiff"]
-    cmd = nvim -d \"$LOCAL\" \"$REMOTE\"
+    # cmd = nvim -d \"$LOCAL\" \"$REMOTE\"
 
 #}}}
 [pull] #{{{
