@@ -2,6 +2,39 @@
 repo = 'Shougo/dein.vim'
 
 # [[plugins]]
+# repo='artur-shaik/vim-javacomplete2'
+# hook_add = '''
+#   call deoplete#custom#option('omni_patterns', {
+#   \ 'java': '[^. *\t]\.\w*',
+#   \})
+# '''
+
+# [[plugins]]
+# repo = 'autozimu/LanguageClient-neovim'
+# depends = 'deoplete.nvim'
+# # on_ft = ['rust', 'vue']
+# build = './install.sh'
+# hook_source = '''
+# set hidden
+# let g:LanguageClient_serverCommands = {
+#     \ 'vue': ['vls'],
+#     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+#     \ }
+# let g:LanguageClient_autoStart = 1
+# nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+# nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+# nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+# '''
+
+# [[plugins]]
+# repo = 'tbodt/deoplete-tabnine'
+# build = './install.sh '
+
+# [[plugins]]
+# repo ='zxqfl/tabnine-vim'
+
+
+# [[plugins]]
 # repo = 'laishulu/vim-macos-ime'
 # build = './install'
 
@@ -53,7 +86,7 @@ hook_add = '''
     let g:memolist_memo_suffix = "txt"
     let g:memolist_template_dir_path = g:memolist_path
     let g:memolist_ex_cmd = 'Files'
-    autocmd callmekohei-vimrc VimEnter * command! -nargs=* MemoGrep
+    autocmd MyAutoCmd VimEnter * command! -nargs=* MemoGrep
       \ call fzf#vim#ag( <q-args> , fzf#vim#with_preview( {'dir':g:memolist_path}, 'right:50%' ) )
 
 "}}}
@@ -85,8 +118,8 @@ hook_add = '''
     let g:indent_guides_start_level = 2
     let g:indent_guides_guide_size  = 1
     let g:indent_guides_auto_colors = 0
-    autocmd callmekohei-vimrc VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#3A3C43 ctermbg=0
-    autocmd callmekohei-vimrc VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#3A3C43 ctermbg=0
+    autocmd MyAutoCmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#3A3C43 ctermbg=0
+    autocmd MyAutoCmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#3A3C43 ctermbg=0
 
 "}}}
 '''
@@ -122,6 +155,8 @@ hook_add = '''
 
     " TODO:urlをよみこめない
     let g:ref_man_cmd            = 'man'
+    " let g:ref_man_manpath        = ['/usr/local/share/man/']
+
     let g:ref_pydoc_cmd          = 'python3 -m pydoc'
     let g:ref_source_webdict_cmd = 'w3m -dump %s'
     let g:ref_use_vimproc        = v:true

@@ -31,6 +31,29 @@ call s:vimrc_dependencies()
 "}}}
 '''
 
+vb = '''
+" vb {{{
+
+  function! s:vimrc_vb() abort
+    let &l:foldmethod  = 'marker'
+    let &l:tabstop     = 4
+    let &l:softtabstop = 4
+    let &l:shiftwidth  = 4
+    let &l:ambiwidth   = 'double'
+
+
+    " encoding
+    let &fileencoding  = 'cp932'
+    let &fileformats   = 'dos'
+
+  endfunction
+
+  call s:vimrc_vb()
+
+"}}}
+'''
+
+
 fsharp = '''
 "fsharp {{{
 
@@ -93,9 +116,9 @@ fsharp = '''
   " " very unstable (^_^;;
   " " https://github.com/thinca/vim-quickrun/issues/175
   " if has('nvim') || has('gui_running')
-  "   autocmd callmekohei-vimrc BufWinEnter,BufWritePost *.fsx call quickrun#run( g:quickrun_config.fsharpCheck )
+  "   autocmd MyAutoCmd BufWinEnter,BufWritePost *.fsx call quickrun#run( g:quickrun_config.fsharpCheck )
   " else
-  "   autocmd callmekohei-vimrc BufWritePost *.fsx call quickrun#run( g:quickrun_config.fsharpCheck )
+  "   autocmd MyAutoCmd BufWritePost *.fsx call quickrun#run( g:quickrun_config.fsharpCheck )
   " endif
 
 "}}}
@@ -250,7 +273,7 @@ sh = '''
     let &l:tabstop     = 2
     let &l:softtabstop = 2
     let &l:shiftwidth  = 2
-    let &l:foldmethod  = 'markder'
+    let &l:foldmethod  = 'marker'
     let &l:errorformat = '%f:\ line\ %l:\ %m'
 
     " quickrun settings
@@ -343,5 +366,24 @@ endfunction
 call s:vimrc_mql4()
 
 
+"}}}
+'''
+
+elixir = '''
+" elixir {{{
+"
+"function! s:vimrc_elixir() abort
+"
+"  let &l:tabstop        = 4
+"  let &l:softtabstop    = 4
+"  let &l:shiftwidth     = 4
+"  let &l:foldmethod     = 'marker'
+"
+"endfunction
+"
+"call s:vimrc_elixir()
+"
+"
+"
 "}}}
 '''

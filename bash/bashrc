@@ -19,6 +19,9 @@
 
     local go=/usr/local/opt/go/libexec/bin
     export PATH="${go}":"${PATH}"
+
+    # export PATH="/usr/local/opt/e2fsprogs/bin:$PATH"
+    # export PATH="/usr/local/opt/e2fsprogs/sbin:$PATH"
   }
 
   extraPath
@@ -161,9 +164,11 @@
   alias la='ls -a'
   alias ll='ls -a -l'
   alias cd..='cd ..'
-  alias vim='nvim'
+  # alias vim='nvim'
   alias git='hub'
   alias python='Python3'
+
+  alias icloud="cd /Users/callmekohei/Library/Mobile Documents/com~apple~CloudDocs"
 
   alias loto6="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe)"
   alias loto7="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe 7 )"
