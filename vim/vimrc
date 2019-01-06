@@ -88,6 +88,21 @@ language message C
   " vimrc
   nnoremap <leader>v :<C-u>edit $MYVIMRC<CR>
 
+  " Win32Unix
+  if has('win32unix')
+    inoremap ; :
+    inoremap : ;
+
+    nnoremap  ; :
+    nnoremap  : ;
+
+    lnoremap ; :
+    lnoremap : ;
+    tnoremap ; :
+    tnoremap : ;
+  endif
+
+
 " }}}
 
 " Folding {{{
@@ -155,12 +170,7 @@ endif
 
 " Plugins {{{
 
-  if ! isdirectory($HOME.'/.vim/pack/pack1')
 
-    syntax on
-    filetype plugin indent on
-
-  else
 
     let &g:packpath = $HOME.'/.vim/pack/pack1,' . &g:packpath
 
@@ -200,6 +210,7 @@ endif
     \ ,'outputter/buffer/close_on_empty' : 1
     \}
 
+  if has('mac')
     " romainl/Apprentice ( ColorScheme )
     " re-difine highlight group
     function! s:myHighlights() abort
@@ -211,8 +222,6 @@ endif
     endfunction
     autocmd MyAutoCmd ColorScheme * call s:myHighlights()
 
-    if has('mac')
-
       " set color scheme
       let &g:background = 'dark'
       colorscheme Apprentice
@@ -223,19 +232,19 @@ endif
       \   , '\v%u180E|%u2028|%u2029|%u00A0|%u2000|%u2001|%u2002|%u2003|%u2004|%u2005|%u2006|%u2007|%u2008|%u2009|%u200A|%u202F|%u205F|%u3000'
       \ )
 
-    elseif has('win32unix')
+  elseif has('win32unix')
 
-      set background=light
-      colorscheme lucius
-      LuciusLightHighContrast
+    set background=light
+    colorscheme lucius
+    LuciusLightHighContrast
 
-      " vimdiffの色設定
-      highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=22
-      highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
-      highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
-      highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
+    " vimdiffの色設定
+    highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=22
+    highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
+    highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
+    highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
 
-    endif
+  endif
 
     " MemoList
     nnoremap <leader>, :<C-u>MemoNew<CR>
@@ -244,7 +253,6 @@ endif
 
     """ }}}
 
-  endif
 
   " enable ':Man' command
   runtime ftplugin/man.vim
@@ -398,9 +406,11 @@ call s:vimrc_bash()
   call s:vimrc_vim()
 
   " let-option color
-  call matchadd( 'OptionKeyword', '\s&\zs\w*\ze$' )
-  call matchadd( 'OptionKeyword', '\s&\zs\w*\ze\s')
-  call matchadd( 'OptionKeyword', '\s&\(g:\|l:\)\zs\w*\ze\s')
+  if has('mac')
+    call matchadd( 'OptionKeyword', '\s&\zs\w*\ze$' )
+    call matchadd( 'OptionKeyword', '\s&\zs\w*\ze\s')
+    call matchadd( 'OptionKeyword', '\s&\(g:\|l:\)\zs\w*\ze\s')
+  endif
 
 " }}}
 
