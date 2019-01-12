@@ -1,7 +1,14 @@
 " callmekohei's vimrc
+" --------------------------------------------------------
+"                           Memo
+" --------------------------------------------------------
+"
+"  Jump           : gf, gF, gx
+"  increment      : g <C-a>
+"  toggle comment : gcc, <C-_><C-_>
 
 if &compatible
-  let &compatible = 0
+  set nocompatible
 endif
 
 " create autocmd group
@@ -22,19 +29,23 @@ language message C
     let &termencoding = 'utf-8'
   endif
 
+  if has('mac')
+    " For cp932 on mac
+    " https://github.com/koron/vim-kaoriya/blob/master/kaoriya/vim/vimrc#L221
+    let &iskeyword = '@,48-57,_,128-167,224-235'
+  endif
+
   " vimrc's scriptencoding
   scriptencoding utf-8
 
 " }}}
-
 " key mappings {{{
 
   let g:mapleader      = "\<Space>"
   let g:maplocalleader = "\<Space>"
 
-  " open file by gF, url by gx and Folding line by partEdit
-  nnoremap <leader><leader> :call <SID>myOpen()<CR>
-  vnoremap <leader><leader> :call <SID>myOpen()<CR>
+  " vimrc
+  nnoremap <leader>v :<C-u>edit $MYVIMRC<CR>
 
   " Avoid key mistakes
   nnoremap qqq: <Esc>q:
@@ -43,18 +54,22 @@ language message C
   nnoremap q/ <Nop>
   nnoremap q? <Nop>
 
+  " open file by gF, url by gx and Folding line by partEdit
+  nnoremap <leader><leader> gF<CR>
+  vnoremap <leader><leader> gF<CR>
+
   " Cancel hilight search
   noremap <silent><C-l> :<C-u>nohlsearch<CR><C-l>
 
   " Search by selected word/sentence ( Practical Vim (ja) : https://pragprog.com/titles/dnvim/source_code )
   xnoremap * :<C-u>call <SID>vSetSearch()<CR>/<C-R>=@/<CR><CR>
   xnoremap # :<C-u>call <SID>vSetSearch()<CR>?<C-R>=@/<CR><CR>
-  function! s:vSetSearch()
+  function! s:vSetSearch() "{{{
     let temp = @s
     normal! gv"sy
     let @/ = '\V' . substitute(escape(@s, '/\'), '\n', '\\n', 'g')
     let @s = temp
-  endfunction
+  endfunction "}}}
 
   " Editor lines
   nnoremap j gj
@@ -68,12 +83,25 @@ language message C
   nnoremap <leader>cd :<C-u>cd %:p:h<cr>:<C-u>pwd<cr>
 
   " yank half
-  nnoremap Y y$
+  nnoremap Y :<C-u>call <SID>toCRLFifWin()<CR>
+  function! s:toCRLFifWin() "{{{
+    normal! y$
+    let l:s = @"
+    if has('win32unix')
+      let l:lineEnd = '\r\n'
+    elseif has ('win32')
+      let l:lineEnd = '\r\n'
+    elseif has ('unix')
+      let l:lineEnd = '\n'
+    elseif has ('mac')
+      let l:lineEnd = '\r'
+    endif
+    let @" = substitute(l:s,'$',l:lineEnd,'g')
+  endfunction "}}}
 
-  " Toggle window
-  " https://qiita.com/grohiro/items/e3dbcc93510bc8c4c812
+  " Toggle window ( https://qiita.com/grohiro/items/e3dbcc93510bc8c4c812 )
   nnoremap M :<C-u>call <SID>toggleWindowSize()<CR>
-  let s:toggle_window_size = 0
+  let s:toggle_window_size = 0 "{{{
   function! s:toggleWindowSize()
     if s:toggle_window_size ==# 1
       execute "normal \<C-w>="
@@ -83,183 +111,21 @@ language message C
       :vertical resize
       let s:toggle_window_size = 1
     endif
-  endfunction
-
-  " vimrc
-  nnoremap <leader>v :<C-u>edit $MYVIMRC<CR>
+  endfunction "}}}
 
   " Win32Unix
   if has('win32unix')
+    nnoremap ; :
+    nnoremap : ;
     inoremap ; :
     inoremap : ;
-
-    nnoremap  ; :
-    nnoremap  : ;
-
     lnoremap ; :
     lnoremap : ;
     tnoremap ; :
     tnoremap : ;
   endif
 
-
 " }}}
-
-" Folding {{{
-
-if has('folding')
-
-  function! s:myFoldText() abort "{{{
-
-    let l:foldchar = matchstr( &fillchars , 'fold:\zs.' )
-    let l:foldtext = getline( v:foldstart )
-
-    " Replace unicode spaces to normal space
-    " see also: http://www.unicode.org/versions/Unicode11.0.0/ch06.pdf ( page11 Table 6-2.Unicode Space Characters )
-    let l:unicodeSpaces = '\v%u180E|%u2028|%u2029|%u00A0|%u2000|%u2001|%u2002|%u2003|%u2004|%u2005|%u2006|%u2007|%u2008|%u2009|%u200A|%u202F|%u205F|%u3000'
-    let l:normalSpace = ' '
-    let l:foldtext = substitute( l:foldtext,l:unicodeSpaces , l:normalSpace , 'g' )
-
-    " trim head spaces and tail spaces
-    let l:headSpaces = '\v^\s+\ze\S'
-    let l:tailSpaces = '\v\s+$'
-    let l:foldtext = substitute( l:foldtext,l:headSpaces . '|' . l:tailSpaces , '' , 'g' )
-
-    " trim marker
-    let l:marker = '{' . '{' . '{'
-    let l:spacesBeforeMarker = '\v\s*("|#)?\s*'
-    let l:numbersAfterMarker = '\v\s*\d*'
-    let l:tmp = l:spacesBeforeMarker . '\m' . l:marker . l:numbersAfterMarker
-    let l:foldtext = substitute( l:foldtext, l:tmp , '', 'g' )
-
-    return strpart( '+' . repeat(foldchar, v:foldlevel*2) . ' ' . l:foldtext . ' ' , 0 , ( winwidth(0)*2 )/3 )
-
-  endfunction "}}}
-
-  let &foldmethod = 'marker'
-  let &foldtext = get( funcref( 's:myFoldText' ), 'name' ) . '()'
-
-  " Folding ( http://d.hatena.ne.jp/leafcage/20111223/1324705686 )
-  noremap <leader>j zj
-  noremap <leader>k zk
-  noremap <leader>n ]z
-  noremap <leader>p [z
-  noremap <leader>h zc
-  noremap <leader>l zo
-  noremap <leader>a za
-  noremap <leader>m zM
-  noremap <leader>i zMzv
-  noremap <leader>r zR
-  noremap <leader>f zf
-
-endif
-
-" }}}
-
-" MacVim {{{
-  if has('mac')
-    " Disable menu.vim for macvim
-    " Needs to load before loading plugins
-    let did_install_default_menus = 1
-    let did_install_syntax_menu   = 1
-    let do_no_lazyload_menus      = 1
-    let no_buffers_menu           = 1
-    let &g:guioptions = 'Mc'
-  endif
-"}}}
-
-" Plugins {{{
-
-
-
-    let &g:packpath = $HOME.'/.vim/pack/pack1,' . &g:packpath
-
-    syntax on
-    filetype plugin indent on
-
-    """ plugin setting {{{
-
-    " tomtom/tcomment_vim
-    if !exists('g:tcomment_types')
-      let g:tcomment_types = {}
-    endif
-    let g:tcomment_types['']       = '// %s'
-    let g:tcomment_types['fsharp'] = '// %s'
-
-    " junegunn/vim-easy-align
-    xmap ga <Plug>(EasyAlign)
-    nmap ga <Plug>(EasyAlign)
-
-    " nathanaelkane/vim-indent-guides
-    map <Nop>(disable-IndentGuidesToggle) <Plug>IndentGuidesToggle
-    let g:indent_guides_enable_on_vim_startup = 1
-    let g:indent_guides_start_level = 2
-    let g:indent_guides_guide_size  = 1
-    let g:indent_guides_auto_colors = 0
-    autocmd MyAutoCmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#3A3C43 ctermbg=0
-    autocmd MyAutoCmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#3A3C43 ctermbg=0
-
-    " thinca/vim-quickrun
-    let g:quickrun_no_default_key_mappings = 1
-    let g:quickrun_config   = {}
-    let g:quickrun_config._ = {
-    \  'hook/time/enable'                : 1
-    \ ,'hook/time/format'                : "\n*** time : %g s ***"
-    \ ,'hook/time/dest'                  : ''
-    \ ,"outputter/buffer/split"          : 'vertical'
-    \ ,'outputter/buffer/close_on_empty' : 1
-    \}
-
-  if has('mac')
-    " romainl/Apprentice ( ColorScheme )
-    " re-difine highlight group
-    function! s:myHighlights() abort
-      highlight Comment        ctermfg=245  guifg=#8a8a8a
-      highlight FoldColumn     ctermfg=245  guifg=#8a8a8a
-      highlight Folded         ctermfg=245  guifg=#8a8a8a
-      highlight UnicodeSpaces  ctermbg=131  guibg=#af5f5f
-      highlight OptionKeyword  ctermfg=103  guifg=#8787af
-    endfunction
-    autocmd MyAutoCmd ColorScheme * call s:myHighlights()
-
-      " set color scheme
-      let &g:background = 'dark'
-      colorscheme Apprentice
-
-      " unicodeSpaces color
-      call matchadd(
-      \     'UnicodeSpaces'
-      \   , '\v%u180E|%u2028|%u2029|%u00A0|%u2000|%u2001|%u2002|%u2003|%u2004|%u2005|%u2006|%u2007|%u2008|%u2009|%u200A|%u202F|%u205F|%u3000'
-      \ )
-
-  elseif has('win32unix')
-
-    set background=light
-    colorscheme lucius
-    LuciusLightHighContrast
-
-    " vimdiffの色設定
-    highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=22
-    highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
-    highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
-    highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
-
-  endif
-
-    " MemoList
-    nnoremap <leader>, :<C-u>MemoNew<CR>
-    nnoremap <leader>. :<C-u>MemoList<CR>
-    nnoremap <leader>/ :<C-u>MemoGrep<CR>
-
-    """ }}}
-
-
-  " enable ':Man' command
-  runtime ftplugin/man.vim
-  let g:ft_man_folding_enable = 1
-
-" }}}
-
 " options {{{
 
   " Search
@@ -329,10 +195,146 @@ endif
   set backupdir-=.
 
 " }}}
+" Folding {{{
 
-" filetypes {{{
+if has('folding')
 
-" vb {{{
+  function! s:myFoldText() abort "{{{
+
+    let l:foldchar = matchstr( &fillchars , 'fold:\zs.' )
+    let l:foldtext = getline( v:foldstart )
+
+    " Replace unicode spaces to normal space
+    " see also: http://www.unicode.org/versions/Unicode11.0.0/ch06.pdf ( page11 Table 6-2.Unicode Space Characters )
+    let l:unicodeSpaces = '\v%u180E|%u2028|%u2029|%u00A0|%u2000|%u2001|%u2002|%u2003|%u2004|%u2005|%u2006|%u2007|%u2008|%u2009|%u200A|%u202F|%u205F|%u3000'
+    let l:normalSpace = ' '
+    let l:foldtext = substitute( l:foldtext,l:unicodeSpaces , l:normalSpace , 'g' )
+
+    " trim head spaces and tail spaces
+    let l:headSpaces = '\v^\s+\ze\S'
+    let l:tailSpaces = '\v\s+$'
+    let l:foldtext = substitute( l:foldtext,l:headSpaces . '|' . l:tailSpaces , '' , 'g' )
+
+    " trim marker
+    let l:marker = '{' . '{' . '{'
+    let l:spacesBeforeMarker = '\v\s*("|#)?\s*'
+    let l:numbersAfterMarker = '\v\s*\d*'
+    let l:tmp = l:spacesBeforeMarker . '\m' . l:marker . l:numbersAfterMarker
+    let l:foldtext = substitute( l:foldtext, l:tmp , '', 'g' )
+
+    " trim ("|#)
+    let l:foo = '\v\s*("|#")\s*\ze\S'
+    let l:foldtext = substitute( l:foldtext, l:foo , '', 'g' )
+
+    return strpart( '+' . repeat(foldchar, v:foldlevel*2) . ' ' . l:foldtext . ' ' , 0 , ( winwidth(0)*2 )/3 )
+
+  endfunction "}}}
+
+  let &foldmethod = 'marker'
+  let &foldtext = get( funcref( 's:myFoldText' ), 'name' ) . '()'
+
+  " Folding ( http://d.hatena.ne.jp/leafcage/20111223/1324705686 )
+  noremap <leader>j zj
+  noremap <leader>k zk
+  noremap <leader>n ]z
+  noremap <leader>p [z
+  noremap <leader>h zc
+  noremap <leader>l zo
+  noremap <leader>a za
+  noremap <leader>m zM
+  noremap <leader>i zMzv
+  noremap <leader>r zR
+  noremap <leader>f zf
+
+endif
+
+" }}}
+
+" --------------------------------------------------------
+"                        Vim types
+" --------------------------------------------------------
+
+" Vim {{{
+
+  " cursor like neovim ( :h terminal-option )
+  if has('vim_starting')
+    if ! has('nvim')
+      if ! has ('gui_running')
+
+        let &t_SI .= "\e[6 q" " start insert mode
+        let &t_EI .= "\e[2 q" " end insert mode
+        let &t_SR .= "\e[4 q"
+        " not work <localleader> if turn on timeoutlen
+        " let &timeoutlen = 100
+
+      endif
+    endif
+  endif
+
+" }}}
+" MacVim {{{
+
+  if has('mac')
+    if has('gui_running')
+
+      " Disable menu.vim for macvim
+      " Needs to load before loading plugins
+      let did_install_default_menus = 1
+      let did_install_syntax_menu   = 1
+      let do_no_lazyload_menus      = 1
+      let no_buffers_menu           = 1
+      let &g:guioptions = 'Mc'
+
+      " font
+      let s:fontName = 'Droid Sans Mono for Powerline Nerd Font Complete'
+      let s:fontSize = 'h14'
+      let &g:guifont   = s:fontName . ':' . s:fontSize
+      let &g:linespace = 3
+
+      " window size
+      let &g:columns   = 80 " width
+      let &g:lines     = 30 " hight
+      let &g:cmdheight = 2
+
+      " Don't flick cursor.
+      setglobal guicursor&
+      setglobal guicursor+=a:blinkon0
+
+      " key mappings
+      noremap  ; :
+      noremap  : ;
+      lnoremap ; :
+      lnoremap : ;
+      tnoremap ; :
+      tnoremap : ;
+
+    endif
+  endif
+
+" }}}
+" neovim {{{
+
+  if has('nvim')
+
+    let g:python_host_prog  = '/usr/local/bin/python2'
+    let g:python3_host_prog = '/usr/local/bin/python3'
+
+    if exists('&inccommand')
+      let &g:inccommand = 'nosplit'
+    endif
+
+  endif
+
+" }}}
+
+" --------------------------------------------------------
+"                        File types
+" --------------------------------------------------------
+
+" Trim tail spaces ( exception: markdown, text )
+" autocmd MyAutoCmd BufWritePre * if index(['markdown'], &ft) == -1 | :call s:trimEnd() | endif
+
+" VB {{{
 
   autocmd MyAutoCmd BufRead,BufNewFile *.cls
   \ if getline(1).getline(2).getline(3).getline(4).getline(5).getline(6).getline(7).getline(8).getline(9).getline(10) =~? 'VB_Name\|Begin VB\.\(Form\|MDIForm\|UserControl\)' |
@@ -355,42 +357,47 @@ endif
     let &fileencoding  = 'cp932'
     let &fileformat   = 'dos'
   endfunction
+
   autocmd MyAutoCmd BufRead,BufNewFile *{.bas,.cls} call s:vimrc_vb()
 
+  autocmd MyAutoCmd BufWritePre *{.bas,.cls} call s:trimEnd()
+
 " }}}
+" BashScripting {{{
 
-" shell {{{
+  " set filetype
+  autocmd MyAutoCmd BufNewFile,BufRead inputrc,bash_profile setlocal filetype=sh
 
-function! s:vimrc_bash() abort
+  function! s:vimrc_bash() abort
 
-  let g:is_bash      = 1
-  let g:sh_no_error  = 1
+    let g:is_bash      = 1
+    let g:sh_no_error  = 1
 
-  let &l:tabstop     = 2
-  let &l:softtabstop = 2
-  let &l:shiftwidth  = 2
-  let &l:foldmethod  = 'marker'
-  let &l:errorformat = '%f:\ line\ %l:\ %m'
+    let &l:tabstop     = 2
+    let &l:softtabstop = 2
+    let &l:shiftwidth  = 2
+    let &l:foldmethod  = 'marker'
+    let &l:errorformat = '%f:\ line\ %l:\ %m'
 
-  " quickrun settings
-  " let g:quickrun_config.sh        = {}
-  " let g:quickrun_config.bashCheck = {}
-  " let g:quickrun_config.sh        = { 'command': 'bash' }
-  " let g:quickrun_config.bashCheck = {
-  "   \  'exec'                            : [ '%c -n %s:p:r.bash' ]
-  "   \ ,'command'                         : 'bash'
-  "   \ ,'hook/time/enable'                : 0
-  "   \ ,"outputter/buffer/close_on_empty" : 1
-  "   \ ,"outputter"                       : 'quickfix'
-  "   \ ,'outputter/buffer/split'          : ':set splitblow',
-  " \}
+    " quickrun settings
+    " let g:quickrun_config.sh        = {}
+    " let g:quickrun_config.bashCheck = {}
+    " let g:quickrun_config.sh        = { 'command': 'bash' }
+    " let g:quickrun_config.bashCheck = {
+    "   \  'exec'                            : [ '%c -n %s:p:r.bash' ]
+    "   \ ,'command'                         : 'bash'
+    "   \ ,'hook/time/enable'                : 0
+    "   \ ,"outputter/buffer/close_on_empty" : 1
+    "   \ ,"outputter"                       : 'quickfix'
+    "   \ ,'outputter/buffer/split'          : ':set splitblow',
+    " \}
 
-endfunction
-call s:vimrc_bash()
+  endfunction
+
+  autocmd MyAutoCmd BufRead,BufNewFile *{.sh,.bash,bashrc,inputrc,bash_profile} call s:vimrc_bash()
 
 "}}}
-
-" vim {{{
+" Vim script {{{
 
   if line('$') > 1000
     syntax sync minlines=200
@@ -403,171 +410,25 @@ call s:vimrc_bash()
     let &l:shiftwidth     = 2
     let &l:foldmethod     = 'marker'
   endfunction
-  call s:vimrc_vim()
 
-  " let-option color
-  if has('mac')
-    call matchadd( 'OptionKeyword', '\s&\zs\w*\ze$' )
-    call matchadd( 'OptionKeyword', '\s&\zs\w*\ze\s')
-    call matchadd( 'OptionKeyword', '\s&\(g:\|l:\)\zs\w*\ze\s')
-  endif
+  autocmd MyAutoCmd BufRead,BufNewFile *.vim call s:vimrc_vim()
 
 " }}}
 
-  " Trim tail spaces ( exception: markdown, text )
-  autocmd MyAutoCmd BufWritePre * if index(['markdown'], &ft) == -1 | :call s:trimEnd() | endif
+" --------------------------------------------------------
+"                      Util Functions
+" --------------------------------------------------------
 
-  " set filetype
-  autocmd MyAutoCmd BufNewFile,BufRead inputrc,bash_profile setlocal filetype=sh
+inoreabbrev <expr> ---- repeat('-', 60 - col('.'))
 
+" https://qiita.com/sgur/items/9e243f13caa4ff294fa8
+command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
 
-" }}}
+" command! SelfFileDelete call delete(expand('%',1))
 
-" Vim Cursor like neovim {{{
+" trimEnd {{{
 
-  " cursor like neovim ( :h terminal-option )
-  if has('vim_starting')
-    if ! has('nvim')
-      if ! has ('gui_running')
-        let &t_SI .= "\e[6 q" " start insert mode
-        let &t_EI .= "\e[2 q" " end insert mode
-        let &t_SR .= "\e[4 q"
-        " not work <localleader> if turn on timeoutlen
-        " let &timeoutlen = 100
-      endif
-    endif
-  endif
-
-" }}}
-
-" macvim {{{
-
-  if has('gui_running')
-
-    " font
-    let s:fontName = 'Droid Sans Mono for Powerline Nerd Font Complete'
-    let s:fontSize = 'h14'
-    let &g:guifont   = s:fontName . ':' . s:fontSize
-    let &g:linespace = 3
-
-    " window size
-    let &g:columns   = 80 " width
-    let &g:lines     = 30 " hight
-    let &g:cmdheight = 2
-
-    " Don't flick cursor.
-    setglobal guicursor&
-    setglobal guicursor+=a:blinkon0
-
-    " key mappings
-    noremap  ; :
-    noremap  : ;
-    lnoremap ; :
-    lnoremap : ;
-    tnoremap ; :
-    tnoremap : ;
-
-  endif
-
-" }}}
-
-" neovim {{{
-
-  if has('nvim')
-
-    let g:python_host_prog  = '/usr/local/bin/python2'
-    let g:python3_host_prog = '/usr/local/bin/python3'
-
-    if exists('&inccommand')
-      let &g:inccommand = 'nosplit'
-    endif
-
-  endif
-
-" }}}
-
-" mac/osx {{{
-
-  if has('mac')
-
-    " Macではデフォルトの'iskeyword'がcp932に対応しきれていないので修正
-    " https://github.com/koron/vim-kaoriya/blob/master/kaoriya/vim/vimrc#L221
-    let &iskeyword = '@,48-57,_,128-167,224-235'
-
-  endif
-
-" }}}
-
-" util {{{
-
-  " https://qiita.com/sgur/items/9e243f13caa4ff294fa8
-  command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
-
-  command! SelfFileDelete call delete(expand('%',1))
-
-  inoreabbrev <expr> ---- repeat('-', 60 - col('.'))
-
-  function s:myOpenImpl(...) abort "{{{
-
-    let l:s = expand('<cfile>')
-
-    if l:s ==# ''
-      return
-    endif
-
-    if stridx(l:s,'http') >= 0
-      :normal gx
-      return
-    endif
-
-    let l:fp = split(expand(l:s),':')[0]
-
-    if filereadable(l:fp)
-      :normal gF
-      return
-    endif
-
-    return 9999
-
-  endfunction "}}}
-  function! s:myOpen() range "{{{
-
-    if call('foldclosed',[line('.')]) !=# -1
-
-      normal!v
-      normal!:
-      normal!`<
-      let l:fstline = line(".")
-      normal!`>
-      let l:lstline = line(".")
-
-      execute l:fstline .',' . l:lstline . 'Partedit'
-
-    else
-
-      let l:selectedMultiLines = a:lastline - a:firstline
-
-      if l:selectedMultiLines > 0
-        execute a:firstline .',' . a:lastline . 'Partedit'
-      else
-
-        let l:s = expand('<cfile>')
-
-        if l:s ==# ''
-          execute a:firstline .',' . a:lastline . 'Partedit'
-          return
-        endif
-
-        if call( 's:myOpenImpl', [] ) == 9999
-          execute a:firstline .',' . a:lastline . 'Partedit'
-        endif
-
-      endif
-
-    endif
-
-  endfunction "}}}
-  function! s:trimEnd() abort "{{{
+  function! s:trimEnd() abort
 
     :normal! ma
 
@@ -583,8 +444,10 @@ call s:vimrc_bash()
 
     :normal! `a
 
-  endfunction "}}}
-  " do center selected strings {{{
+  endfunction
+
+"}}}
+" Center2 {{{
 
   command! -range Center2 call s:center2(<line1>,<line2>)
   function! s:center2(fst,lst) abort
@@ -592,17 +455,19 @@ call s:vimrc_bash()
     execute (a:fst) "," (a:lst) "center" l:maxcol
   endfunction
 
-  "}}}
-  " cleare selected empty lines {{{
+" }}}
+" DeleteEmptyLines {{{
 
-  command! -range ClearEmptyLines call s:clearEmptyLines(<line1>,<line2>)
-  function! s:clearEmptyLines(fst,lst) abort
+  command! -range DeleteEmptyLines call s:DeleteEmptyLines(<line1>,<line2>)
+  function! s:DeleteEmptyLines(fst,lst) abort
     execute (a:fst) "," (a:lst) 'vglobal/\S/d'
   endfunction
 
-  "}}}
-  command! -range Space2from4 call s:space2from4() "{{{
-  function! s:space2from4() abort
+"}}}
+" Space2From4 {{{
+
+  command! -range Space2From4 call s:Space2From4()
+  function! s:Space2From4() abort
     let &l:tabstop     = 4
     let &l:softtabstop = 4
     let &l:expandtab   = 0
@@ -611,30 +476,164 @@ call s:vimrc_bash()
     let &l:softtabstop = 2
     let &l:expandtab   = 1
     retab
-  endfunction "}}}
-  command! -range Space4from2 call s:space4from2() "{{{
-  function! s:space4from2() abort
-    let &l:tabstop     = 2
-    let &l:softtabstop = 2
-    let &l:expandtab   = 0
-    retab!
-    let &l:tabstop     = 4
-    let &l:softtabstop = 4
-    let &l:expandtab   = 1
-    retab
-  endfunction "}}}
-
-
-  " count words {{{
-
-  command! -range Count call s:count(<line1>,<line2>)
-  function! s:count(fst,lst) abort
-    execute (a:fst) "," (a:lst) 's/&/&/g'
   endfunction
 
-  "}}}
+" }}}
+" Space4From2 {{{
+
+  command! -range Space4From2 call s:Space4From2()
+  function! s:Space4From2() abort
+    let &l:tabstop     = 2
+    let &l:softtabstop = 2
+    let &l:expandtab   = 0
+    retab!
+    let &l:tabstop     = 4
+    let &l:softtabstop = 4
+    let &l:expandtab   = 1
+    retab
+  endfunction
+
+"}}}
+
+" --------------------------------------------------------
+"                 ColorScheme and Plugins
+" --------------------------------------------------------
+
+let &g:packpath = $HOME.'/.vim/pack/pack1,' . &g:packpath
+syntax on
+filetype plugin indent on
+
+" Man {{{
+
+  if has('vim_starting')
+    if ! has('nvim')
+      runtime ftplugin/man.vim
+      let g:ft_man_folding_enable = 1
+    endif
+  endif
+
+"}}}
+" ColorScheme {{{
+
+  if has('mac')
+    " romainl/Apprentice ( ColorScheme )
+    " re-difine highlight group
+    function! s:myHighlights() abort
+      highlight Comment        ctermfg=245  guifg=#8a8a8a
+      highlight FoldColumn     ctermfg=245  guifg=#8a8a8a
+      highlight Folded         ctermfg=245  guifg=#8a8a8a
+      highlight UnicodeSpaces  ctermbg=131  guibg=#af5f5f
+      highlight OptionKeyword  ctermfg=103  guifg=#8787af
+    endfunction
+    autocmd MyAutoCmd ColorScheme * call s:myHighlights()
+
+    " set color scheme
+    let &g:background = 'dark'
+    colorscheme Apprentice
+
+    " unicodeSpaces color
+    call matchadd(
+    \     'UnicodeSpaces'
+    \   , '\v%u180E|%u2028|%u2029|%u00A0|%u2000|%u2001|%u2002|%u2003|%u2004|%u2005|%u2006|%u2007|%u2008|%u2009|%u200A|%u202F|%u205F|%u3000'
+    \ )
+
+  elseif has('win32unix')
+
+    " re-difine highlight group
+    function! s:myHighlights() abort
+      highlight UnicodeSpaces  ctermbg=131  guibg=#af5f5f
+      highlight OptionKeyword  ctermfg=103  guifg=#8787af
+    endfunction
+    autocmd MyAutoCmd ColorScheme * call s:myHighlights()
+
+    set background=light
+    colorscheme lucius
+    " LuciusLight
+    LuciusLightHighContrast
+
+    " unicodeSpaces color
+    call matchadd(
+    \     'UnicodeSpaces'
+    \   , '\v%u180E|%u2028|%u2029|%u00A0|%u2000|%u2001|%u2002|%u2003|%u2004|%u2005|%u2006|%u2007|%u2008|%u2009|%u200A|%u202F|%u205F|%u3000'
+    \ )
+
+    " diff color ( From apprentice.vim's settings )
+    " MADE-UP NAME    HEX        RGB                   XTERM  ANSI
+    " ========================================================================
+    " light green     #87af87    rgb(135, 175, 135)    108    10
+    " light purple    #8787af    rgb(135, 135, 175)    103    13
+    " red             #af5f5f    rgb(175, 95, 95)      131    1
+    " orange          #ff8700    rgb(255, 135, 0)      208    9
+
+    hi DiffAdd    ctermbg=235 ctermfg=108 guibg=#262626 guifg=#87af87 cterm=reverse gui=reverse
+    hi DiffChange ctermbg=235 ctermfg=103 guibg=#262626 guifg=#8787af cterm=reverse gui=reverse
+    hi DiffDelete ctermbg=235 ctermfg=131 guibg=#262626 guifg=#af5f5f cterm=reverse gui=reverse
+    hi DiffText   ctermbg=235 ctermfg=208 guibg=#262626 guifg=#ff8700 cterm=reverse gui=reverse
+
+  endif
+
+  " let-option color
+  autocmd MyAutoCmd BufRead,BufNewFile *.vim call matchadd( 'OptionKeyword', '\s&\zs\w*\ze$' )
+  autocmd MyAutoCmd BufRead,BufNewFile *.vim call matchadd( 'OptionKeyword', '\s&\zs\w*\ze\s')
+  autocmd MyAutoCmd BufRead,BufNewFile *.vim call matchadd( 'OptionKeyword', '\s&\(g:\|l:\)\zs\w*\ze\s')
+
+" }}} ColorScheme
+" Indent {{{
+
+  " nathanaelkane/vim-indent-guides
+  map <Nop>(disable-IndentGuidesToggle) <Plug>IndentGuidesToggle
+  let g:indent_guides_enable_on_vim_startup = 1
+  let g:indent_guides_start_level = 2
+  let g:indent_guides_guide_size  = 1
+  let g:indent_guides_auto_colors = 0
+  if has('win32unix')
+    autocmd MyAutoCmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#bcbcbc ctermbg=253
+    autocmd MyAutoCmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#bcbcbc ctermbg=253
+  else
+    autocmd MyAutoCmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#3A3C43 ctermbg=0
+    autocmd MyAutoCmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#3A3C43 ctermbg=0
+  endif
 
 " }}}
+" tomtom/tcomment_vim {{{
+
+  if !exists('g:tcomment_types')
+    let g:tcomment_types = {}
+  endif
+  let g:tcomment_types['']       = '// %s'
+  let g:tcomment_types['fsharp'] = '// %s'
+
+"}}}
+" junegunn/vim-easy-align {{{
+
+  xmap ga <Plug>(EasyAlign)
+  nmap ga <Plug>(EasyAlign)
+
+"}}}
+" thinca/vim-quickrun {{{
+
+  let g:quickrun_no_default_key_mappings = 1
+  let g:quickrun_config   = {}
+  let g:quickrun_config._ = {
+  \  'hook/time/enable'                : 1
+  \ ,'hook/time/format'                : "\n*** time : %g s ***"
+  \ ,'hook/time/dest'                  : ''
+  \ ,"outputter/buffer/split"          : 'vertical'
+  \ ,'outputter/buffer/close_on_empty' : 1
+  \}
+
+"}}}
+" MemoList {{{
+
+  nnoremap <leader>, :<C-u>MemoNew<CR>
+  nnoremap <leader>. :<C-u>MemoList<CR>
+  nnoremap <leader>/ :<C-u>MemoGrep<CR>
+
+"}}}
+
+" --------------------------------------------------------
+"                         Finalize
+" --------------------------------------------------------
 
 " __END__  "{{{
 
