@@ -10,4 +10,6 @@ git clone https://github.com/callmekohei/memolist.vim
 cd memolist.vim
 git checkout use_grep
 
-
+# Git/Github
+git clone https://github.com/airblade/vim-gitgutter
+git clone https://github.com/tpope/vim-fugitive
