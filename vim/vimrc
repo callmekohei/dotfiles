@@ -5,6 +5,7 @@
 "  Jump           : gf, gF, gx
 "  increment      : g <C-a>
 "  toggle comment : gcc, <C-_><C-_>
+"  set dos format : set ff=dos
 "
 " }}}
 
@@ -234,7 +235,7 @@ if has('folding')
     let l:foldtext = substitute( l:foldtext, l:tmp , '', 'g' )
 
     " trim ("|#)
-    let l:foo = '\v\s*("|#")\s*\ze\S'
+    let l:foo = '\v\s*("|#)\s*\ze\S'
     let l:foldtext = substitute( l:foldtext, l:foo , '', 'g' )
 
     return strpart( '+' . repeat(foldchar, v:foldlevel*2) . ' ' . l:foldtext . ' ' , 0 , ( winwidth(0)*2 )/3 )
@@ -539,7 +540,7 @@ filetype plugin indent on
   let g:memolist_memo_suffix = "txt"
   let g:memolist_template_dir_path = g:memolist_path
   let g:memolist_ex_cmd = 'CtrlP'
-  let g:memolist_use_grep = 1
+  let g:memolist_ctrlpqfixgrep = 1
 
   nnoremap <leader>, :MemoNew<CR> 
   nnoremap <leader>. :MemoList<CR>
