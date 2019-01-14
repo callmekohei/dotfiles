@@ -142,6 +142,9 @@
 
 " }}}
 " options {{{
+  
+  " Diff
+  set diffopt=filler,vertical
 
   " Search
   let &ignorecase = 1
@@ -275,82 +278,6 @@ endif
 
 " }}}
 
-" --------------------------------------------------------
-"                        Vim types
-" --------------------------------------------------------
-
-" Vim {{{
-
-  " cursor like neovim ( :h terminal-option )
-  if has('vim_starting')
-    if ! has('nvim')
-      if ! has ('gui_running')
-
-        let &t_SI .= "\e[6 q" " start insert mode
-        let &t_EI .= "\e[2 q" " end insert mode
-        let &t_SR .= "\e[4 q"
-        " not work <localleader> if turn on timeoutlen
-        " let &timeoutlen = 100
-
-      endif
-    endif
-  endif
-
-" }}}
-" MacVim {{{
-
-  if has('mac')
-    if has('gui_running')
-
-      " Disable menu.vim for macvim
-      " Needs to load before loading plugins
-      let did_install_default_menus = 1
-      let did_install_syntax_menu   = 1
-      let do_no_lazyload_menus      = 1
-      let no_buffers_menu           = 1
-      let &g:guioptions = 'Mc'
-
-      " font
-      let s:fontName = 'Droid Sans Mono for Powerline Nerd Font Complete'
-      let s:fontSize = 'h14'
-      let &g:guifont   = s:fontName . ':' . s:fontSize
-      let &g:linespace = 3
-
-      " window size
-      let &g:columns   = 80 " width
-      let &g:lines     = 30 " hight
-      let &g:cmdheight = 2
-
-      " Don't flick cursor.
-      setglobal guicursor&
-      setglobal guicursor+=a:blinkon0
-
-      " key mappings
-      noremap  ; :
-      noremap  : ;
-      lnoremap ; :
-      lnoremap : ;
-      tnoremap ; :
-      tnoremap : ;
-
-    endif
-  endif
-
-" }}}
-" neovim {{{
-
-  if has('nvim')
-
-    let g:python_host_prog  = '/usr/local/bin/python2'
-    let g:python3_host_prog = '/usr/local/bin/python3'
-
-    if exists('&inccommand')
-      let &g:inccommand = 'nosplit'
-    endif
-
-  endif
-
-" }}}
 
 " --------------------------------------------------------
 "                        File types
@@ -526,10 +453,137 @@ command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
 "}}}
 
 " --------------------------------------------------------
+"                        Vim types
+" --------------------------------------------------------
+
+" Vim {{{
+
+  " cursor like neovim ( :h terminal-option )
+  if has('vim_starting')
+    if ! has('nvim')
+      if ! has ('gui_running')
+
+        let &t_SI .= "\e[6 q" " start insert mode
+        let &t_EI .= "\e[2 q" " end insert mode
+        let &t_SR .= "\e[4 q"
+        " not work <localleader> if turn on timeoutlen
+        " let &timeoutlen = 100
+
+      endif
+    endif
+  endif
+
+" }}}
+" gVim {{{
+
+  if has('win32')
+    if has('gui_running')
+
+
+      " Disable menu.vim
+      " Needs to load before loading plugins
+      let did_install_default_menus = 1
+      let did_install_syntax_menu   = 1
+      let do_no_lazyload_menus      = 1
+      let no_buffers_menu           = 1
+      let &g:guioptions = 'Mc'
+
+      " font
+      let s:fontName = 'Migu_2M'
+      let s:fontSize = 'h11'
+      let &g:guifont   = s:fontName . ':' . s:fontSize
+      let &g:linespace = 3
+
+      " window size
+      let &g:columns   = 80 " width
+      let &g:lines     = 30 " hight
+      let &g:cmdheight = 2
+
+      " Don't flick cursor.
+      setglobal guicursor&
+      setglobal guicursor+=a:blinkon0
+
+      " key mappings
+      noremap  ; :
+      noremap  : ;
+      lnoremap ; :
+      lnoremap : ;
+      tnoremap ; :
+      tnoremap : ;
+
+    endif
+  endif
+
+" }}}
+" MacVim {{{
+
+  if has('mac')
+    if has('gui_running')
+
+      " Disable menu.vim for macvim
+      " Needs to load before loading plugins
+      let did_install_default_menus = 1
+      let did_install_syntax_menu   = 1
+      let do_no_lazyload_menus      = 1
+      let no_buffers_menu           = 1
+      let &g:guioptions = 'Mc'
+
+      " font
+      let s:fontName = 'Droid Sans Mono for Powerline Nerd Font Complete'
+      let s:fontSize = 'h14'
+      let &g:guifont   = s:fontName . ':' . s:fontSize
+      let &g:linespace = 3
+
+      " window size
+      let &g:columns   = 80 " width
+      let &g:lines     = 30 " hight
+      let &g:cmdheight = 2
+
+      " Don't flick cursor.
+      setglobal guicursor&
+      setglobal guicursor+=a:blinkon0
+
+      " key mappings
+      noremap  ; :
+      noremap  : ;
+      lnoremap ; :
+      lnoremap : ;
+      tnoremap ; :
+      tnoremap : ;
+
+    endif
+  endif
+
+" }}}
+" neovim {{{
+
+  if has('nvim')
+
+    let g:python_host_prog  = '/usr/local/bin/python2'
+    let g:python3_host_prog = '/usr/local/bin/python3'
+
+    if exists('&inccommand')
+      let &g:inccommand = 'nosplit'
+    endif
+
+  endif
+
+" }}}
+
+
+
+" --------------------------------------------------------
 "                 ColorScheme and Plugins
 " --------------------------------------------------------
 
-let &g:packpath = $HOME.'/.vim/pack/pack1,' . &g:packpath
+let &g:packpath = $HOME.'/.vim/pack/pack1/start,' . &g:packpath
+
+if has('win32')
+    set runtimepath^=~/.vim runtimepath^=~/.vim/after
+    let &packpath=&runtimepath
+    " source ~/.vimrc
+endif
+
 syntax on
 filetype plugin indent on
 
@@ -606,7 +660,7 @@ filetype plugin indent on
     \   , '\v%u180E|%u2028|%u2029|%u00A0|%u2000|%u2001|%u2002|%u2003|%u2004|%u2005|%u2006|%u2007|%u2008|%u2009|%u200A|%u202F|%u205F|%u3000'
     \ )
 
-  elseif has('win32unix')
+  elseif has('win32unix') || has('win32')
 
     " re-difine highlight group
     function! s:myHighlights() abort
