@@ -143,6 +143,9 @@
 " }}}
 " options {{{
   
+  
+  set wildmode=longest:full,full
+
   " Diff
   set diffopt=filler,vertical
 
@@ -578,11 +581,10 @@ command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
 
 let &g:packpath = $HOME.'/.vim/pack/pack1/start,' . &g:packpath
 
-if has('win32')
-    set runtimepath^=~/.vim runtimepath^=~/.vim/after
-    let &packpath=&runtimepath
-    " source ~/.vimrc
-endif
+" if has('win32')
+"     set runtimepath^=~/.vim runtimepath^=~/.vim/after
+"     let &packpath=&runtimepath
+" endif
 
 syntax on
 filetype plugin indent on
@@ -709,7 +711,7 @@ filetype plugin indent on
   let g:indent_guides_start_level = 2
   let g:indent_guides_guide_size  = 1
   let g:indent_guides_auto_colors = 0
-  if has('win32unix')
+  if has('win32unix') || has('win32')
     autocmd MyAutoCmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#bcbcbc ctermbg=253
     autocmd MyAutoCmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#bcbcbc ctermbg=253
   else
