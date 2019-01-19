@@ -8,7 +8,7 @@ git clone https://github.com/jonathanfilip/vim-lucius
 git clone https://github.com/ctrlpvim/ctrlp.vim
 
 # Git/Github
-git clone https://github.com/airblade/vim-gitgutter
+# git clone https://github.com/airblade/vim-gitgutter
 git clone https://github.com/tpope/vim-fugitive
 
 # SQL

@@ -127,24 +127,19 @@
 
   " Win32Unix
   if has('win32unix')
-    noremap ; :
-    noremap : ;
-
+    noremap  ; :
+    noremap  : ;
     xnoremap ; :
     xnoremap : ;
-
     lnoremap ; :
     lnoremap : ;
-
     tnoremap ; :
     tnoremap : ;
   endif
 
 " }}}
 " options {{{
-  
-  
-  set wildmode=longest:full,full
+
 
   " Diff
   set diffopt=filler,vertical
@@ -272,6 +267,7 @@ endif
 " }}}
 " Status line {{{
 
+  set wildmode=longest:full,full
   set statusline=%F " file name
   set statusline+=%= " Right part
   set statusline+=[ENC=%{&fileencoding}]
@@ -280,179 +276,38 @@ endif
   set laststatus=2 "always display status line
 
 " }}}
+" ColorScheme {{{
 
+  " add unicodeSpaces pattern to highlight group
+  autocmd MyAutoCmd ColorScheme * highlight UnicodeSpaces  ctermbg=131  guibg=#af5f5f 
+  autocmd MyAutoCmd BufRead,BufNewFile * call matchadd(
+  \     'UnicodeSpaces'
+  \   , '\v%u180E|%u2028|%u2029|%u00A0|%u2000|%u2001
+  \       |%u2002|%u2003|%u2004|%u2005|%u2006|%u2007
+  \       |%u2008|%u2009|%u200A|%u202F|%u205F|%u3000'
+  \ )
 
-" --------------------------------------------------------
-"                        File types
-" --------------------------------------------------------
+  " add option-keyword pattern to highlight group
+  autocmd MyAutoCmd ColorScheme * highlight OptionKeyword  ctermfg=103  guifg=#8787af
+  autocmd MyAutoCmd BufRead,BufNewFile *.vim call matchadd( 'OptionKeyword', '\s&\zs\w*\ze$' )
+  autocmd MyAutoCmd BufRead,BufNewFile *.vim call matchadd( 'OptionKeyword', '\s&\zs\w*\ze\s')
+  autocmd MyAutoCmd BufRead,BufNewFile *.vim call matchadd( 'OptionKeyword', '\s&\(g:\|l:\)\zs\w*\ze\s')
 
-" Trim tail spaces ( exception: markdown, text )
-" autocmd MyAutoCmd BufWritePre * if index(['markdown'], &ft) == -1 | :call s:trimEnd() | endif
-
-" VB {{{
-
-  autocmd MyAutoCmd BufRead,BufNewFile *.cls
-  \ if getline(1).getline(2).getline(3).getline(4).getline(5).getline(6).getline(7).getline(8).getline(9).getline(10) =~? 'VB_Name\|Begin VB\.\(Form\|MDIForm\|UserControl\)' |
-  \   set filetype=vbnet |
-  \ elseif getline(1) =~ '^%' |
-  \   set filetype=tex |
-  \ elseif getline(1)[0] == '#' && getline(1) =~ 'rexx' |
-  \   set filetype=rexx |
-  \ else |
-  \   set filetype=st |
-  \ endif
-
-  function! s:vimrc_vb() abort
-    let &l:foldmethod  = 'syntax'
-    let &l:tabstop     = 4
-    let &l:softtabstop = 4
-    let &l:shiftwidth  = 4
-    let &l:ambiwidth   = 'double'
-    " encoding
-    let &fileencoding  = 'cp932'
-    let &fileformat   = 'dos'
-    set filetype=vbnet
-  endfunction
-
-  autocmd MyAutoCmd BufRead,BufNewFile *{.bas,.cls} call s:vimrc_vb()
-
-  autocmd MyAutoCmd BufWritePre *{.bas,.cls} call s:trimEnd()
-
-" }}}
-" BashScripting {{{
-
-  " set filetype
-  autocmd MyAutoCmd BufNewFile,BufRead inputrc,bash_profile setlocal filetype=sh
-
-  function! s:vimrc_bash() abort
-
-    let g:is_bash      = 1
-    let g:sh_no_error  = 1
-
-    let &l:tabstop     = 2
-    let &l:softtabstop = 2
-    let &l:shiftwidth  = 2
-    let &l:foldmethod  = 'marker'
-    let &l:errorformat = '%f:\ line\ %l:\ %m'
-
-    " quickrun settings
-    " let g:quickrun_config.sh        = {}
-    " let g:quickrun_config.bashCheck = {}
-    " let g:quickrun_config.sh        = { 'command': 'bash' }
-    " let g:quickrun_config.bashCheck = {
-    "   \  'exec'                            : [ '%c -n %s:p:r.bash' ]
-    "   \ ,'command'                         : 'bash'
-    "   \ ,'hook/time/enable'                : 0
-    "   \ ,"outputter/buffer/close_on_empty" : 1
-    "   \ ,"outputter"                       : 'quickfix'
-    "   \ ,'outputter/buffer/split'          : ':set splitblow',
-    " \}
-
-  endfunction
-
-  autocmd MyAutoCmd BufRead,BufNewFile *{.sh,.bash,bashrc,inputrc,bash_profile} call s:vimrc_bash()
+  " set color scheme
+  let &g:background = 'dark'
+  colorscheme ron
 
 "}}}
-" Vim script {{{
+" Man {{{
 
-  if line('$') > 1000
-    syntax sync minlines=200
+  if has('vim_starting')
+    if ! has('nvim')
+      if filereadable($VIMRUNTIME . '/ftplugin/man.vim')
+        runtime ftplugin/man.vim
+        let g:ft_man_folding_enable = 1
+      endif
+    endif
   endif
-
-  function! s:vimrc_vim() abort
-    let g:vim_indent_cont = 2
-    let &l:tabstop        = 2
-    let &l:softtabstop    = 2
-    let &l:shiftwidth     = 2
-    let &l:foldmethod     = 'marker'
-  endfunction
-
-  autocmd MyAutoCmd BufRead,BufNewFile *.vim call s:vimrc_vim()
-
-" }}}
-
-" --------------------------------------------------------
-"                      Util Functions
-" --------------------------------------------------------
-
-inoreabbrev <expr> ---- repeat('-', 60 - col('.'))
-
-" https://qiita.com/sgur/items/9e243f13caa4ff294fa8
-command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
-
-" command! SelfFileDelete call delete(expand('%',1))
-
-" trimEnd {{{
-  
-  " TODO:
-  " 文末のスペース削除の前に、全角スペースなどを全部半角スペースにするので副作用あり。
-  " 文末のスペースのみ半角スペースにして削除する機能に変更する
-
-  command! TrimEnd call s:trimEnd()
-  function! s:trimEnd() abort "{{{
-
-    :normal! ma
-
-    let l:range = '%'
-
-    " Replace unicode spaces to normal space
-    let l:unicodeSpaces  = '\%u00A0\|\%u180E\|\%u2000\|\%u2001\|\%u2002\|\%u2003\|\%u2004\|\%u2005\|\%u2006\|\%u2007\|\%u2008\|\%u2009\|\%u200A\|\%u2028\|\%u2029\|\%u202F\|\%u205F\|\%u3000'
-    :execute l:range 'substitute' '/' . l:unicodeSpaces . '/ /ge'
-
-    " trim tail spaces
-    let tailSpaces = '\s+$'
-    :execute l:range 'substitute' '/\v' . l:tailSpaces . '//ge'
-
-    :normal! `a
-
-  endfunction "}}}
-
-"}}}
-" Center2 {{{
-
-  command! -range Center2 call s:center2(<line1>,<line2>)
-  function! s:center2(fst,lst) abort
-    let l:maxcol = max(map(getline(a:fst,a:lst),'strlen(v:val)'))
-    execute (a:fst) "," (a:lst) "center" l:maxcol
-  endfunction
-
-" }}}
-" DeleteEmptyLines {{{
-
-  command! -range DeleteEmptyLines call s:DeleteEmptyLines(<line1>,<line2>)
-  function! s:DeleteEmptyLines(fst,lst) abort
-    execute (a:fst) "," (a:lst) 'vglobal/\S/d'
-  endfunction
-
-"}}}
-" Space2From4 {{{
-
-  command! -range Space2From4 call s:Space2From4()
-  function! s:Space2From4() abort
-    let &l:tabstop     = 4
-    let &l:softtabstop = 4
-    let &l:expandtab   = 0
-    retab!
-    let &l:tabstop     = 2
-    let &l:softtabstop = 2
-    let &l:expandtab   = 1
-    retab
-  endfunction
-
-" }}}
-" Space4From2 {{{
-
-  command! -range Space4From2 call s:Space4From2()
-  function! s:Space4From2() abort
-    let &l:tabstop     = 2
-    let &l:softtabstop = 2
-    let &l:expandtab   = 0
-    retab!
-    let &l:tabstop     = 4
-    let &l:softtabstop = 4
-    let &l:expandtab   = 1
-    retab
-  endfunction
 
 "}}}
 
@@ -574,33 +429,190 @@ command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
 
 " }}}
 
-
-
 " --------------------------------------------------------
-"                 ColorScheme and Plugins
+"                        File types
 " --------------------------------------------------------
 
-let &g:packpath = $HOME.'/.vim/pack/pack1/start,' . &g:packpath
+" VB {{{
 
-" if has('win32')
-"     set runtimepath^=~/.vim runtimepath^=~/.vim/after
-"     let &packpath=&runtimepath
-" endif
+  autocmd MyAutoCmd BufRead,BufNewFile *.cls
+  \ if getline(1).getline(2).getline(3).getline(4).getline(5).getline(6).getline(7).getline(8).getline(9).getline(10) =~? 'VB_Name\|Begin VB\.\(Form\|MDIForm\|UserControl\)' |
+  \   set filetype=vbnet |
+  \ elseif getline(1) =~ '^%' |
+  \   set filetype=tex |
+  \ elseif getline(1)[0] == '#' && getline(1) =~ 'rexx' |
+  \   set filetype=rexx |
+  \ else |
+  \   set filetype=st |
+  \ endif
 
-syntax on
-filetype plugin indent on
+  function! s:vimrc_vb() abort
+    let &l:foldmethod  = 'syntax'
+    let &l:tabstop     = 4
+    let &l:softtabstop = 4
+    let &l:shiftwidth  = 4
+    let &l:ambiwidth   = 'double'
+    " encoding
+    let &fileencoding  = 'cp932'
+    let &fileformat   = 'dos'
+    set filetype=vbnet
+  endfunction
 
-" (Help System) Man {{{
+  autocmd MyAutoCmd BufRead,BufNewFile *{.bas,.cls} call s:vimrc_vb()
 
-  if has('vim_starting')
-    if ! has('nvim')
-      runtime ftplugin/man.vim
-      let g:ft_man_folding_enable = 1
-    endif
-  endif
+  autocmd MyAutoCmd BufWritePre *{.bas,.cls} call s:trimEnd()
+
+" }}}
+" BashScripting {{{
+
+  " set filetype
+  autocmd MyAutoCmd BufNewFile,BufRead inputrc,bash_profile setlocal filetype=sh
+
+  function! s:vimrc_bash() abort
+
+    let g:is_bash      = 1
+    let g:sh_no_error  = 1
+
+    let &l:tabstop     = 2
+    let &l:softtabstop = 2
+    let &l:shiftwidth  = 2
+    let &l:foldmethod  = 'marker'
+    let &l:errorformat = '%f:\ line\ %l:\ %m'
+
+    """ quickrun settings
+    " let g:quickrun_config.sh        = {}
+    " let g:quickrun_config.bashCheck = {}
+    " let g:quickrun_config.sh        = { 'command': 'bash' }
+    " let g:quickrun_config.bashCheck = {
+    "   \  'exec'                            : [ '%c -n %s:p:r.bash' ]
+    "   \ ,'command'                         : 'bash'
+    "   \ ,'hook/time/enable'                : 0
+    "   \ ,"outputter/buffer/close_on_empty" : 1
+    "   \ ,"outputter"                       : 'quickfix'
+    "   \ ,'outputter/buffer/split'          : ':set splitblow',
+    " \}
+
+  endfunction
+
+  autocmd MyAutoCmd BufRead,BufNewFile *{.sh,.bash,bashrc,inputrc,bash_profile} call s:vimrc_bash()
 
 "}}}
-" (File Search) ctrlp {{{
+" Vim script {{{
+
+  if line('$') > 1000
+    syntax sync minlines=200
+  endif
+
+  function! s:vimrc_vim() abort
+    let g:vim_indent_cont = 2
+    let &l:tabstop        = 2
+    let &l:softtabstop    = 2
+    let &l:shiftwidth     = 2
+    let &l:foldmethod     = 'marker'
+  endfunction
+
+  autocmd MyAutoCmd BufRead,BufNewFile *.vim call s:vimrc_vim()
+
+" }}}
+
+" --------------------------------------------------------
+"                      Util Functions
+" --------------------------------------------------------
+
+inoreabbrev <expr> ---- repeat('-', 60 - col('.'))
+
+" https://qiita.com/sgur/items/9e243f13caa4ff294fa8
+command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
+
+" trimEnd {{{
+
+  " TODO:
+  " 文末のスペース削除の前に、全角スペースなどを全部半角スペースにするので副作用あり。
+  " 文末のスペースのみ半角スペースにして削除する機能に変更する
+
+  command! TrimEnd call s:trimEnd()
+  function! s:trimEnd() abort "{{{
+
+    :normal! ma
+
+    let l:range = '%'
+
+    " Replace unicode spaces to normal space
+    let l:unicodeSpaces  = '\%u00A0\|\%u180E\|\%u2000\|\%u2001\|\%u2002\|\%u2003\|\%u2004\|\%u2005\|\%u2006\|\%u2007\|\%u2008\|\%u2009\|\%u200A\|\%u2028\|\%u2029\|\%u202F\|\%u205F\|\%u3000'
+    :execute l:range 'substitute' '/' . l:unicodeSpaces . '/ /ge'
+
+    " trim tail spaces
+    let tailSpaces = '\s+$'
+    :execute l:range 'substitute' '/\v' . l:tailSpaces . '//ge'
+
+    :normal! `a
+
+  endfunction "}}}
+
+"}}}
+" Center2 {{{
+
+  command! -range Center2 call s:center2(<line1>,<line2>)
+  function! s:center2(fst,lst) abort
+    let l:maxcol = max(map(getline(a:fst,a:lst),'strlen(v:val)'))
+    execute (a:fst) "," (a:lst) "center" l:maxcol
+  endfunction
+
+" }}}
+" DeleteEmptyLines {{{
+
+  command! -range DeleteEmptyLines call s:DeleteEmptyLines(<line1>,<line2>)
+  function! s:DeleteEmptyLines(fst,lst) abort
+    execute (a:fst) "," (a:lst) 'vglobal/\S/d'
+  endfunction
+
+"}}}
+" Space2From4 {{{
+
+  command! -range Space2From4 call s:Space2From4()
+  function! s:Space2From4() abort
+    let &l:tabstop     = 4
+    let &l:softtabstop = 4
+    let &l:expandtab   = 0
+    retab!
+    let &l:tabstop     = 2
+    let &l:softtabstop = 2
+    let &l:expandtab   = 1
+    retab
+  endfunction
+
+" }}}
+" Space4From2 {{{
+
+  command! -range Space4From2 call s:Space4From2()
+  function! s:Space4From2() abort
+    let &l:tabstop     = 2
+    let &l:softtabstop = 2
+    let &l:expandtab   = 0
+    retab!
+    let &l:tabstop     = 4
+    let &l:softtabstop = 4
+    let &l:expandtab   = 1
+    retab
+  endfunction
+
+"}}}
+
+" --------------------------------------------------------
+"                         Plugins
+" --------------------------------------------------------
+
+if isdirectory($HOME . '/.vim/pack')
+
+  let &g:packpath = $HOME.'/.vim/pack/pack1/start,' . &g:packpath
+  let &g:packpath = $HOME.'/.vim/pack/pack1/opt,' . &g:packpath
+
+  " if has('win32')
+  "     set runtimepath^=~/.vim runtimepath^=~/.vim/after
+  "     let &packpath=&runtimepath
+  " endif
+
+" (Fuzzy finder) ctrlp {{{
 
   helptags ~/.vim/pack/pack1/start/memolist.vim/doc
   helptags ~/.vim/pack/pack1/start/ctrlp.vim/doc
@@ -608,7 +620,8 @@ filetype plugin indent on
   command! Files :CtrlPCurFile
 
 " }}}
-" (Memo System) MemoList {{{
+" (Memo System)  MemoList {{{
+
   if has('mac')
     let g:memolist_path = expand("$HOME/Dropbox/memo",1)
   else
@@ -624,13 +637,13 @@ filetype plugin indent on
   nnoremap <leader>/ :MemoGrep<Space>
 
 "}}}
-" (Text Align)  junegunn/vim-easy-align {{{
+" (Text Align)   junegunn/vim-easy-align {{{
 
   xmap ga <Plug>(EasyAlign)
   nmap ga <Plug>(EasyAlign)
 
 "}}}
-" (Comment)     tomtom/tcomment_vim {{{
+" (Comment)      tomtom/tcomment_vim {{{
 
   if !exists('g:tcomment_types')
     let g:tcomment_types = {}
@@ -639,72 +652,7 @@ filetype plugin indent on
   let g:tcomment_types['fsharp'] = '// %s'
 
 "}}}
-" (Apearence)   ColorScheme {{{
-
-  if has('mac')
-    " romainl/Apprentice ( ColorScheme )
-    " re-difine highlight group
-    function! s:myHighlights() abort
-      highlight Comment        ctermfg=245  guifg=#8a8a8a
-      highlight FoldColumn     ctermfg=245  guifg=#8a8a8a
-      highlight Folded         ctermfg=245  guifg=#8a8a8a
-      highlight UnicodeSpaces  ctermbg=131  guibg=#af5f5f
-      highlight OptionKeyword  ctermfg=103  guifg=#8787af
-    endfunction
-    autocmd MyAutoCmd ColorScheme * call s:myHighlights()
-
-    " set color scheme
-    let &g:background = 'dark'
-    colorscheme Apprentice
-
-    " unicodeSpaces color
-    call matchadd(
-    \     'UnicodeSpaces'
-    \   , '\v%u180E|%u2028|%u2029|%u00A0|%u2000|%u2001|%u2002|%u2003|%u2004|%u2005|%u2006|%u2007|%u2008|%u2009|%u200A|%u202F|%u205F|%u3000'
-    \ )
-
-  elseif has('win32unix') || has('win32')
-
-    " re-difine highlight group
-    function! s:myHighlights() abort
-      highlight UnicodeSpaces  ctermbg=131  guibg=#af5f5f
-      highlight OptionKeyword  ctermfg=103  guifg=#8787af
-    endfunction
-    autocmd MyAutoCmd ColorScheme * call s:myHighlights()
-
-    set background=light
-    colorscheme lucius
-    " LuciusLight
-    LuciusLightHighContrast
-
-    " unicodeSpaces color
-    call matchadd(
-    \     'UnicodeSpaces'
-    \   , '\v%u180E|%u2028|%u2029|%u00A0|%u2000|%u2001|%u2002|%u2003|%u2004|%u2005|%u2006|%u2007|%u2008|%u2009|%u200A|%u202F|%u205F|%u3000'
-    \ )
-
-    " diff color ( From apprentice.vim's settings )
-    " MADE-UP NAME    HEX        RGB                   XTERM  ANSI
-    " ========================================================================
-    " light green     #87af87    rgb(135, 175, 135)    108    10
-    " light purple    #8787af    rgb(135, 135, 175)    103    13
-    " red             #af5f5f    rgb(175, 95, 95)      131    1
-    " orange          #ff8700    rgb(255, 135, 0)      208    9
-
-    hi DiffAdd    ctermbg=235 ctermfg=108 guibg=#262626 guifg=#87af87 cterm=reverse gui=reverse
-    hi DiffChange ctermbg=235 ctermfg=103 guibg=#262626 guifg=#8787af cterm=reverse gui=reverse
-    hi DiffDelete ctermbg=235 ctermfg=131 guibg=#262626 guifg=#af5f5f cterm=reverse gui=reverse
-    hi DiffText   ctermbg=235 ctermfg=208 guibg=#262626 guifg=#ff8700 cterm=reverse gui=reverse
-
-  endif
-
-  " let-option color
-  autocmd MyAutoCmd BufRead,BufNewFile *.vim call matchadd( 'OptionKeyword', '\s&\zs\w*\ze$' )
-  autocmd MyAutoCmd BufRead,BufNewFile *.vim call matchadd( 'OptionKeyword', '\s&\zs\w*\ze\s')
-  autocmd MyAutoCmd BufRead,BufNewFile *.vim call matchadd( 'OptionKeyword', '\s&\(g:\|l:\)\zs\w*\ze\s')
-
-" }}} ColorScheme
-" (Apearence)   Indent {{{
+" (Indent)       nathanaelkane/vim-indent-guides {{{
 
   " nathanaelkane/vim-indent-guides
   map <Nop>(disable-IndentGuidesToggle) <Plug>IndentGuidesToggle
@@ -712,16 +660,11 @@ filetype plugin indent on
   let g:indent_guides_start_level = 2
   let g:indent_guides_guide_size  = 1
   let g:indent_guides_auto_colors = 0
-  if has('win32unix') || has('win32')
-    autocmd MyAutoCmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#bcbcbc ctermbg=253
-    autocmd MyAutoCmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#bcbcbc ctermbg=253
-  else
-    autocmd MyAutoCmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#3A3C43 ctermbg=0
-    autocmd MyAutoCmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#3A3C43 ctermbg=0
-  endif
+  autocmd MyAutoCmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#3a3a3a ctermbg=237
+  autocmd MyAutoCmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#3a3a3a ctermbg=237
 
 " }}}
-" (QuickRun)    thinca/vim-quickrun {{{
+" (QuickRun)     thinca/vim-quickrun {{{
 
   let g:quickrun_no_default_key_mappings = 1
   let g:quickrun_config   = {}
@@ -734,15 +677,30 @@ filetype plugin indent on
   \}
 
 "}}}
+" (ColorScheme)  Apprentice {{{
 
+  function! s:redifineApprenticeHighlight() abort
+    highlight Comment        ctermfg=245  guifg=#8a8a8a
+    highlight FoldColumn     ctermfg=245  guifg=#8a8a8a
+    highlight Folded         ctermfg=245  guifg=#8a8a8a
+  endfunction
+  autocmd MyAutoCmd ColorScheme * call s:redifineApprenticeHighlight()
+
+  " set color scheme
+  let &g:background = 'dark'
+  colorscheme Apprentice
+
+" }}}
+
+endif
 
 " --------------------------------------------------------
 "                         Finalize
 " --------------------------------------------------------
+syntax on
+filetype plugin indent on
+set secure " must be written at the last. see :help 'secure'
 
-  " must be written at the last. see :help 'secure'
-  let &g:secure = 1
-
-  " vim: expandtab softtabstop=2 shiftwidth=2
-  " vim: foldmethod=marker
-  " vim: foldcolumn=3
+" vim: expandtab softtabstop=2 shiftwidth=2
+" vim: foldmethod=marker
+" vim: foldcolumn=3
