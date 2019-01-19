@@ -293,7 +293,7 @@ endif
 
   autocmd MyAutoCmd BufRead,BufNewFile *.cls
   \ if getline(1).getline(2).getline(3).getline(4).getline(5).getline(6).getline(7).getline(8).getline(9).getline(10) =~? 'VB_Name\|Begin VB\.\(Form\|MDIForm\|UserControl\)' |
-  \   set filetype=vb |
+  \   set filetype=vbnet |
   \ elseif getline(1) =~ '^%' |
   \   set filetype=tex |
   \ elseif getline(1)[0] == '#' && getline(1) =~ 'rexx' |
@@ -303,7 +303,7 @@ endif
   \ endif
 
   function! s:vimrc_vb() abort
-    let &l:foldmethod  = 'marker'
+    let &l:foldmethod  = 'syntax'
     let &l:tabstop     = 4
     let &l:softtabstop = 4
     let &l:shiftwidth  = 4
@@ -311,6 +311,7 @@ endif
     " encoding
     let &fileencoding  = 'cp932'
     let &fileformat   = 'dos'
+    set filetype=vbnet
   endfunction
 
   autocmd MyAutoCmd BufRead,BufNewFile *{.bas,.cls} call s:vimrc_vb()
