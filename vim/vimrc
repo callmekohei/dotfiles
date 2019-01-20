@@ -272,7 +272,7 @@ endif
   set statusline+=%= " Right part
   set statusline+=[ENC=%{&fileencoding}]
   set statusline+=[FF=%{&fileformat}]
-  set statusline+=[LOW=%l/%L]
+  set statusline+=[ROW=%l/%L]
   set laststatus=2 "always display status line
 
 " }}}
@@ -610,7 +610,6 @@ if has('mac')
 elseif has('win32unix')
   let &g:packpath = '/y/dotfiles/vim'
 elseif has('win32') " gvim
-  " let &g:packpath = 'C:Users\mochi\vimfiles'
   let &g:packpath = 'Y:\dotfiles\vim'
 endif
 
