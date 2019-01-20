@@ -8,6 +8,7 @@ fi
 
 cd pack/pack1/start
 
+git clone https://github.com/tomtom/tcomment_vim
 git clone https://github.com/romainl/Apprentice
 git clone https://github.com/nathanaelkane/vim-indent-guides
 git clone https://github.com/junegunn/vim-easy-align
