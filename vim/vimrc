@@ -433,6 +433,9 @@ endif
 "                        File types
 " --------------------------------------------------------
 
+" Trim tail spaces ( exception: markdown, text )
+autocmd MyAutoCmd BufWritePre * if index(['markdown','text'], &ft) == -1 | :call s:trimEnd() | endif
+
 " VB {{{
 
   autocmd MyAutoCmd BufRead,BufNewFile *.cls
