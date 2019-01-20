@@ -137,6 +137,19 @@
     tnoremap : ;
   endif
 
+
+  " Win32
+  if has('win32')
+    noremap  ; :
+    noremap  : ;
+    xnoremap ; :
+    xnoremap : ;
+    lnoremap ; :
+    lnoremap : ;
+    tnoremap ; :
+    tnoremap : ;
+  endif
+
 " }}}
 " options {{{
 
@@ -616,8 +629,8 @@ endif
 if isdirectory(&packpath)
 " (Fuzzy finder) ctrlp {{{
 
-  " helptags ~/.vim/pack/pack1/start/memolist.vim/doc
-  " helptags ~/.vim/pack/pack1/start/ctrlp.vim/doc
+  helptags ~/.vim/pack/pack1/start/memolist.vim/doc
+  helptags ~/.vim/pack/pack1/start/ctrlp.vim/doc
 
   command! Files :CtrlPCurFile
 
@@ -626,8 +639,10 @@ if isdirectory(&packpath)
 
   if has('mac')
     let g:memolist_path = expand("$HOME/Dropbox/memo",1)
-  else
+  elseif has('win32unix')
     let g:memolist_path = expand("/y/Dropbox/memo",1)
+  elseif has('win32')
+    let g:memolist_path = expand('Y:\Dropbox\memo',1)
   endif
   let g:memolist_memo_suffix = "txt"
   let g:memolist_template_dir_path = g:memolist_path
