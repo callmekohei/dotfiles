@@ -70,10 +70,6 @@
   # Neovim
   export NVIM_LOG_FILE=$HOME/.local/share/nvim/log
 
-  # fzf
-  export FZF_DEFAULT_OPTS='--height 40% --reverse --border --ansi'
-  [ -f $HOME/.fzf.bash ] && source $HOME/.fzf.bash
-
   # Mono
   export MONO_GAC_PREFIX=/usr/local
 
@@ -117,7 +113,7 @@
 
   function set_prompts () {
 
-    # colors
+    ### colors
     local black="\[$(tput setaf 0)\]"
     local blue="\[$(tput setaf 4)\]"
     local cyan="\[$(tput setaf 6)\]"

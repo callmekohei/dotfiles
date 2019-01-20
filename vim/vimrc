@@ -602,20 +602,19 @@ command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
 "                         Plugins
 " --------------------------------------------------------
 
-if isdirectory($HOME . '/.vim/pack')
+if has('mac')
+  let &packpath = $HOME . '/dotfiles/vim'
+elseif has('win32unix')
+  let &packpath = '/y/dotfiles/vim'
+elseif has('win')
+  let &packpath = '/y/dotfiles/vim'
+endif
 
-  let &g:packpath = $HOME.'/.vim/pack/pack1/start,' . &g:packpath
-  let &g:packpath = $HOME.'/.vim/pack/pack1/opt,' . &g:packpath
-
-  " if has('win32')
-  "     set runtimepath^=~/.vim runtimepath^=~/.vim/after
-  "     let &packpath=&runtimepath
-  " endif
-
+if isdirectory(&packpath)
 " (Fuzzy finder) ctrlp {{{
 
-  helptags ~/.vim/pack/pack1/start/memolist.vim/doc
-  helptags ~/.vim/pack/pack1/start/ctrlp.vim/doc
+  " helptags ~/.vim/pack/pack1/start/memolist.vim/doc
+  " helptags ~/.vim/pack/pack1/start/ctrlp.vim/doc
 
   command! Files :CtrlPCurFile
 
@@ -691,7 +690,6 @@ if isdirectory($HOME . '/.vim/pack')
   colorscheme Apprentice
 
 " }}}
-
 endif
 
 " --------------------------------------------------------
