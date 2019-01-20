@@ -279,7 +279,7 @@ endif
 " ColorScheme {{{
 
   " add unicodeSpaces pattern to highlight group
-  autocmd MyAutoCmd ColorScheme * highlight UnicodeSpaces  ctermbg=131  guibg=#af5f5f 
+  autocmd MyAutoCmd ColorScheme * highlight UnicodeSpaces  ctermbg=131  guibg=#af5f5f
   autocmd MyAutoCmd BufRead,BufNewFile * call matchadd(
   \     'UnicodeSpaces'
   \   , '\v%u180E|%u2028|%u2029|%u00A0|%u2000|%u2001
@@ -466,10 +466,10 @@ autocmd MyAutoCmd BufWritePre * if index(['markdown','text'], &ft) == -1 | :call
   autocmd MyAutoCmd BufWritePre *{.bas,.cls} call s:trimEnd()
 
 " }}}
-" BashScripting {{{
+" BashScript {{{
 
   " set filetype
-  autocmd MyAutoCmd BufNewFile,BufRead inputrc,bash_profile setlocal filetype=sh
+  autocmd MyAutoCmd BufNewFile,BufRead inputrc,bash* setlocal filetype=sh
 
   function! s:vimrc_bash() abort
 
