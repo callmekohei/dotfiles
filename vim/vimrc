@@ -295,7 +295,7 @@ endif
 
   " set color scheme
   let &g:background = 'dark'
-  colorscheme ron
+  colorscheme desert
 
 "}}}
 " Man {{{
@@ -606,11 +606,12 @@ command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
 " --------------------------------------------------------
 
 if has('mac')
-  let &packpath = $HOME . '/dotfiles/vim'
+  let &g:packpath = $HOME . '/dotfiles/vim'
 elseif has('win32unix')
-  let &packpath = '/y/dotfiles/vim'
-elseif has('win')
-  let &packpath = '/y/dotfiles/vim'
+  let &g:packpath = '/y/dotfiles/vim'
+elseif has('win32') " gvim
+  " let &g:packpath = 'C:Users\mochi\vimfiles'
+  let &g:packpath = 'Y:\dotfiles\vim'
 endif
 
 if isdirectory(&packpath)
