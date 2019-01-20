@@ -1,4 +1,4 @@
-### kohei's bashrc for GitBash
+### kohei's bashrc
 
 ### Environment
 export EDITOR=vim
@@ -9,13 +9,12 @@ PS1='\n\w\n\$ '
 export PS1
 
 ### Alias
-alias la='ls -a'
 alias ll='ls -a -l'
 alias cd..='cd ..'
 
 ### import env. settings
 if [ "$(uname)" == 'Darwin' ]; then
-  source $HOME/dotfiles/bash/bashrc_osx 
+  source $HOME/dotfiles/bash/bashrc_osx
 elif [ "$(expr substr $(uname -s) 1 10)" == 'MINGW64_NT' ]; then
   source /y/dotfiles/bash/bashrc_gitbash
 else
