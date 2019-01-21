@@ -165,9 +165,9 @@
   let &wrapscan   = 1
 
   " Edit
-  let &tabstop         = 4
-  let &softtabstop     = 4
-  let &shiftwidth      = 4
+  let &tabstop         = 2
+  let &softtabstop     = 2
+  let &shiftwidth      = 2
   let &expandtab       = 1
   let &smarttab        = 1
   let &autoindent      = 1
@@ -464,9 +464,9 @@ autocmd MyAutoCmd BufWritePre * if index(['markdown','text'], &ft) == -1 | :call
 
   function! s:vimrc_vb() abort
     let &l:foldmethod  = 'syntax'
-    let &l:tabstop     = 4
-    let &l:softtabstop = 4
-    let &l:shiftwidth  = 4
+    let &l:tabstop     = 2
+    let &l:softtabstop = 2
+    let &l:shiftwidth  = 2
     let &l:ambiwidth   = 'double'
     " encoding
     let &fileencoding  = 'cp932'
@@ -706,6 +706,23 @@ if isdirectory(&packpath)
   " set color scheme
   let &g:background = 'dark'
   colorscheme Apprentice
+
+" }}}
+" (Markdown helper) {{{
+
+  " previm
+  "
+  " let s:url = "https://gist.githubusercontent.com/andyferra/2554919/raw/10ce87fe71b23216e3075d5648b8b9e56f7758e1/github.css"
+  " let s:cssFolder = expand('~/.cache/dein/repos/github.com/previm/previm/preview/css')
+  let g:previm_open_cmd = 'open -a Google\ Chrome'
+  let g:previm_enable_realtime = 1
+  " let g:previm_disable_default_css = 1
+  " let g:previm_custom_css_path = s:cssFolder.'/github.css'
+  " if !filereadable(s:cssFolder.'/github.css')
+    " execute '!wget' s:url '--directory-prefix' s:cssFolder
+  " endif
+
+
 
 " }}}
 endif

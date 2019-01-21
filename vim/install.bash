@@ -1,6 +1,4 @@
-### --------------------------------------------------------
-###                  git clone vim plugins
-### --------------------------------------------------------
+### vim plugins
 
 if [ ! -d pack/pack1/start/ ]; then
   mkdir -p pack/pack1/start
@@ -29,3 +27,7 @@ pwd
 
 # vb
 git clone https://github.com/callmekohei/vbnet.vim
+
+# markdown
+git clone https://github.com/nelstrom/vim-markdown-folding
+git clone https://github.com/previm/previm
