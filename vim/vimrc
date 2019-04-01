@@ -1,8 +1,7 @@
 " callmekohei's vimrc
 
 " Memo {{{
-"  go back        :
-"  Jump           : gf, gF, gx, <C-o>
+"  Jump           : gf, gF, gx, <C-o>, <C-i>
 "  incr, decr     : g<C-a>, g<C-x>
 "  toggle comment : gcc, <C-_><C-_>
 "  set dos format : set ff=dos
@@ -142,7 +141,6 @@
 
 " }}}
 " options {{{
-
 
   " Diff
   set diffopt=filler,vertical
@@ -314,224 +312,6 @@ endif
   endif
 
 "}}}
-
-" --------------------------------------------------------
-"                        Vim types
-" --------------------------------------------------------
-
-" Vim {{{
-
-  " cursor like neovim ( :h terminal-option )
-  if has('vim_starting')
-    if ! has('nvim')
-      if ! has ('gui_running')
-
-        let &t_SI .= "\e[6 q" " start insert mode
-        let &t_EI .= "\e[2 q" " end insert mode
-        let &t_SR .= "\e[4 q"
-        " not work <localleader> if turn on timeoutlen
-        " let &timeoutlen = 100
-
-      endif
-    endif
-  endif
-
-" }}}
-" gVim {{{
-
-  if has('win32')
-    if has('gui_running')
-
-
-      " Disable menu.vim
-      " Needs to load before loading plugins
-      let did_install_default_menus = 1
-      let did_install_syntax_menu   = 1
-      let do_no_lazyload_menus      = 1
-      let no_buffers_menu           = 1
-      let &g:guioptions = 'Mc'
-
-      " font
-      let s:fontName = 'Migu_2M'
-      let s:fontSize = 'h11'
-      let &g:guifont   = s:fontName . ':' . s:fontSize
-      let &g:linespace = 3
-
-      " window size
-      let &g:columns   = 80 " width
-      let &g:lines     = 30 " hight
-      let &g:cmdheight = 2
-
-      " Don't flick cursor.
-      setglobal guicursor&
-      setglobal guicursor+=a:blinkon0
-
-      " key mappings
-      noremap  ; :
-      noremap  : ;
-      lnoremap ; :
-      lnoremap : ;
-      tnoremap ; :
-      tnoremap : ;
-
-    endif
-  endif
-
-" }}}
-" MacVim {{{
-
-  if has('mac')
-    if has('gui_running')
-
-      " Disable menu.vim for macvim
-      " Needs to load before loading plugins
-      let did_install_default_menus = 1
-      let did_install_syntax_menu   = 1
-      let do_no_lazyload_menus      = 1
-      let no_buffers_menu           = 1
-      let &g:guioptions = 'Mc'
-
-      " font
-      let s:fontName = 'Droid Sans Mono for Powerline Nerd Font Complete'
-      let s:fontSize = 'h14'
-      let &g:guifont   = s:fontName . ':' . s:fontSize
-      let &g:linespace = 3
-
-      " window size
-      let &g:columns   = 80 " width
-      let &g:lines     = 30 " hight
-      let &g:cmdheight = 2
-
-      " Don't flick cursor.
-      setglobal guicursor&
-      setglobal guicursor+=a:blinkon0
-
-      " key mappings
-      noremap  ; :
-      noremap  : ;
-      lnoremap ; :
-      lnoremap : ;
-      tnoremap ; :
-      tnoremap : ;
-
-    endif
-  endif
-
-" }}}
-" neovim {{{
-
-  if has('nvim')
-
-    let g:python_host_prog  = '/usr/local/bin/python2'
-    let g:python3_host_prog = '/usr/local/bin/python3'
-
-    if exists('&inccommand')
-      let &g:inccommand = 'nosplit'
-    endif
-
-  endif
-
-" }}}
-
-" --------------------------------------------------------
-"                      Util Functions
-" --------------------------------------------------------
-
-inoreabbrev <expr> ---- repeat('-', 60 - col('.'))
-
-" https://qiita.com/sgur/items/9e243f13caa4ff294fa8
-command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
-
-" trimEnd {{{
-
-  " TODO:
-  " 文末のスペース削除の前に、全角スペースなどを全部半角スペースにするので副作用あり。
-  " 文末のスペースのみ半角スペースにして削除する機能に変更する
-
-  command! TrimEnd call s:trimEnd()
-  function! s:trimEnd() abort "{{{
-
-    :normal! ma
-
-    let l:range = '%'
-
-    " Replace unicode spaces to normal space
-    let l:unicodeSpaces  = '\%u00A0\|\%u180E\|\%u2000\|\%u2001\|\%u2002\|\%u2003\|\%u2004\|\%u2005\|\%u2006\|\%u2007\|\%u2008\|\%u2009\|\%u200A\|\%u2028\|\%u2029\|\%u202F\|\%u205F\|\%u3000'
-    :execute l:range 'substitute' '/' . l:unicodeSpaces . '/ /ge'
-
-    " trim tail spaces
-    let tailSpaces = '\s+$'
-    :execute l:range 'substitute' '/\v' . l:tailSpaces . '//ge'
-
-    :normal! `a
-
-  endfunction "}}}
-
-"}}}
-" Center2 {{{
-
-  command! -range Center2 call s:center2(<line1>,<line2>)
-  function! s:center2(fst,lst) abort
-    let l:maxcol = max(map(getline(a:fst,a:lst),'strlen(v:val)'))
-    execute (a:fst) "," (a:lst) "center" l:maxcol
-  endfunction
-
-" }}}
-" DeleteEmptyLines {{{
-
-  command! -range DeleteEmptyLines call s:DeleteEmptyLines(<line1>,<line2>)
-  function! s:DeleteEmptyLines(fst,lst) abort
-    execute (a:fst) "," (a:lst) 'vglobal/\S/d'
-  endfunction
-
-"}}}
-" DelNull {{{
-
-  command! DelNull call s:delNull()
-  " ^@ is null character ( <C-V><C-Shift-2> on mac)
-  " %s/<CTRL-2>//g (on regular PCs)
-  " %s/<CTRL-SHIFT-2>//g (on Mac PCs)
-  function! s:delNull()
-    normal! / 
-    %s///g
-  endfunction
-
-"}}}
-" Space2From4 {{{
-
-  command! -range Space2From4 call s:Space2From4()
-  function! s:Space2From4() abort
-    let &l:tabstop     = 4
-    let &l:softtabstop = 4
-    let &l:expandtab   = 0
-    retab!
-    let &l:tabstop     = 2
-    let &l:softtabstop = 2
-    let &l:expandtab   = 1
-    retab
-  endfunction
-
-" }}}
-" Space4From2 {{{
-
-  command! -range Space4From2 call s:Space4From2()
-  function! s:Space4From2() abort
-    let &l:tabstop     = 2
-    let &l:softtabstop = 2
-    let &l:expandtab   = 0
-    retab!
-    let &l:tabstop     = 4
-    let &l:softtabstop = 4
-    let &l:expandtab   = 1
-    retab
-  endfunction
-
-"}}}
-""" terminal {{{
-
-   au TerminalOpen * if &buftype == 'terminal' | setlocal nobuflisted | endif
-
-""" }}}
 
 " --------------------------------------------------------
 "                         Plugins
@@ -747,6 +527,106 @@ if isdirectory(&packpath)
 endif
 
 " --------------------------------------------------------
+"                      Util Functions
+" --------------------------------------------------------
+
+inoreabbrev <expr> ---- repeat('-', 60 - col('.'))
+
+" https://qiita.com/sgur/items/9e243f13caa4ff294fa8
+command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
+
+" trimEnd {{{
+
+  " TODO:
+  " 文末のスペース削除の前に、全角スペースなどを全部半角スペースにするので副作用あり。
+  " 文末のスペースのみ半角スペースにして削除する機能に変更する
+
+  command! TrimEnd call s:trimEnd()
+  function! s:trimEnd() abort "{{{
+
+    :normal! ma
+
+    let l:range = '%'
+
+    " Replace unicode spaces to normal space
+    let l:unicodeSpaces  = '\%u00A0\|\%u180E\|\%u2000\|\%u2001\|\%u2002\|\%u2003\|\%u2004\|\%u2005\|\%u2006\|\%u2007\|\%u2008\|\%u2009\|\%u200A\|\%u2028\|\%u2029\|\%u202F\|\%u205F\|\%u3000'
+    :execute l:range 'substitute' '/' . l:unicodeSpaces . '/ /ge'
+
+    " trim tail spaces
+    let tailSpaces = '\s+$'
+    :execute l:range 'substitute' '/\v' . l:tailSpaces . '//ge'
+
+    :normal! `a
+
+  endfunction "}}}
+
+"}}}
+" Center2 {{{
+
+  command! -range Center2 call s:center2(<line1>,<line2>)
+  function! s:center2(fst,lst) abort
+    let l:maxcol = max(map(getline(a:fst,a:lst),'strlen(v:val)'))
+    execute (a:fst) "," (a:lst) "center" l:maxcol
+  endfunction
+
+" }}}
+" DeleteEmptyLines {{{
+
+  command! -range DeleteEmptyLines call s:DeleteEmptyLines(<line1>,<line2>)
+  function! s:DeleteEmptyLines(fst,lst) abort
+    execute (a:fst) "," (a:lst) 'vglobal/\S/d'
+  endfunction
+
+"}}}
+" DelNull {{{
+
+  command! DelNull call s:delNull()
+  " ^@ is null character ( <C-V><C-Shift-2> on mac)
+  " %s/<CTRL-2>//g (on regular PCs)
+  " %s/<CTRL-SHIFT-2>//g (on Mac PCs)
+  function! s:delNull()
+    normal! / 
+    %s///g
+  endfunction
+
+"}}}
+" Space2From4 {{{
+
+  command! -range Space2From4 call s:Space2From4()
+  function! s:Space2From4() abort
+    let &l:tabstop     = 4
+    let &l:softtabstop = 4
+    let &l:expandtab   = 0
+    retab!
+    let &l:tabstop     = 2
+    let &l:softtabstop = 2
+    let &l:expandtab   = 1
+    retab
+  endfunction
+
+" }}}
+" Space4From2 {{{
+
+  command! -range Space4From2 call s:Space4From2()
+  function! s:Space4From2() abort
+    let &l:tabstop     = 2
+    let &l:softtabstop = 2
+    let &l:expandtab   = 0
+    retab!
+    let &l:tabstop     = 4
+    let &l:softtabstop = 4
+    let &l:expandtab   = 1
+    retab
+  endfunction
+
+"}}}
+""" terminal {{{
+
+   au TerminalOpen * if &buftype == 'terminal' | setlocal nobuflisted | endif
+
+""" }}}
+
+" --------------------------------------------------------
 "                        File types
 " --------------------------------------------------------
 
@@ -853,6 +733,124 @@ let g:quickrun_config.fsharp = {
 \}
 
 """ }}}
+
+" --------------------------------------------------------
+"                        Vim types
+" --------------------------------------------------------
+
+" Vim {{{
+
+  " cursor like neovim ( :h terminal-option )
+  if has('vim_starting')
+    if ! has('nvim')
+      if ! has ('gui_running')
+
+        let &t_SI .= "\e[6 q" " start insert mode
+        let &t_EI .= "\e[2 q" " end insert mode
+        let &t_SR .= "\e[4 q"
+        " not work <localleader> if turn on timeoutlen
+        " let &timeoutlen = 100
+
+      endif
+    endif
+  endif
+
+" }}}
+" gVim {{{
+
+  if has('win32')
+    if has('gui_running')
+
+
+      " Disable menu.vim
+      " Needs to load before loading plugins
+      let did_install_default_menus = 1
+      let did_install_syntax_menu   = 1
+      let do_no_lazyload_menus      = 1
+      let no_buffers_menu           = 1
+      let &g:guioptions = 'Mc'
+
+      " font
+      let s:fontName = 'Migu_2M'
+      let s:fontSize = 'h11'
+      let &g:guifont   = s:fontName . ':' . s:fontSize
+      let &g:linespace = 3
+
+      " window size
+      let &g:columns   = 80 " width
+      let &g:lines     = 30 " hight
+      let &g:cmdheight = 2
+
+      " Don't flick cursor.
+      setglobal guicursor&
+      setglobal guicursor+=a:blinkon0
+
+      " key mappings
+      noremap  ; :
+      noremap  : ;
+      lnoremap ; :
+      lnoremap : ;
+      tnoremap ; :
+      tnoremap : ;
+
+    endif
+  endif
+
+" }}}
+" MacVim {{{
+
+  if has('mac')
+    if has('gui_running')
+
+      " Disable menu.vim for macvim
+      " Needs to load before loading plugins
+      let did_install_default_menus = 1
+      let did_install_syntax_menu   = 1
+      let do_no_lazyload_menus      = 1
+      let no_buffers_menu           = 1
+      let &g:guioptions = 'Mc'
+
+      " font
+      let s:fontName = 'Droid Sans Mono for Powerline Nerd Font Complete'
+      let s:fontSize = 'h14'
+      let &g:guifont   = s:fontName . ':' . s:fontSize
+      let &g:linespace = 3
+
+      " window size
+      let &g:columns   = 80 " width
+      let &g:lines     = 30 " hight
+      let &g:cmdheight = 2
+
+      " Don't flick cursor.
+      setglobal guicursor&
+      setglobal guicursor+=a:blinkon0
+
+      " key mappings
+      noremap  ; :
+      noremap  : ;
+      lnoremap ; :
+      lnoremap : ;
+      tnoremap ; :
+      tnoremap : ;
+
+    endif
+  endif
+
+" }}}
+" neovim {{{
+
+  if has('nvim')
+
+    let g:python_host_prog  = '/usr/local/bin/python2'
+    let g:python3_host_prog = '/usr/local/bin/python3'
+
+    if exists('&inccommand')
+      let &g:inccommand = 'nosplit'
+    endif
+
+  endif
+
+" }}}
 
 " --------------------------------------------------------
 "                         Finalize
