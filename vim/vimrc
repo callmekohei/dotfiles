@@ -1,7 +1,7 @@
 " callmekohei's vimrc
 
 " Memo {{{
-"  go back
+"  go back        :
 "  Jump           : gf, gF, gx, <C-o>
 "  incr, decr     : g<C-a>, g<C-x>
 "  toggle comment : gcc, <C-_><C-_>
@@ -59,17 +59,6 @@
 
   " vimrc
   nnoremap <leader>v :<C-u>edit $MYVIMRC<CR>
-
-  " Avoid key mistakes
-  nnoremap qqq: <Esc>q:
-  nnoremap qqq/ <Esc>q/
-  nnoremap q: <Nop>
-  nnoremap q/ <Nop>
-  nnoremap q? <Nop>
-
-  " open file by gF, url by gx and Folding line by partEdit
-  nnoremap <leader><leader> gF<CR>
-  vnoremap <leader><leader> gF<CR>
 
   " Cancel hilight search
   noremap <silent><C-l> :<C-u>nohlsearch<CR><C-l>
@@ -445,95 +434,6 @@ endif
 " }}}
 
 " --------------------------------------------------------
-"                        File types
-" --------------------------------------------------------
-
-" Trim tail spaces ( exception: markdown, text )
-autocmd MyAutoCmd BufWritePre * if index(['markdown','text'], &ft) == -1 | :call s:trimEnd() | endif
-
-" VB {{{
-
-  autocmd MyAutoCmd BufRead,BufNewFile *.cls
-  \ if getline(1).getline(2).getline(3).getline(4).getline(5).getline(6).getline(7).getline(8).getline(9).getline(10) =~? 'VB_Name\|Begin VB\.\(Form\|MDIForm\|UserControl\)' |
-  \   set filetype=vbnet |
-  \ elseif getline(1) =~ '^%' |
-  \   set filetype=tex |
-  \ elseif getline(1)[0] == '#' && getline(1) =~ 'rexx' |
-  \   set filetype=rexx |
-  \ else |
-  \   set filetype=st |
-  \ endif
-
-  function! s:vimrc_vb() abort
-    let &l:foldmethod  = 'syntax'
-    let &l:tabstop     = 4
-    let &l:softtabstop = 4
-    let &l:shiftwidth  = 4
-    let &l:ambiwidth   = 'double'
-    " encoding
-    let &fileencoding  = 'cp932'
-    let &fileformat   = 'dos'
-    set filetype=vbnet
-  endfunction
-
-  autocmd MyAutoCmd BufRead,BufNewFile *{.bas,.cls} call s:vimrc_vb()
-
-  autocmd MyAutoCmd BufWritePre *{.bas,.cls} call s:trimEnd()
-
-" }}}
-" BashScript {{{
-
-  " set filetype
-  autocmd MyAutoCmd BufNewFile,BufRead inputrc,bash* setlocal filetype=sh
-
-  function! s:vimrc_bash() abort
-
-    let g:is_bash      = 1
-    let g:sh_no_error  = 1
-
-    let &l:tabstop     = 2
-    let &l:softtabstop = 2
-    let &l:shiftwidth  = 2
-    let &l:foldmethod  = 'marker'
-    let &l:errorformat = '%f:\ line\ %l:\ %m'
-
-    """ quickrun settings
-    " let g:quickrun_config.sh        = {}
-    " let g:quickrun_config.bashCheck = {}
-    " let g:quickrun_config.sh        = { 'command': 'bash' }
-    " let g:quickrun_config.bashCheck = {
-    "   \  'exec'                            : [ '%c -n %s:p:r.bash' ]
-    "   \ ,'command'                         : 'bash'
-    "   \ ,'hook/time/enable'                : 0
-    "   \ ,"outputter/buffer/close_on_empty" : 1
-    "   \ ,"outputter"                       : 'quickfix'
-    "   \ ,'outputter/buffer/split'          : ':set splitblow',
-    " \}
-
-  endfunction
-
-  autocmd MyAutoCmd BufRead,BufNewFile *{.sh,.bash,bashrc,inputrc,bash_profile} call s:vimrc_bash()
-
-"}}}
-" Vim script {{{
-
-  if line('$') > 1000
-    syntax sync minlines=200
-  endif
-
-  function! s:vimrc_vim() abort
-    let g:vim_indent_cont = 2
-    let &l:tabstop        = 2
-    let &l:softtabstop    = 2
-    let &l:shiftwidth     = 2
-    let &l:foldmethod     = 'marker'
-  endfunction
-
-  autocmd MyAutoCmd BufRead,BufNewFile *.vim call s:vimrc_vim()
-
-" }}}
-
-" --------------------------------------------------------
 "                      Util Functions
 " --------------------------------------------------------
 
@@ -633,11 +533,11 @@ command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
 
 """ }}}
 
-
 " --------------------------------------------------------
 "                         Plugins
 " --------------------------------------------------------
 
+""" plugins prepare {{{
 if has('mac')
   let &g:packpath = $HOME . '/dotfiles/vim'
 elseif has('win32unix')
@@ -652,6 +552,7 @@ command! -nargs=0 -bar Helptags
     \| endfor
     \| helptags ALL
 
+""" }}}
 
 if isdirectory(&packpath)
 
@@ -659,10 +560,6 @@ if isdirectory(&packpath)
 
   " launch deoplete when vim/neovim startup.
   let g:deoplete#enable_at_startup = 1
-
-
-
-
 
 """ }}}
 " (QuickRun)     thinca/vim-quickrun {{{
@@ -849,18 +746,100 @@ if isdirectory(&packpath)
 
 endif
 
+" --------------------------------------------------------
+"                        File types
+" --------------------------------------------------------
 
-""" --------------------------------------------------------
-"""                            F#
-""" --------------------------------------------------------
+" Trim tail spaces ( exception: markdown, text )
+autocmd MyAutoCmd BufWritePre * if index(['markdown','text'], &ft) == -1 | :call s:trimEnd() | endif
 
-""" preview windows for deoplete
+" VB {{{
+
+  autocmd MyAutoCmd BufRead,BufNewFile *.cls
+  \ if getline(1).getline(2).getline(3).getline(4).getline(5).getline(6).getline(7).getline(8).getline(9).getline(10) =~? 'VB_Name\|Begin VB\.\(Form\|MDIForm\|UserControl\)' |
+  \   set filetype=vbnet |
+  \ elseif getline(1) =~ '^%' |
+  \   set filetype=tex |
+  \ elseif getline(1)[0] == '#' && getline(1) =~ 'rexx' |
+  \   set filetype=rexx |
+  \ else |
+  \   set filetype=st |
+  \ endif
+
+  function! s:vimrc_vb() abort
+    let &l:foldmethod  = 'syntax'
+    let &l:tabstop     = 4
+    let &l:softtabstop = 4
+    let &l:shiftwidth  = 4
+    let &l:ambiwidth   = 'double'
+    " encoding
+    let &fileencoding  = 'cp932'
+    let &fileformat   = 'dos'
+    set filetype=vbnet
+  endfunction
+
+  autocmd MyAutoCmd BufRead,BufNewFile *{.bas,.cls} call s:vimrc_vb()
+
+  autocmd MyAutoCmd BufWritePre *{.bas,.cls} call s:trimEnd()
+
+" }}}
+" BashScript {{{
+
+  " set filetype
+  autocmd MyAutoCmd BufNewFile,BufRead inputrc,bash* setlocal filetype=sh
+
+  function! s:vimrc_bash() abort
+
+    let g:is_bash      = 1
+    let g:sh_no_error  = 1
+
+    let &l:tabstop     = 2
+    let &l:softtabstop = 2
+    let &l:shiftwidth  = 2
+    let &l:foldmethod  = 'marker'
+    let &l:errorformat = '%f:\ line\ %l:\ %m'
+
+    """ quickrun settings
+    " let g:quickrun_config.sh        = {}
+    " let g:quickrun_config.bashCheck = {}
+    " let g:quickrun_config.sh        = { 'command': 'bash' }
+    " let g:quickrun_config.bashCheck = {
+    "   \  'exec'                            : [ '%c -n %s:p:r.bash' ]
+    "   \ ,'command'                         : 'bash'
+    "   \ ,'hook/time/enable'                : 0
+    "   \ ,"outputter/buffer/close_on_empty" : 1
+    "   \ ,"outputter"                       : 'quickfix'
+    "   \ ,'outputter/buffer/split'          : ':set splitblow',
+    " \}
+
+  endfunction
+
+  autocmd MyAutoCmd BufRead,BufNewFile *{.sh,.bash,bashrc,inputrc,bash_profile} call s:vimrc_bash()
+
+"}}}
+" Vim script {{{
+
+  if line('$') > 1000
+    syntax sync minlines=200
+  endif
+
+  function! s:vimrc_vim() abort
+    let g:vim_indent_cont = 2
+    let &l:tabstop        = 2
+    let &l:softtabstop    = 2
+    let &l:shiftwidth     = 2
+    let &l:foldmethod     = 'marker'
+  endfunction
+
+  autocmd MyAutoCmd BufRead,BufNewFile *.vim call s:vimrc_vim()
+
+" }}}
+""" fsharp {{{
+
 set previewheight=5
 autocmd CompleteDone * silent! pclose!
 
-""" settings for quickrun
 let g:quickrun_config.fsharp = {}
-""" use with vimproc ( cuncurent_process )
 let g:quickrun_config.fsharp = {
   \  'exec': ['%c %o']
   \ ,'command'                          : 'fsharpi'
@@ -873,6 +852,7 @@ let g:quickrun_config.fsharp = {
   \ ,"outputter/buffer/split"           : 'vertical'
 \}
 
+""" }}}
 
 " --------------------------------------------------------
 "                         Finalize
