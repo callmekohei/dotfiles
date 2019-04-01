@@ -1,208 +1,202 @@
 " callmekohei's vimrc
 
-" toml files ( press gf )
-" ----------------------------------------------------
-" ~/dotfiles/vim/plugins/dein.toml
-" ~/dotfiles/vim/plugins/deinlazy.toml
-" ~/dotfiles/vim/plugins/deinft.toml
-" ----------------------------------------------------
+" Memo {{{
+"  go back
+"  Jump           : gf, gF, gx, <C-o>
+"  incr, decr     : g<C-a>, g<C-x>
+"  toggle comment : gcc, <C-_><C-_>
+"  set dos format : set ff=dos
+"  tab : gt, gT, tabo
+"
+" }}}
 
-" option flag
-let s:ON  = 1 | :lockvar s:ON
-let s:OFF = 0 | :lockvar s:OFF
+" --------------------------------------------------------
+"                          Basics
+" --------------------------------------------------------
 
 " prepare {{{
 
   if &compatible
-    let &compatible = s:OFF
+    set nocompatible
   endif
-
-  " Neovim defaults option {{{
-  if !has('nvim')
-
-    " :h nvim-defaults
-
-    let &autoindent     = s:ON
-    let &autoread       = s:ON
-    let &backspace      = 'indent,eol,start'
-    let &backupdir      = '.' . ',' . expand('~/.local/share/nvim/backup',1)
-    let &belloff        = 'all'
-    let &complete       = '.,w,b,u,t'
-    let &cscopeverbose  = s:ON
-    let &directory      = expand('~/.local/share/nvim/swap//',1)
-    let &display        = 'lastline,msgsep'
-    let &encoding       = 'utf-8'
-    let &fillchars      = "vert:│,fold:·"
-    let &fsync          = s:OFF
-    let &formatoptions  = 'jcroql'
-    let &history        = 10000
-    let &hlsearch       = s:ON
-    let &incsearch      = s:ON
-    let &langnoremap    = s:ON
-    let &langremap      = s:OFF
-    let &laststatus     = 2
-    let &listchars      = 'tab:> ,trail:-,nbsp:+'
-    let &nrformats      = 'bin,hex'
-    let &ruler          = s:ON
-    let &sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize'
-    let &showcmd        = s:ON
-    let &sidescroll     = s:ON
-    let &smarttab       = s:ON
-    let &tabpagemax     = 50
-    let &tags           = './tags,tags'
-    let &ttyfast        = s:ON
-    let &undodir        = expand('~/.local/share/nvim/undo',1)
-    let &viminfo        = "!,'100,<50,s10,h"
-    let &wildmenu       = s:ON
-
-  endif
-  " }}}
-
-  " encoding
-  let &encoding      = 'utf-8'
-  let &fileencoding  = 'utf-8'
-  let &fileencodings = 'ucs-boms,utf-8,euc-jp,cp932'
-  let &fileformats   = 'unix,dos,mac'
-  if !has('gui_running') && &encoding !=# 'utf-8'
-    let &termencoding = 'utf-8'
-  endif
-
-  " vimrc's scriptencoding
-  scriptencoding utf-8
 
   " create autocmd group
-  augroup callmekohei-vimrc
+  augroup MyAutoCmd
     autocmd!
   augroup END
 
   " Use English interface.
   language message C
 
-  " Disable menu.vim for macvim
-  let did_install_default_menus = 1
-  let did_install_syntax_menu   = 1
-  let do_no_lazyload_menus      = 1
-  let no_buffers_menu           = 1
-  let &g:guioptions = 'Mc'
+"}}}
+" Encoding {{{
 
-" }}} -------------------------------------------------
-" plugins managed by dein {{{
+  let &encoding      = 'utf-8' " used inside Vim.
+  let &fileencoding  = 'utf-8' " Sets the character encoding for the file of this buffer.
+  let &fileencodings = 'ucs-boms,utf-8,cp932,euc-jp,sjis'
+  let &fileformats   = 'unix,dos,mac' " linefeed, carriage return
+  if !has('gui_running') && &encoding !=# 'utf-8'
+    let &termencoding = 'utf-8'
+  endif
 
-  function! s:dein_easy_settings() abort "{{{
+  if has('mac')
+    " For cp932 on mac
+    " https://github.com/koron/vim-kaoriya/blob/master/kaoriya/vim/vimrc#L221
+    let &iskeyword = '@,48-57,_,128-167,224-235'
+  endif
 
-    let l:config_home = empty($XDG_CONFIG_HOME) ? expand('~/.config',1) : $XDG_CONFIG_HOME
-    let l:cache_home  = empty($XDG_CACHE_HOME)  ? expand('~/.cache',1)  : $XDG_CACHE_HOME
-    let l:nvim_home   = l:config_home . '/nvim'
-    let l:dein_home   = l:cache_home  . '/dein'
-    let l:dein_dir    = l:dein_home   . '/repos/github.com/Shougo/dein.vim'
-
-    if !isdirectory(l:dein_dir )
-      call system('git clone --depth 1 https://github.com/Shougo/dein.vim ' . shellescape(l:dein_dir ))
-    endif
-
-    let &g:runtimepath = l:dein_dir  . "," . &g:runtimepath
-
-    if dein#load_state(l:dein_home)
-      call dein#begin(l:dein_home)
-
-      call dein#load_toml( l:nvim_home . '/dein.toml'    , {'lazy': 0} )
-      call dein#load_toml( l:nvim_home . '/deinlazy.toml', {'lazy': 1} )
-      call dein#load_toml( l:nvim_home . '/deinft.toml'  , {'lazy': 0} )
-
-      if !has('nvim')
-        call dein#add('roxma/nvim-yarp')
-        call dein#add('roxma/vim-hug-neovim-rpc')
-        " call dein#add('callmekohei/tigaDebugger')
-      endif
-
-      call dein#end()
-      call dein#save_state()
-    endif
-
-    if has('vim_starting') && dein#check_install()
-      call dein#install()
-    endif
-
-  endfunction "}}}
-
-  autocmd callmekohei-vimrc CursorHold *.toml syntax sync minlines=300
-  call s:dein_easy_settings()
-
-  " turn plugins on
-  syntax on
-  filetype plugin indent on
+  " vimrc's scriptencoding
+  scriptencoding utf-8
 
 " }}}
-" colorscheme {{{
+" key mappings {{{
 
-  " re-difine highlight group {{{
+  let g:mapleader      = "\<Space>"
+  let g:maplocalleader = "\<Space>"
 
-  function! s:myHighlights() abort
-    highlight Comment        ctermfg=245  guifg=#8a8a8a
-    highlight FoldColumn     ctermfg=245  guifg=#8a8a8a
-    highlight Folded         ctermfg=245  guifg=#8a8a8a
-    highlight UnicodeSpaces  ctermbg=131  guibg=#af5f5f
-    highlight OptionKeyword  ctermfg=103  guifg=#8787af
-  endfunction
+  " Jump
+  nnoremap gf gF
 
-  autocmd callmekohei-vimrc ColorScheme * call s:myHighlights()
+  " vimrc
+  nnoremap <leader>v :<C-u>edit $MYVIMRC<CR>
 
-  "}}}
-  " set color scheme {{{
+  " Avoid key mistakes
+  nnoremap qqq: <Esc>q:
+  nnoremap qqq/ <Esc>q/
+  nnoremap q: <Nop>
+  nnoremap q/ <Nop>
+  nnoremap q? <Nop>
 
-  let &g:background = 'dark'
-  colorscheme Apprentice
+  " open file by gF, url by gx and Folding line by partEdit
+  nnoremap <leader><leader> gF<CR>
+  vnoremap <leader><leader> gF<CR>
 
-  "}}}
-  " add pattern to highlight group {{{
+  " Cancel hilight search
+  noremap <silent><C-l> :<C-u>nohlsearch<CR><C-l>
 
-  " unicodeSpaces color
-  call matchadd(
-    \     'UnicodeSpaces'
-    \   , '\v%u180E|%u2028|%u2029|%u00A0|%u2000|%u2001|%u2002|%u2003|%u2004|%u2005|%u2006|%u2007|%u2008|%u2009|%u200A|%u202F|%u205F|%u3000'
-    \ )
+  " Search by selected word/sentence ( Practical Vim (ja) : https://pragprog.com/titles/dnvim/source_code )
+  xnoremap * :<C-u>call <SID>vSetSearch()<CR>/<C-R>=@/<CR><CR>
+  xnoremap # :<C-u>call <SID>vSetSearch()<CR>?<C-R>=@/<CR><CR>
+  function! s:vSetSearch() "{{{
+    let temp = @s
+    normal! gv"sy
+    let @/ = '\V' . substitute(escape(@s, '/\'), '\n', '\\n', 'g')
+    let @s = temp
+  endfunction "}}}
 
-  "}}}
+  " Editor lines
+  nnoremap j gj
+  nnoremap k gk
+
+  " buffers
+  nnoremap <silent> <C-j> :<C-u>bprevious<CR>
+  nnoremap <silent> <C-k> :<C-u>bnext<CR>
+
+  " Switch CWD to the directory of the open buffer
+  nnoremap <leader>cd :<C-u>cd %:p:h<cr>:<C-u>pwd<cr>
+
+  " yank half
+  nnoremap Y :<C-u>call <SID>toCRLFifWin()<CR>
+  function! s:toCRLFifWin() "{{{
+    normal! y$
+    let l:s = @"
+    if has('win32unix')
+      let l:lineEnd = '\r\n'
+    elseif has ('win32')
+      let l:lineEnd = '\r\n'
+    elseif has ('unix')
+      let l:lineEnd = '\n'
+    elseif has ('mac')
+      let l:lineEnd = '\r'
+    endif
+    let @" = substitute(l:s,'$',l:lineEnd,'g')
+  endfunction "}}}
+
+  " Toggle window ( https://qiita.com/grohiro/items/e3dbcc93510bc8c4c812 )
+  nnoremap M :<C-u>call <SID>toggleWindowSize()<CR>
+  let s:toggle_window_size = 0 "{{{
+  function! s:toggleWindowSize()
+    if s:toggle_window_size ==# 1
+      execute "normal \<C-w>="
+      let s:toggle_window_size = 0
+    else
+      :resize
+      :vertical resize
+      let s:toggle_window_size = 1
+    endif
+  endfunction "}}}
+
+  " Win32Unix
+  if has('win32unix')
+    noremap  ; :
+    noremap  : ;
+    xnoremap ; :
+    xnoremap : ;
+    lnoremap ; :
+    lnoremap : ;
+    tnoremap ; :
+    tnoremap : ;
+  endif
+
+
+  " Win32
+  if has('win32')
+    noremap  ; :
+    noremap  : ;
+    xnoremap ; :
+    xnoremap : ;
+    lnoremap ; :
+    lnoremap : ;
+    tnoremap ; :
+    tnoremap : ;
+  endif
 
 " }}}
 " options {{{
 
+
+  " Diff
+  set diffopt=filler,vertical
+
   " Search
-  let &ignorecase = s:ON
-  let &smartcase  = s:ON
-  let &incsearch  = s:ON
-  let &hlsearch   = s:ON
-  let &wrapscan   = s:ON
+  let &ignorecase = 1
+  let &smartcase  = 1
+  let &incsearch  = 1
+  let &hlsearch   = 1
+  let &wrapscan   = 1
 
   " Edit
-  let &tabstop         = 4
-  let &softtabstop     = 4
-  let &shiftwidth      = 4
-  let &expandtab       = s:ON
-  let &smarttab        = s:ON
-  let &autoindent      = s:ON
-  let &smartindent     = s:OFF
+  let &tabstop         = 2
+  let &softtabstop     = 2
+  let &shiftwidth      = 2
+  let &expandtab       = 1
+  let &smarttab        = 1
+  let &autoindent      = 1
+  let &smartindent     = 0
   let &backspace       = 'indent,eol,start'
-  let &showmatch       = s:OFF
-  let &wildmenu        = s:ON
+  let &showmatch       = 0
+  let &wildmenu        = 1
   let &formatoptions   = 'mM'
   let &virtualedit     = 'block'
 
   " View
-  let &number     = s:ON
-  let &ruler      = s:OFF
-  let &list       = s:ON
+  let &number     = 1
+  let &ruler      = 0
+  let &list       = 1
   let &listchars  = 'tab:> ,trail:-,nbsp:+,extends:»,precedes:«,'
-  let &wrap       = s:OFF
+  let &wrap       = 0
   let &laststatus = 2
   let &cmdheight  = 2
-  let &showcmd    = s:OFF
-  let &title      = s:ON
+  let &showcmd    = 0
+  let &title      = 1
 
   " mouse
   let &mouse      = 'a'
-  let &mousefocus = s:OFF
-  let &mousehide  = s:OFF
+  let &mousefocus = 0
+  let &mousehide  = 0
+  if has('win32unix')
+    set ttymouse=xterm2
+  endif
 
   " clipboard
   if (!has('nvim') || $DISPLAY !=# '') && has('clipboard')
@@ -214,38 +208,60 @@ let s:OFF = 0 | :lockvar s:OFF
   endif
 
   " others
-  let &lazyredraw = s:ON
-  let &hidden     = s:ON
-  let &splitright = s:ON
-  let &ttyfast    = s:ON
+  let &lazyredraw = 1
+  let &hidden     = 1
+  let &splitright = 1
+  let &ttyfast    = 1
 
   " Disable bell.
   let &t_vb       = ''
-  let &visualbell = s:OFF
+  let &visualbell = 0
   let &belloff    = 'all'
 
   " Don't create backup.
-  let &writebackup = s:OFF
-  let &backup      = s:OFF
-  let &swapfile    = s:OFF
+  let &writebackup = 0
+  let &backup      = 0
+  let &swapfile    = 0
   set backupdir-=.
 
 " }}}
-" key mappings {{{
+" Folding {{{
 
-  let g:mapleader      = "\<Space>"
-  let g:maplocalleader = "\<Space>"
+if has('folding')
 
-  " open file by gF, url by gx and Folding line by partEdit
-  nnoremap <leader><leader> :call <SID>myOpen()<CR>
-  vnoremap <leader><leader> :call <SID>myOpen()<CR>
+  function! s:myFoldText() abort "{{{
 
-  " Avoid key mistakes
-  nnoremap qqq: <Esc>q:
-  nnoremap qqq/ <Esc>q/
-  nnoremap q: <Nop>
-  nnoremap q/ <Nop>
-  nnoremap q? <Nop>
+    let l:foldchar = matchstr( &fillchars , 'fold:\zs.' )
+    let l:foldtext = getline( v:foldstart )
+
+    " Replace unicode spaces to normal space
+    " see also: http://www.unicode.org/versions/Unicode11.0.0/ch06.pdf ( page11 Table 6-2.Unicode Space Characters )
+    let l:unicodeSpaces = '\v%u180E|%u2028|%u2029|%u00A0|%u2000|%u2001|%u2002|%u2003|%u2004|%u2005|%u2006|%u2007|%u2008|%u2009|%u200A|%u202F|%u205F|%u3000'
+    let l:normalSpace = ' '
+    let l:foldtext = substitute( l:foldtext,l:unicodeSpaces , l:normalSpace , 'g' )
+
+    " trim head spaces and tail spaces
+    let l:headSpaces = '\v^\s+\ze\S'
+    let l:tailSpaces = '\v\s+$'
+    let l:foldtext = substitute( l:foldtext,l:headSpaces . '|' . l:tailSpaces , '' , 'g' )
+
+    " trim marker
+    let l:marker = '{' . '{' . '{'
+    let l:spacesBeforeMarker = '\v\s*("|#)?\s*'
+    let l:numbersAfterMarker = '\v\s*\d*'
+    let l:tmp = l:spacesBeforeMarker . '\m' . l:marker . l:numbersAfterMarker
+    let l:foldtext = substitute( l:foldtext, l:tmp , '', 'g' )
+
+    " trim ("|#)
+    let l:foo = '\v\s*("|#)\s*\ze\S'
+    let l:foldtext = substitute( l:foldtext, l:foo , '', 'g' )
+
+    return strpart( '+' . repeat(foldchar, v:foldlevel*2) . ' ' . l:foldtext . ' ' , 0 , ( winwidth(0)*2 )/3 )
+
+  endfunction "}}}
+
+  let &foldmethod = 'marker'
+  let &foldtext = get( funcref( 's:myFoldText' ), 'name' ) . '()'
 
   " Folding ( http://d.hatena.ne.jp/leafcage/20111223/1324705686 )
   noremap <leader>j zj
@@ -260,159 +276,156 @@ let s:OFF = 0 | :lockvar s:OFF
   noremap <leader>r zR
   noremap <leader>f zf
 
-  " Cancel hilight search
-  noremap <silent><C-l> :<C-u>nohlsearch<CR><C-l>
+endif
 
-  " Search by selected word/sentence ( Practical Vim (ja) : https://pragprog.com/titles/dnvim/source_code )
-  xnoremap * :<C-u>call <SID>vSetSearch()<CR>/<C-R>=@/<CR><CR>
-  xnoremap # :<C-u>call <SID>vSetSearch()<CR>?<C-R>=@/<CR><CR>
-  function! s:vSetSearch()
-    let temp = @s
-    normal! gv"sy
-    let @/ = '\V' . substitute(escape(@s, '/\'), '\n', '\\n', 'g')
-    let @s = temp
-  endfunction
+" }}}
+" Status line {{{
 
-  " Editor lines
-  nnoremap j gj
-  nnoremap k gk
+  set wildmode=longest:full,full
+  set statusline=%F " file name
+  set statusline+=%= " Right part
+  set statusline+=[innerENC=%{&encoding}]
+  set statusline+=[FENC=%{&fileencoding}]
+  set statusline+=[FF=%{&fileformat}]
+  set statusline+=[ROW=%l/%L]
+  set laststatus=2 "always display status line
 
-  " buffers
-  nnoremap <silent> <C-j> :<C-u>bprevious<CR>
-  nnoremap <silent> <C-k> :<C-u>bnext<CR>
+" }}}
+" ColorScheme {{{
 
-  " Switch CWD to the directory of the open buffer
-  nnoremap <leader>cd :<C-u>cd %:p:h<cr>:<C-u>pwd<cr>
+  " add unicodeSpaces pattern to highlight group
+  autocmd MyAutoCmd ColorScheme * highlight UnicodeSpaces  ctermbg=131  guibg=#af5f5f
+  autocmd MyAutoCmd BufRead,BufNewFile * call matchadd(
+  \     'UnicodeSpaces'
+  \   , '\v%u180E|%u2028|%u2029|%u00A0|%u2000|%u2001
+  \       |%u2002|%u2003|%u2004|%u2005|%u2006|%u2007
+  \       |%u2008|%u2009|%u200A|%u202F|%u205F|%u3000'
+  \ )
 
-  " yank half
-  nnoremap Y y$
+  " add option-keyword pattern to highlight group
+  autocmd MyAutoCmd ColorScheme * highlight OptionKeyword  ctermfg=103  guifg=#8787af
+  autocmd MyAutoCmd BufRead,BufNewFile *.vim call matchadd( 'OptionKeyword', '\s&\zs\w*\ze$' )
+  autocmd MyAutoCmd BufRead,BufNewFile *.vim call matchadd( 'OptionKeyword', '\s&\zs\w*\ze\s')
+  autocmd MyAutoCmd BufRead,BufNewFile *.vim call matchadd( 'OptionKeyword', '\s&\(g:\|l:\)\zs\w*\ze\s')
 
-  " https://qiita.com/grohiro/items/e3dbcc93510bc8c4c812
-  nnoremap M :<C-u>call <SID>toggleWindowSize()<CR>
-  let s:toggle_window_size = 0
-  function! s:toggleWindowSize()
-    if s:toggle_window_size ==# 1
-      execute "normal \<C-w>="
-      let s:toggle_window_size = 0
-    else
-      :resize
-      :vertical resize
-      let s:toggle_window_size = 1
+  " set color scheme
+  let &g:background = 'dark'
+  colorscheme desert
+
+"}}}
+" Man {{{
+
+  if has('vim_starting')
+    if ! has('nvim')
+      if filereadable($VIMRUNTIME . '/ftplugin/man.vim')
+        runtime ftplugin/man.vim
+        let g:ft_man_folding_enable = 1
+      endif
     endif
-  endfunction
+  endif
 
-  " vimrc
-  nnoremap <leader>v :<C-u>edit $MYVIMRC<CR>
+"}}}
 
-  " todo
-  nnoremap <leader>t :<C-u>edit ~/Dropbox/memo/todo.txt<CR>
+" --------------------------------------------------------
+"                        Vim types
+" --------------------------------------------------------
 
-  " memo
-  nnoremap <leader>, :<C-u>MemoNew<CR>
-  nnoremap <leader>. :<C-u>MemoList<CR>
-  nnoremap <leader>/ :<C-u>MemoGrep<CR>
+" Vim {{{
 
-" }}}
-" filetypes {{{
+  " cursor like neovim ( :h terminal-option )
+  if has('vim_starting')
+    if ! has('nvim')
+      if ! has ('gui_running')
 
-  " Trim tail spaces ( exception: markdown, text )
-  autocmd callmekohei-vimrc BufWritePre * if index(['markdown'], &ft) == -1 | :call s:trimEnd() | endif
+        let &t_SI .= "\e[6 q" " start insert mode
+        let &t_EI .= "\e[2 q" " end insert mode
+        let &t_SR .= "\e[4 q"
+        " not work <localleader> if turn on timeoutlen
+        " let &timeoutlen = 100
 
-  " set filetype
-  autocmd callmekohei-vimrc BufNewFile,BufRead inputrc,bash_profile setlocal filetype=sh
-  autocmd callmekohei-vimrc BufNewFile,BufRead *.dependencies setlocal filetype=dependencies
-  autocmd callmekohei-vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal filetype=markdown
-  autocmd callmekohei-vimrc BufNewFile,BufRead *.memo setlocal filetype=memo
-  autocmd callmekohei-vimrc BufRead,BufNewFile *.pdbrc setlocal filetype=python
-  autocmd callmekohei-vimrc BufRead,BufNewFile *.osa setlocal filetype=osa syntax=javascript
-
-  autocmd callmekohei-vimrc BufWinEnter,BufWritePost *.bash call quickrun#run( g:quickrun_config.bashCheck )
-
-" }}}
-" Japanes Input source {{{
-
-  " :h CursorIM
-  " if has('multi_byte_ime') || has('xim')
-  "   highlight CursorIM guibg=DarkCyan guifg=NONE
-  " endif
-
-  " auto switch English input source from Japanese input source
-
-  if has('nvim')
-
-    autocmd callmekohei-vimrc InsertLeave * :call SwitchEnglish('')
-
-  elseif has('gui_running')
-
-    autocmd callmekohei-vimrc InsertLeave * :call SwitchEnglish('')
-
-  else
-
-    " autocmd callmekohei-vimrc InsertLeave * :call SwitchEnglish('')
-
-    " TODO: auto switch English input source from Japanese input source
-
-    " function g:ImStatusFunc()
-    "   let is_active = call('IsJapanese',[''])
-    "   return is_active ? 1 : 0
-    " endfunction
-
-    " function g:ImActivateFunc(active)
-    "   if a:active
-    "     call system( 'osascript -e "tell application \"System Events\" to key code 102" &' )
-    "   endif
-    " endfunction
-
-    " set imstatusfunc=g:ImStatusFunc
-    " set imactivatefunc=g:ImActivateFunc
-    " set iminsert=2
-
+      endif
+    endif
   endif
 
 " }}}
-" vim {{{
+" gVim {{{
 
-    " cursor like neovim ( :h terminal-option )
-    if has('vim_starting')
-      if ! has('nvim')
-        if ! has ('gui_running')
-          let &t_SI .= "\e[6 q" " start insert mode
-          let &t_EI .= "\e[2 q" " end insert mode
-          let &t_SR .= "\e[4 q"
-          " not work <localleader> if turn on timeoutlen
-          " let &timeoutlen = 100
-        endif
-      endif
+  if has('win32')
+    if has('gui_running')
+
+
+      " Disable menu.vim
+      " Needs to load before loading plugins
+      let did_install_default_menus = 1
+      let did_install_syntax_menu   = 1
+      let do_no_lazyload_menus      = 1
+      let no_buffers_menu           = 1
+      let &g:guioptions = 'Mc'
+
+      " font
+      let s:fontName = 'Migu_2M'
+      let s:fontSize = 'h11'
+      let &g:guifont   = s:fontName . ':' . s:fontSize
+      let &g:linespace = 3
+
+      " window size
+      let &g:columns   = 80 " width
+      let &g:lines     = 30 " hight
+      let &g:cmdheight = 2
+
+      " Don't flick cursor.
+      setglobal guicursor&
+      setglobal guicursor+=a:blinkon0
+
+      " key mappings
+      noremap  ; :
+      noremap  : ;
+      lnoremap ; :
+      lnoremap : ;
+      tnoremap ; :
+      tnoremap : ;
+
     endif
+  endif
 
 " }}}
-" macvim {{{
+" MacVim {{{
 
-  if has('gui_running')
+  if has('mac')
+    if has('gui_running')
 
-    " font
-    let s:fontName = 'Droid Sans Mono for Powerline Nerd Font Complete'
-    let s:fontSize = 'h14'
-    let &g:guifont   = s:fontName . ':' . s:fontSize
-    let &g:linespace = 3
+      " Disable menu.vim for macvim
+      " Needs to load before loading plugins
+      let did_install_default_menus = 1
+      let did_install_syntax_menu   = 1
+      let do_no_lazyload_menus      = 1
+      let no_buffers_menu           = 1
+      let &g:guioptions = 'Mc'
 
-    " window size
-    let &g:columns   = 80 " width
-    let &g:lines     = 30 " hight
-    let &g:cmdheight = 2
+      " font
+      let s:fontName = 'Droid Sans Mono for Powerline Nerd Font Complete'
+      let s:fontSize = 'h14'
+      let &g:guifont   = s:fontName . ':' . s:fontSize
+      let &g:linespace = 3
 
-    " Don't flick cursor.
-    setglobal guicursor&
-    setglobal guicursor+=a:blinkon0
+      " window size
+      let &g:columns   = 80 " width
+      let &g:lines     = 30 " hight
+      let &g:cmdheight = 2
 
-    " key mappings
-    noremap  ; :
-    noremap  : ;
-    lnoremap ; :
-    lnoremap : ;
-    tnoremap ; :
-    tnoremap : ;
+      " Don't flick cursor.
+      setglobal guicursor&
+      setglobal guicursor+=a:blinkon0
 
+      " key mappings
+      noremap  ; :
+      noremap  : ;
+      lnoremap ; :
+      lnoremap : ;
+      tnoremap ; :
+      tnoremap : ;
+
+    endif
   endif
 
 " }}}
@@ -430,83 +443,112 @@ let s:OFF = 0 | :lockvar s:OFF
   endif
 
 " }}}
-" mac/osx {{{
-if has('mac')
 
-  " Macではデフォルトの'iskeyword'がcp932に対応しきれていないので修正
-  " https://github.com/koron/vim-kaoriya/blob/master/kaoriya/vim/vimrc#L221
-  let &iskeyword = '@,48-57,_,128-167,224-235'
+" --------------------------------------------------------
+"                        File types
+" --------------------------------------------------------
 
-endif " }}}
-" util {{{
+" Trim tail spaces ( exception: markdown, text )
+autocmd MyAutoCmd BufWritePre * if index(['markdown','text'], &ft) == -1 | :call s:trimEnd() | endif
 
-  " https://qiita.com/sgur/items/9e243f13caa4ff294fa8
-  command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
+" VB {{{
 
-  command! SelfFileDelete call delete(expand('%',1))
+  autocmd MyAutoCmd BufRead,BufNewFile *.cls
+  \ if getline(1).getline(2).getline(3).getline(4).getline(5).getline(6).getline(7).getline(8).getline(9).getline(10) =~? 'VB_Name\|Begin VB\.\(Form\|MDIForm\|UserControl\)' |
+  \   set filetype=vbnet |
+  \ elseif getline(1) =~ '^%' |
+  \   set filetype=tex |
+  \ elseif getline(1)[0] == '#' && getline(1) =~ 'rexx' |
+  \   set filetype=rexx |
+  \ else |
+  \   set filetype=st |
+  \ endif
 
-  inoreabbrev <expr> ---- repeat('-', 60 - col('.'))
+  function! s:vimrc_vb() abort
+    let &l:foldmethod  = 'syntax'
+    let &l:tabstop     = 4
+    let &l:softtabstop = 4
+    let &l:shiftwidth  = 4
+    let &l:ambiwidth   = 'double'
+    " encoding
+    let &fileencoding  = 'cp932'
+    let &fileformat   = 'dos'
+    set filetype=vbnet
+  endfunction
 
-  function s:myOpenImpl(...) abort "{{{
+  autocmd MyAutoCmd BufRead,BufNewFile *{.bas,.cls} call s:vimrc_vb()
 
-    let l:s = expand('<cfile>')
+  autocmd MyAutoCmd BufWritePre *{.bas,.cls} call s:trimEnd()
 
-    if l:s ==# ''
-      return
-    endif
+" }}}
+" BashScript {{{
 
-    if stridx(l:s,'http') >= 0
-      :normal gx
-      return
-    endif
+  " set filetype
+  autocmd MyAutoCmd BufNewFile,BufRead inputrc,bash* setlocal filetype=sh
 
-    let l:fp = split(expand(l:s),':')[0]
+  function! s:vimrc_bash() abort
 
-    if filereadable(l:fp)
-      :normal gF
-      return
-    endif
+    let g:is_bash      = 1
+    let g:sh_no_error  = 1
 
-    return 9999
+    let &l:tabstop     = 2
+    let &l:softtabstop = 2
+    let &l:shiftwidth  = 2
+    let &l:foldmethod  = 'marker'
+    let &l:errorformat = '%f:\ line\ %l:\ %m'
 
-  endfunction "}}}
-  function! s:myOpen() range "{{{
+    """ quickrun settings
+    " let g:quickrun_config.sh        = {}
+    " let g:quickrun_config.bashCheck = {}
+    " let g:quickrun_config.sh        = { 'command': 'bash' }
+    " let g:quickrun_config.bashCheck = {
+    "   \  'exec'                            : [ '%c -n %s:p:r.bash' ]
+    "   \ ,'command'                         : 'bash'
+    "   \ ,'hook/time/enable'                : 0
+    "   \ ,"outputter/buffer/close_on_empty" : 1
+    "   \ ,"outputter"                       : 'quickfix'
+    "   \ ,'outputter/buffer/split'          : ':set splitblow',
+    " \}
 
-    if call('foldclosed',[line('.')]) !=# -1
+  endfunction
 
-      normal!v
-      normal!:
-      normal!`<
-      let l:fstline = line(".")
-      normal!`>
-      let l:lstline = line(".")
+  autocmd MyAutoCmd BufRead,BufNewFile *{.sh,.bash,bashrc,inputrc,bash_profile} call s:vimrc_bash()
 
-      execute l:fstline .',' . l:lstline . 'Partedit'
+"}}}
+" Vim script {{{
 
-    else
+  if line('$') > 1000
+    syntax sync minlines=200
+  endif
 
-      let l:selectedMultiLines = a:lastline - a:firstline
+  function! s:vimrc_vim() abort
+    let g:vim_indent_cont = 2
+    let &l:tabstop        = 2
+    let &l:softtabstop    = 2
+    let &l:shiftwidth     = 2
+    let &l:foldmethod     = 'marker'
+  endfunction
 
-      if l:selectedMultiLines > 0
-        execute a:firstline .',' . a:lastline . 'Partedit'
-      else
+  autocmd MyAutoCmd BufRead,BufNewFile *.vim call s:vimrc_vim()
 
-        let l:s = expand('<cfile>')
+" }}}
 
-        if l:s ==# ''
-          execute a:firstline .',' . a:lastline . 'Partedit'
-          return
-        endif
+" --------------------------------------------------------
+"                      Util Functions
+" --------------------------------------------------------
 
-        if call( 's:myOpenImpl', [] ) == 9999
-          execute a:firstline .',' . a:lastline . 'Partedit'
-        endif
+inoreabbrev <expr> ---- repeat('-', 60 - col('.'))
 
-      endif
+" https://qiita.com/sgur/items/9e243f13caa4ff294fa8
+command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
 
-    endif
+" trimEnd {{{
 
-  endfunction "}}}
+  " TODO:
+  " 文末のスペース削除の前に、全角スペースなどを全部半角スペースにするので副作用あり。
+  " 文末のスペースのみ半角スペースにして削除する機能に変更する
+
+  command! TrimEnd call s:trimEnd()
   function! s:trimEnd() abort "{{{
 
     :normal! ma
@@ -524,7 +566,9 @@ endif " }}}
     :normal! `a
 
   endfunction "}}}
-  " do center selected strings {{{
+
+"}}}
+" Center2 {{{
 
   command! -range Center2 call s:center2(<line1>,<line2>)
   function! s:center2(fst,lst) abort
@@ -532,46 +576,390 @@ endif " }}}
     execute (a:fst) "," (a:lst) "center" l:maxcol
   endfunction
 
-  "}}}
-  " cleare selected empty lines {{{
+" }}}
+" DeleteEmptyLines {{{
 
-  command! -range ClearEmptyLines call s:clearEmptyLines(<line1>,<line2>)
-  function! s:clearEmptyLines(fst,lst) abort
+  command! -range DeleteEmptyLines call s:DeleteEmptyLines(<line1>,<line2>)
+  function! s:DeleteEmptyLines(fst,lst) abort
     execute (a:fst) "," (a:lst) 'vglobal/\S/d'
   endfunction
 
-  "}}}
-  command! -range Space2from4 call s:space2from4() "{{{
-  function! s:space2from4() abort
+"}}}
+" DelNull {{{
+
+  command! DelNull call s:delNull()
+  " ^@ is null character ( <C-V><C-Shift-2> on mac)
+  " %s/<CTRL-2>//g (on regular PCs)
+  " %s/<CTRL-SHIFT-2>//g (on Mac PCs)
+  function! s:delNull()
+    normal! / 
+    %s///g
+  endfunction
+
+"}}}
+" Space2From4 {{{
+
+  command! -range Space2From4 call s:Space2From4()
+  function! s:Space2From4() abort
     let &l:tabstop     = 4
     let &l:softtabstop = 4
-    let &l:expandtab   = s:OFF
+    let &l:expandtab   = 0
     retab!
     let &l:tabstop     = 2
     let &l:softtabstop = 2
-    let &l:expandtab   = s:ON
+    let &l:expandtab   = 1
     retab
-  endfunction "}}}
-  command! -range Space4from2 call s:space4from2() "{{{
-  function! s:space4from2() abort
+  endfunction
+
+" }}}
+" Space4From2 {{{
+
+  command! -range Space4From2 call s:Space4From2()
+  function! s:Space4From2() abort
     let &l:tabstop     = 2
     let &l:softtabstop = 2
-    let &l:expandtab   = s:OFF
+    let &l:expandtab   = 0
     retab!
     let &l:tabstop     = 4
     let &l:softtabstop = 4
-    let &l:expandtab   = s:ON
+    let &l:expandtab   = 1
     retab
-  endfunction "}}}
+  endfunction
+
+"}}}
+
+""" terminal {{{
+
+
+   au TerminalOpen * if &buftype == 'terminal' | setlocal nobuflisted | endif
+
+""" }}}
+
+
+" --------------------------------------------------------
+"                         Plugins
+" --------------------------------------------------------
+
+if has('mac')
+  let &g:packpath = $HOME . '/dotfiles/vim'
+elseif has('win32unix')
+  let &g:packpath = '/y/dotfiles/vim'
+elseif has('win32') " gvim
+  let &g:packpath = 'Y:\dotfiles\vim'
+endif
+
+command! -nargs=0 -bar Helptags
+    \  for p in glob('~/.vim/pack/pack1/start/*', 1, 1)
+    \|     exe 'packadd ' . fnamemodify(p, ':t')
+    \| endfor
+    \| helptags ALL
+
+
+if isdirectory(&packpath)
+
+""" vimproc {{{
+
+"""}}}
+
+""" (deoplete) {{{
+
+  " launch deoplete when vim/neovim startup.
+  let g:deoplete#enable_at_startup = 1
+
+
+
+
+
+""" }}}
+" (QuickRun)     thinca/vim-quickrun {{{
+
+  let g:quickrun_no_default_key_mappings = 1
+  let g:quickrun_config   = {}
+  let g:quickrun_config._ = {
+  \  'runner'                          : 'vimproc'
+  \ ,'runner/vimproc/updatetime'       : 60
+  \ ,'hook/time/enable'                : 1
+  \ ,'hook/time/format'                : "\n*** time : %g s ***"
+  \ ,'hook/time/dest'                  : ''
+  \ ,"outputter/buffer/split"          : 'vertical'
+  \ ,'outputter/buffer/close_on_empty' : 1
+  \}
+
+"}}}
+" (Fuzzy finder) ctrlp {{{
+
+  helptags ~/.vim/pack/pack1/start/memolist.vim/doc
+  helptags ~/.vim/pack/pack1/start/ctrlp.vim/doc
+
+  command! Files :CtrlPCurFile
 
 " }}}
-" __END__  "{{{
+" (Memo System)  MemoList {{{
 
-  " must be written at the last. see :help 'secure'
-  let &g:secure = s:ON
+  if has('mac')
+    let g:memolist_path = expand("$HOME/Dropbox/memo",1)
+  elseif has('win32unix')
+    let g:memolist_path = expand("/y/Dropbox/memo",1)
+  elseif has('win32')
+    let g:memolist_path = expand('Y:\Dropbox\memo',1)
+  endif
+  let g:memolist_memo_suffix = "txt"
+  let g:memolist_template_dir_path = g:memolist_path
+  let g:memolist_ex_cmd = 'CtrlP'
+  let g:memolist_ctrlpqfixgrep = 1
 
-  " vim: expandtab softtabstop=2 shiftwidth=2
-  " vim: foldmethod=marker
-  " vim: foldcolumn=5
+  nnoremap <leader>, :MemoNew<CR>
+  nnoremap <leader>. :MemoList<CR>
+  nnoremap <leader>/ :MemoGrep<Space>
+
+"}}}
+" (Text Align)   junegunn/vim-easy-align {{{
+
+  xmap ga <Plug>(EasyAlign)
+  nmap ga <Plug>(EasyAlign)
+
+"}}}
+" (Comment)      tomtom/tcomment_vim {{{
+
+  if !exists('g:tcomment_types')
+    let g:tcomment_types = {}
+  endif
+  let g:tcomment_types['']       = '// %s'
+  let g:tcomment_types['fsharp'] = '// %s'
+  let g:tcomment_types['vbnet'] = "''' %s"
+
+"}}}
+" (Indent)       nathanaelkane/vim-indent-guides {{{
+
+  " nathanaelkane/vim-indent-guides
+  map <Nop>(disable-IndentGuidesToggle) <Plug>IndentGuidesToggle
+  let g:indent_guides_enable_on_vim_startup = 1
+  let g:indent_guides_start_level = 2
+  let g:indent_guides_guide_size  = 1
+  let g:indent_guides_auto_colors = 0
+  autocmd MyAutoCmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#3a3a3a ctermbg=237
+  autocmd MyAutoCmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#3a3a3a ctermbg=237
 
 " }}}
+" (ColorScheme)  Apprentice {{{
+
+  function! s:redifineApprenticeHighlight() abort
+    highlight Comment        ctermfg=245  guifg=#8a8a8a
+    highlight FoldColumn     ctermfg=245  guifg=#8a8a8a
+    highlight Folded         ctermfg=245  guifg=#8a8a8a
+  endfunction
+  autocmd MyAutoCmd ColorScheme * call s:redifineApprenticeHighlight()
+
+  " set color scheme
+  let &g:background = 'dark'
+  colorscheme Apprentice
+
+" }}}
+" (Markdown helper) {{{
+
+  " previm
+  "
+  " let s:url = "https://gist.githubusercontent.com/andyferra/2554919/raw/10ce87fe71b23216e3075d5648b8b9e56f7758e1/github.css"
+  " let s:cssFolder = expand('~/.cache/dein/repos/github.com/previm/previm/preview/css')
+  let g:previm_open_cmd = 'open -a Google\ Chrome'
+  let g:previm_enable_realtime = 1
+  " let g:previm_disable_default_css = 1
+  " let g:previm_custom_css_path = s:cssFolder.'/github.css'
+  " if !filereadable(s:cssFolder.'/github.css')
+    " execute '!wget' s:url '--directory-prefix' s:cssFolder
+  " endif
+
+
+
+" }}}
+
+" {{{ Filer nerdtree
+
+  """ nerdtree
+  " let g:NERDTreeShowBookmarks=1
+  " autocmd StdinReadPre * let s:std_in=1
+  " autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+  """ vim-nerdtree-syntax-highlight
+  " let g:NERDTreeLimitedSyntax = 1
+
+" }}}
+
+" defx {{{
+
+let g:defx_icons_enable_syntax_highlight = 1
+let g:defx_icons_column_length = 2
+
+  let defxArg0 = '-columns=icons:filename:type'
+  " let defxArg1 = ' -split=vertical -winwidth=25 -direction=topleft'
+  autocmd MyAutoCmd VimEnter * command! -nargs=* Defx
+    \ call defx#util#call_defx('Defx', defxArg0 )
+
+  " autocmd MyAutoCmd VimEnter * command! -nargs=* Defx call s:foo()
+  " function s:foo ()
+
+    " " call defx#util#call_defx('Defx', '-columns=icons:filename:type')
+    " call defx#custom#column('mark', {
+    "       \ 'readonly_icon': '✗',
+    "       \ 'selected_icon': '✓',
+    "       \ })
+
+  " endfunction
+
+
+  " autocmd MyAutoCmd ColorScheme * call s:colorSet()
+  " function s:colorSet() abort
+  "
+  "   hi  defx_almost_black  ctermfg=234
+  "   hi  defx_darker_grey   ctermfg=235
+  "   hi  defx_dark_grey     ctermfg=236
+  "   hi  defx_grey          ctermfg=238
+  "   hi  defx_medium_grey   ctermfg=240
+  "   hi  defx_light_grey    ctermfg=242
+  "   hi  defx_lighter_grey  ctermfg=250
+  "   hi  defx_white         ctermfg=231
+  "   hi  defx_purple        ctermfg=60
+  "   hi  defx_light_purple  ctermfg=103
+  "   hi  defx_green         ctermfg=65
+  "   hi  defx_light_green   ctermfg=108
+  "   hi  defx_aqua          ctermfg=66
+  "   hi  defx_light_aqua    ctermfg=73
+  "   hi  defx_blue          ctermfg=67
+  "   hi  defx_light_blue    ctermfg=110
+  "   hi  defx_red           ctermfg=131
+  "   hi  defx_orange        ctermfg=208
+  "   hi  defx_ocre          ctermfg=101
+  "   hi  defx_yellow        ctermfg=229
+  "
+  " endfunction
+  "
+  " autocmd MyAutoCmd BufRead,BufNewFile *.vim call matchadd( 'defx_yellow', '.*\.fsx' )
+  "
+  "
+
+
+
+
+
+  autocmd FileType defx call s:defx_my_settings()
+
+  function! s:defx_my_settings() abort
+
+    " call defx#custom#column('type', {
+    "   \'types': [{
+    "     \    'name':'fsharp'
+    "     \  , 'globs': ['*.fsx']
+    "     \  , 'icon': ''
+    "     \  , 'highlight': 'defx_yellow'
+    "     \ }]})
+
+    " Define mappings
+    nnoremap <silent><buffer><expr> <CR>
+    \ defx#do_action('open')
+    nnoremap <silent><buffer><expr> c
+    \ defx#do_action('copy')
+    nnoremap <silent><buffer><expr> m
+    \ defx#do_action('move')
+    nnoremap <silent><buffer><expr> p
+    \ defx#do_action('paste')
+    nnoremap <silent><buffer><expr> l
+    \ defx#do_action('open')
+    nnoremap <silent><buffer><expr> E
+    \ defx#do_action('open', 'vsplit')
+    nnoremap <silent><buffer><expr> P
+    \ defx#do_action('open', 'pedit')
+    nnoremap <silent><buffer><expr> o
+    \ defx#do_action('open_or_close_tree')
+    nnoremap <silent><buffer><expr> K
+    \ defx#do_action('new_directory')
+    nnoremap <silent><buffer><expr> N
+    \ defx#do_action('new_file')
+    nnoremap <silent><buffer><expr> M
+    \ defx#do_action('new_multiple_files')
+    nnoremap <silent><buffer><expr> C
+    \ defx#do_action('toggle_columns',
+    \                'mark:filename:type:size:time')
+    nnoremap <silent><buffer><expr> S
+    \ defx#do_action('toggle_sort', 'time')
+    nnoremap <silent><buffer><expr> d
+    \ defx#do_action('remove')
+    nnoremap <silent><buffer><expr> r
+    \ defx#do_action('rename')
+    nnoremap <silent><buffer><expr> !
+    \ defx#do_action('execute_command')
+    nnoremap <silent><buffer><expr> x
+    \ defx#do_action('execute_system')
+    nnoremap <silent><buffer><expr> yy
+    \ defx#do_action('yank_path')
+    nnoremap <silent><buffer><expr> .
+    \ defx#do_action('toggle_ignored_files')
+    nnoremap <silent><buffer><expr> ;
+    \ defx#do_action('repeat')
+    nnoremap <silent><buffer><expr> h
+    \ defx#do_action('cd', ['..'])
+    nnoremap <silent><buffer><expr> ~
+    \ defx#do_action('cd')
+    nnoremap <silent><buffer><expr> q
+    \ defx#do_action('quit')
+    nnoremap <silent><buffer><expr> <Space>
+    \ defx#do_action('toggle_select') . 'j'
+    nnoremap <silent><buffer><expr> *
+    \ defx#do_action('toggle_select_all')
+    nnoremap <silent><buffer><expr> j
+    \ line('.') == line('$') ? 'gg' : 'j'
+    nnoremap <silent><buffer><expr> k
+    \ line('.') == 1 ? 'G' : 'k'
+    nnoremap <silent><buffer><expr> <C-l>
+    \ defx#do_action('redraw')
+    nnoremap <silent><buffer><expr> <C-g>
+    \ defx#do_action('print')
+    nnoremap <silent><buffer><expr> cd
+    \ defx#do_action('change_vim_cwd')
+  endfunction
+
+" }}}
+
+
+" tsuquyomi {{{
+
+  autocmd InsertLeave,TextChanged,BufWritePost *.ts,*.tsx call tsuquyomi#asyncGeterr(1000)
+
+" }}}
+
+endif
+
+
+""" --------------------------------------------------------
+"""                            F#
+""" --------------------------------------------------------
+
+""" preview windows for deoplete
+set previewheight=5
+autocmd CompleteDone * silent! pclose!
+
+""" settings for quickrun
+let g:quickrun_config.fsharp = {}
+""" use with vimproc ( cuncurent_process )
+let g:quickrun_config.fsharp = {
+  \  'exec': ['%c %o']
+  \ ,'command'                          : 'fsharpi'
+  \ ,'cmdopt'                           : '--readline-'
+  \ ,'runner'                           : 'concurrent_process'
+  \ ,'runner/concurrent_process/load'   : '#load "%S";;'
+  \ ,'runner/concurrent_process/prompt' : '> '
+  \ ,'hook/time/format'                 : "\n*** time : %g s ***"
+  \ ,'hook/time/dest'                   : ''
+  \ ,"outputter/buffer/split"           : 'vertical'
+\}
+
+
+" --------------------------------------------------------
+"                         Finalize
+" --------------------------------------------------------
+syntax on
+filetype plugin indent on
+set secure " must be written at the last. see :help 'secure'
+
+" vim: expandtab softtabstop=2 shiftwidth=2
+" vim: foldmethod=marker
+" vim: foldcolumn=3

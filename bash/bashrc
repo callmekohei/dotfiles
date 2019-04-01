@@ -1,239 +1,33 @@
-# callmekohei's bashrc
+### kohei's bashrc
 
-# Path {{{
+### Environment
+export EDITOR=vim
+export LANG=ja_JP.UTF-8
 
-  # MacOSX already set path by path_helper.
-  # see also: path_helper(8)
-  # put brew-bin( /usr/local/bin ) before /usr/bin
-  # see: /etc/paths
+### Folder, File color
+export CLICOLOR=1
+export LSCOLORS=ExFxCxDxBxegedabagacad
 
-  function extraPath () {
-    local openssl=/usr/local/opt/openssl/bin
-    export PATH="${openssl}":"${PATH}"
+### Prompt
+PS1='\n\w\n\$ '
+export PS1
 
-    local sqlite3=/usr/local/opt/sqlite3/bin
-    export PATH="${sqlite3}":"${PATH}"
+### Alias
+alias ls='ls -F'
+alias ll='ls -a -l'
+alias cd..='cd ..'
 
-    local icu4c=/usr/local/opt/icu4c/bin
-    export PATH="${icu4c}":"${PATH}"
+### import env. settings
+if [ "$(uname)" == 'Darwin' ]; then
+  source $HOME/dotfiles/bash/bashrc_osx
+elif [ "$(expr substr $(uname -s) 1 10)" == 'MINGW64_NT' ]; then
+  source /y/dotfiles/bash/bashrc_gitbash
+else
+  echo "Your platform ($(uname -a)) is not supported."
+  exit 1
+fi
 
-    local go=/usr/local/opt/go/libexec/bin
-    export PATH="${go}":"${PATH}"
-  }
-
-  extraPath
-  unset setExtraPath
-
-# }}}
-# ENVIRONMENT {{{
-
-  export EDITOR=vim
-
-  # Language
-  # export LANG=ja_JP.UTF-8
-  export LANG=en_us.UTF-8
-  export LESSCHARSET=utf-8
-  export LC_ALL=$LANG
-  export LC_ALLLANG=$LANG
-  export LC_CTYPE=$LANG
-  export POL_LANG=en.utf-8
-
-  # ls
-  export CLICOLOR=1
-  export LSCOLORS=ExFxBxDxCxegedabagacad
-
-  # less
-  export LESS='-g -i -M -R -S -W -z-4 -x4'
-  export PAGER=less
-  export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
-  export LESS_TERMCAP_md=$'\E[01;38;5;74m'  # begin bold
-  export LESS_TERMCAP_me=$'\E[0m'           # end mode
-  export LESS_TERMCAP_se=$'\E[0m'           # end standout-mode
-  export LESS_TERMCAP_so=$'\E[00;47;30m'    # begin standout-mode - info box
-  export LESS_TERMCAP_ue=$'\E[0m'           # end underline
-  export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
-
-  # XDG Base Directory Specification
-  export XDG_CONFIG_HOME=$HOME/.config
-  export XDG_CACHE_HOME=$HOME/.cache
-  export XDG_DATA_HOME=$HOME/.local/share
-
-# }}}
-# ENVIRONMENT2 {{{
-
-  # Python
-  # export PYTHONPATH=$PYTHONPATH:'/System/Library/Frameworks/Carbon.framework/Carbon'
-
-  # Neovim
-  export NVIM_LOG_FILE=$HOME/.local/share/nvim/log
-
-  # fzf
-  export FZF_DEFAULT_OPTS='--height 40% --reverse --border --ansi'
-  [ -f $HOME/.fzf.bash ] && source $HOME/.fzf.bash
-
-  # Mono
-  export MONO_GAC_PREFIX=/usr/local
-
-  # SDB
-  export SDB_PATH=$HOME/sdbplg/bin/
-  export SDB_PATH=$HOME/myApp/sdbplg/bin/
-
-  # Wine
-  export WINEPREFIX=$HOME/.wine
-
-  # Go
-  export GOPATH=$HOME/go
-  export PATH=$PATH:$GOPATH/bin
-
-# }}}
-# Completions {{{
-
-  # Bash's auto-complete is already implimented. ( requires > 4.x )
-  function bashComplete () {
-
-    # Load extra complete config files
-    local dir=$(brew --prefix)/etc/bash_completion.d
-    local file
-
-    for fp in ${dir}/*
-    do
-      [ -r "$fp" ] && source "$fp"
-    done
-
-    unset fp
-    unset dir
-    unset file
-
-  }
-
-  bashComplete
-  unset bashComplete
-
-# }}}
-# Prompt{{{
-
-  function set_prompts () {
-
-    # colors
-    local black="\[$(tput setaf 0)\]"
-    local blue="\[$(tput setaf 4)\]"
-    local cyan="\[$(tput setaf 6)\]"
-    local gray="\[$(tput setaf 8)\]"
-    local green="\[$(tput setaf 2)\]"
-    local purple="\[$(tput setaf 5)\]"
-    local red="\[$(tput setaf 1)\]"
-    local reset="\[$(tput sgr0)\]"
-    local white="\[$(tput setaf 7)\]"
-    local yellow="\[$(tput setaf 3)\]"
-
-    # Automatically trim long paths in the prompt (requires Bash 4.x)
-    PROMPT_DIRTRIM=2
-
-    # see also: $(brew --prefix)/etc/bash_completion.d/git-prompt.sh
-    # unstaged (*) and staged (+)
-    GIT_PS1_SHOWDIRTYSTATE="auto"
-    # untacked (%)
-    GIT_PS1_SHOWUNTRACKEDFILES="auto"
-    # behind (<), ahead (>), diverged (<>) and no difference (=)
-    GIT_PS1_SHOWUPSTREAM="auto"
-
-    # prompt string
-    PS1='\n'
-    PS1+=${blue}'\w'
-    PS1+=${green}'$( __git_ps1 )'
-    PS1+=${reset}'\n'
-    PS1+='\$ '
-    export PS1
-
-    # Subshell prompt string
-    export PS2="> "
-
-    # Debug prompt string  (when using `set -x`)
-    export PS4='+ \011\e[1;30m\t\011\e[1;34m${BASH_SOURCE}\e[0m:\e[1;36m${LINENO}\e[0m \011 ${FUNCNAME[0]:+\e[0;35m${FUNCNAME[0]}\e[1;30m()\e[0m:\011\011 }'
-  }
-
-  set_prompts
-  unset set_prompts
-
-# }}}
-# Alias {{{
-
-  alias la='ls -a'
-  alias ll='ls -a -l'
-  alias cd..='cd ..'
-  alias vim='nvim'
-  alias git='hub'
-  alias python='Python3'
-
-  alias loto6="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe)"
-  alias loto7="( cd ~/myApp/lotofs/bin/ ; mono main_binary.exe 7 )"
-
-  alias fx='cd "/Users/callmekohei/Library/Mobile Documents/com~apple~CloudDocs/FX"'
-  alias titan='cd "/Applications/TitanFX.app/drive_c/Program Files/Titan FX MetaTrader 4"'
-  alias oanda='cd "/Users/callmekohei/.wine/drive_c/Program Files/OANDA - MetaTrader"'
-  alias icloud='cd "/Users/callmekohei/Library/Mobile Documents/com~apple~CloudDocs"'
-
-
-
-  # TODO : fzf
-  fe() {
-    local files
-    IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
-    [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
-  }
-  f () { vim $(fzf) ; }
-
-  dotfile () { cd ~/dotfiles ; }
-
-  deploy () { bash ~/dotfiles/deploy.bash ; echo 'update links' ; }
-
-  bashrc () { vim ~/dotfiles/bash/bashrc ; }
-
-  vimrc  () { vim ~/dotfiles/vim/vimrc ; }
-
-  myapp () { cd ~/myApp ; ls; }
-
-  deopletefsharp () { cd ~/.cache/dein/repos/github.com/callmekohei/deoplete-fsharp ; }
-
-  todo () { vim ~/Dropbox/memo/todo.txt ; }
-
-  main () { vim ~/Dropbox/memo/01.main.txt ; }
-
-  callmekohei () { cd ~/.cache/dein/repos/github.com/callmekohei ; }
-
-
-  # TODO
-  # function gif() {
-    # # scale is 320, 480, 640, 800, 1280
-    # filename=''
-    # if [ $1 = "" ] ; then
-    #   filename=Untitled
-    # else
-    #   filename=$(basename "$1" .mov)
-    # fi
-    #
-    # scale=''
-    # if [ $2 = "" ] ; then
-    #   scale=600
-    # else
-    #   scale=$2
-    # fi
-    #
-    # ffmpeg -i ${filename}.mov -vf scale=${scale}:-1  -r 10 ${filename}.gif
-  # }
-
-# }}}
-# Home2 {{{
-
-  if [ ! -e $HOME/tmp/ ] ; then
-    mkdir ./tmp/
-  fi
-
-  cd $HOME/tmp/
-
-# }}}
-# __END__  {{{1
-
-  # vim: expandtab softtabstop=2 shiftwidth=2
-  # vim: foldmethod=marker
-  # vim: foldcolumn=3
+### Ariawase cmd ( VBA )
+alias decombine='cscript vbac.wsf decombine'
+alias combine='cscript vbac.wsf combine'
+alias clear='cscript vbac.wsf clear'

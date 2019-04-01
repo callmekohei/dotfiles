@@ -1,0 +1,42 @@
+### kohei's bashrc for GitBash
+
+### --------------------------------------------------------
+###
+###   Enable to create symbolic links on Git Bash
+###   set on git bash directry
+###
+###   export MSYS=winsymlinks:nativestrict
+###
+### --------------------------------------------------------
+
+### Working directory
+if [ ! -e $HOME/tmp/ ] ; then mkdir ./tmp/; fi
+cd $HOME/tmp/
+
+### vbac commands
+alias decombine='cscript vbac.wsf decombine'
+alias combine='cscript vbac.wsf combine'
+alias clear='cscript vbac.wsf clear'
+
+### Util Functions
+
+# https://qiita.com/neriudon/items/66d5957313157e3e10a6
+function toCP932() {
+  CMD=$1
+  shift
+  $CMD $* 2>&1 | iconv -f cp932 -t utf-8
+}
+
+function tree() {
+  dst="$(to_win_path ${1:-$(pwd)})"
+  cmd //c "chcp 437 & tree ${dst}" //a //f
+}
+
+function wget() {
+  powershell -Command "(new-object System.Net.WebClient).Downloadfile('"$1"','"$(basename $1)"')"
+}
+
+alias git='hub'
+alias ping='toCP932 ping'
+alias wget='toCP932 wget'
+alias tree='toCP932 tree'

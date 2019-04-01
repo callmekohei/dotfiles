@@ -3,14 +3,14 @@
 !README.md
 !deploy.bash
 
-!bash/*
+bash/*
 !ctags/*
 !git/*
 !template/*
 !vim/*
 
 # black list
-
+vim/pack/*
 
 ### https://raw.github.com/github/gitignore/90f149de451a5433aebd94d02d11b0e28843a1af/Global/macOS.gitignore
 
