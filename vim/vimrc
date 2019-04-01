@@ -6,8 +6,8 @@
 "  incr, decr     : g<C-a>, g<C-x>
 "  toggle comment : gcc, <C-_><C-_>
 "  set dos format : set ff=dos
-"  tab : gt, gT, tabo
-"
+"  tab            : gt, gT, tabo
+"  count lines    : g<C-G>
 " }}}
 
 " --------------------------------------------------------
@@ -627,9 +627,7 @@ command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
   endfunction
 
 "}}}
-
 """ terminal {{{
-
 
    au TerminalOpen * if &buftype == 'terminal' | setlocal nobuflisted | endif
 
@@ -656,10 +654,6 @@ command! -nargs=0 -bar Helptags
 
 
 if isdirectory(&packpath)
-
-""" vimproc {{{
-
-"""}}}
 
 """ (deoplete) {{{
 
@@ -772,89 +766,19 @@ if isdirectory(&packpath)
 
 
 " }}}
-
-" {{{ Filer nerdtree
-
-  """ nerdtree
-  " let g:NERDTreeShowBookmarks=1
-  " autocmd StdinReadPre * let s:std_in=1
-  " autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-
-  """ vim-nerdtree-syntax-highlight
-  " let g:NERDTreeLimitedSyntax = 1
-
-" }}}
-
 " defx {{{
 
-let g:defx_icons_enable_syntax_highlight = 1
-let g:defx_icons_column_length = 2
+  let g:defx_icons_enable_syntax_highlight = 1
+  let g:defx_icons_column_length = 2
 
-  let defxArg0 = '-columns=icons:filename:type'
-  " let defxArg1 = ' -split=vertical -winwidth=25 -direction=topleft'
   autocmd MyAutoCmd VimEnter * command! -nargs=* Defx
-    \ call defx#util#call_defx('Defx', defxArg0 )
+    \ call defx#util#call_defx('Defx', '-columns=icons:filename:type' )
 
-  " autocmd MyAutoCmd VimEnter * command! -nargs=* Defx call s:foo()
-  " function s:foo ()
-
-    " " call defx#util#call_defx('Defx', '-columns=icons:filename:type')
-    " call defx#custom#column('mark', {
-    "       \ 'readonly_icon': '✗',
-    "       \ 'selected_icon': '✓',
-    "       \ })
-
-  " endfunction
-
-
-  " autocmd MyAutoCmd ColorScheme * call s:colorSet()
-  " function s:colorSet() abort
-  "
-  "   hi  defx_almost_black  ctermfg=234
-  "   hi  defx_darker_grey   ctermfg=235
-  "   hi  defx_dark_grey     ctermfg=236
-  "   hi  defx_grey          ctermfg=238
-  "   hi  defx_medium_grey   ctermfg=240
-  "   hi  defx_light_grey    ctermfg=242
-  "   hi  defx_lighter_grey  ctermfg=250
-  "   hi  defx_white         ctermfg=231
-  "   hi  defx_purple        ctermfg=60
-  "   hi  defx_light_purple  ctermfg=103
-  "   hi  defx_green         ctermfg=65
-  "   hi  defx_light_green   ctermfg=108
-  "   hi  defx_aqua          ctermfg=66
-  "   hi  defx_light_aqua    ctermfg=73
-  "   hi  defx_blue          ctermfg=67
-  "   hi  defx_light_blue    ctermfg=110
-  "   hi  defx_red           ctermfg=131
-  "   hi  defx_orange        ctermfg=208
-  "   hi  defx_ocre          ctermfg=101
-  "   hi  defx_yellow        ctermfg=229
-  "
-  " endfunction
-  "
-  " autocmd MyAutoCmd BufRead,BufNewFile *.vim call matchadd( 'defx_yellow', '.*\.fsx' )
-  "
-  "
-
-
-
-
-
-  autocmd FileType defx call s:defx_my_settings()
+  autocmd MyAutoCmd FileType defx call s:defx_my_settings()
 
   function! s:defx_my_settings() abort
-
-    " call defx#custom#column('type', {
-    "   \'types': [{
-    "     \    'name':'fsharp'
-    "     \  , 'globs': ['*.fsx']
-    "     \  , 'icon': ''
-    "     \  , 'highlight': 'defx_yellow'
-    "     \ }]})
-
-    " Define mappings
-    nnoremap <silent><buffer><expr> <CR>
+    " define mappings
+    nnoremap <silent><buffer><expr> <cr>
     \ defx#do_action('open')
     nnoremap <silent><buffer><expr> c
     \ defx#do_action('copy')
@@ -864,22 +788,21 @@ let g:defx_icons_column_length = 2
     \ defx#do_action('paste')
     nnoremap <silent><buffer><expr> l
     \ defx#do_action('open')
-    nnoremap <silent><buffer><expr> E
+    nnoremap <silent><buffer><expr> e
     \ defx#do_action('open', 'vsplit')
-    nnoremap <silent><buffer><expr> P
+    nnoremap <silent><buffer><expr> p
     \ defx#do_action('open', 'pedit')
     nnoremap <silent><buffer><expr> o
     \ defx#do_action('open_or_close_tree')
-    nnoremap <silent><buffer><expr> K
+    nnoremap <silent><buffer><expr> k
     \ defx#do_action('new_directory')
-    nnoremap <silent><buffer><expr> N
+    nnoremap <silent><buffer><expr> n
     \ defx#do_action('new_file')
-    nnoremap <silent><buffer><expr> M
+    nnoremap <silent><buffer><expr> m
     \ defx#do_action('new_multiple_files')
-    nnoremap <silent><buffer><expr> C
-    \ defx#do_action('toggle_columns',
-    \                'mark:filename:type:size:time')
-    nnoremap <silent><buffer><expr> S
+    nnoremap <silent><buffer><expr> c
+    \ defx#do_action('toggle_columns','mark:filename:type:size:time')
+    nnoremap <silent><buffer><expr> s
     \ defx#do_action('toggle_sort', 'time')
     nnoremap <silent><buffer><expr> d
     \ defx#do_action('remove')
@@ -901,25 +824,23 @@ let g:defx_icons_column_length = 2
     \ defx#do_action('cd')
     nnoremap <silent><buffer><expr> q
     \ defx#do_action('quit')
-    nnoremap <silent><buffer><expr> <Space>
+    nnoremap <silent><buffer><expr> <space>
     \ defx#do_action('toggle_select') . 'j'
     nnoremap <silent><buffer><expr> *
     \ defx#do_action('toggle_select_all')
     nnoremap <silent><buffer><expr> j
     \ line('.') == line('$') ? 'gg' : 'j'
     nnoremap <silent><buffer><expr> k
-    \ line('.') == 1 ? 'G' : 'k'
-    nnoremap <silent><buffer><expr> <C-l>
+    \ line('.') == 1 ? 'g' : 'k'
+    nnoremap <silent><buffer><expr> <c-l>
     \ defx#do_action('redraw')
-    nnoremap <silent><buffer><expr> <C-g>
+    nnoremap <silent><buffer><expr> <c-g>
     \ defx#do_action('print')
     nnoremap <silent><buffer><expr> cd
     \ defx#do_action('change_vim_cwd')
   endfunction
 
 " }}}
-
-
 " tsuquyomi {{{
 
   autocmd InsertLeave,TextChanged,BufWritePost *.ts,*.tsx call tsuquyomi#asyncGeterr(1000)
