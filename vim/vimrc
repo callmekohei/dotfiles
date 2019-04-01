@@ -1,11 +1,12 @@
 " callmekohei's vimrc
 
 " Memo {{{
-"
+"  go back
 "  Jump           : gf, gF, gx, <C-o>
 "  incr, decr     : g<C-a>, g<C-x>
 "  toggle comment : gcc, <C-_><C-_>
 "  set dos format : set ff=dos
+"  tab : gt, gT, tabo
 "
 " }}}
 
@@ -30,8 +31,8 @@
 "}}}
 " Encoding {{{
 
-  let &encoding      = 'utf-8'
-  let &fileencoding  = 'utf-8'
+  let &encoding      = 'utf-8' " used inside Vim.
+  let &fileencoding  = 'utf-8' " Sets the character encoding for the file of this buffer.
   let &fileencodings = 'ucs-boms,utf-8,cp932,euc-jp,sjis'
   let &fileformats   = 'unix,dos,mac' " linefeed, carriage return
   if !has('gui_running') && &encoding !=# 'utf-8'
@@ -283,7 +284,8 @@ endif
   set wildmode=longest:full,full
   set statusline=%F " file name
   set statusline+=%= " Right part
-  set statusline+=[ENC=%{&fileencoding}]
+  set statusline+=[innerENC=%{&encoding}]
+  set statusline+=[FENC=%{&fileencoding}]
   set statusline+=[FF=%{&fileformat}]
   set statusline+=[ROW=%l/%L]
   set laststatus=2 "always display status line
@@ -464,9 +466,9 @@ autocmd MyAutoCmd BufWritePre * if index(['markdown','text'], &ft) == -1 | :call
 
   function! s:vimrc_vb() abort
     let &l:foldmethod  = 'syntax'
-    let &l:tabstop     = 2
-    let &l:softtabstop = 2
-    let &l:shiftwidth  = 2
+    let &l:tabstop     = 4
+    let &l:softtabstop = 4
+    let &l:shiftwidth  = 4
     let &l:ambiwidth   = 'double'
     " encoding
     let &fileencoding  = 'cp932'
@@ -583,6 +585,18 @@ command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
   endfunction
 
 "}}}
+" DelNull {{{
+
+  command! DelNull call s:delNull()
+  " ^@ is null character ( <C-V><C-Shift-2> on mac)
+  " %s/<CTRL-2>//g (on regular PCs)
+  " %s/<CTRL-SHIFT-2>//g (on Mac PCs)
+  function! s:delNull()
+    normal! / 
+    %s///g
+  endfunction
+
+"}}}
 " Space2From4 {{{
 
   command! -range Space2From4 call s:Space2From4()
@@ -614,6 +628,14 @@ command! -nargs=+ -complete=command Capture QuickRun -type vim -src <q-args>
 
 "}}}
 
+""" terminal {{{
+
+
+   au TerminalOpen * if &buftype == 'terminal' | setlocal nobuflisted | endif
+
+""" }}}
+
+
 " --------------------------------------------------------
 "                         Plugins
 " --------------------------------------------------------
@@ -626,7 +648,44 @@ elseif has('win32') " gvim
   let &g:packpath = 'Y:\dotfiles\vim'
 endif
 
+command! -nargs=0 -bar Helptags
+    \  for p in glob('~/.vim/pack/pack1/start/*', 1, 1)
+    \|     exe 'packadd ' . fnamemodify(p, ':t')
+    \| endfor
+    \| helptags ALL
+
+
 if isdirectory(&packpath)
+
+""" vimproc {{{
+
+"""}}}
+
+""" (deoplete) {{{
+
+  " launch deoplete when vim/neovim startup.
+  let g:deoplete#enable_at_startup = 1
+
+
+
+
+
+""" }}}
+" (QuickRun)     thinca/vim-quickrun {{{
+
+  let g:quickrun_no_default_key_mappings = 1
+  let g:quickrun_config   = {}
+  let g:quickrun_config._ = {
+  \  'runner'                          : 'vimproc'
+  \ ,'runner/vimproc/updatetime'       : 60
+  \ ,'hook/time/enable'                : 1
+  \ ,'hook/time/format'                : "\n*** time : %g s ***"
+  \ ,'hook/time/dest'                  : ''
+  \ ,"outputter/buffer/split"          : 'vertical'
+  \ ,'outputter/buffer/close_on_empty' : 1
+  \}
+
+"}}}
 " (Fuzzy finder) ctrlp {{{
 
   helptags ~/.vim/pack/pack1/start/memolist.vim/doc
@@ -667,6 +726,7 @@ if isdirectory(&packpath)
   endif
   let g:tcomment_types['']       = '// %s'
   let g:tcomment_types['fsharp'] = '// %s'
+  let g:tcomment_types['vbnet'] = "''' %s"
 
 "}}}
 " (Indent)       nathanaelkane/vim-indent-guides {{{
@@ -681,19 +741,6 @@ if isdirectory(&packpath)
   autocmd MyAutoCmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#3a3a3a ctermbg=237
 
 " }}}
-" (QuickRun)     thinca/vim-quickrun {{{
-
-  let g:quickrun_no_default_key_mappings = 1
-  let g:quickrun_config   = {}
-  let g:quickrun_config._ = {
-  \  'hook/time/enable'                : 1
-  \ ,'hook/time/format'                : "\n*** time : %g s ***"
-  \ ,'hook/time/dest'                  : ''
-  \ ,"outputter/buffer/split"          : 'vertical'
-  \ ,'outputter/buffer/close_on_empty' : 1
-  \}
-
-"}}}
 " (ColorScheme)  Apprentice {{{
 
   function! s:redifineApprenticeHighlight() abort
@@ -725,7 +772,186 @@ if isdirectory(&packpath)
 
 
 " }}}
+
+" {{{ Filer nerdtree
+
+  """ nerdtree
+  " let g:NERDTreeShowBookmarks=1
+  " autocmd StdinReadPre * let s:std_in=1
+  " autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+  """ vim-nerdtree-syntax-highlight
+  " let g:NERDTreeLimitedSyntax = 1
+
+" }}}
+
+" defx {{{
+
+let g:defx_icons_enable_syntax_highlight = 1
+let g:defx_icons_column_length = 2
+
+  let defxArg0 = '-columns=icons:filename:type'
+  " let defxArg1 = ' -split=vertical -winwidth=25 -direction=topleft'
+  autocmd MyAutoCmd VimEnter * command! -nargs=* Defx
+    \ call defx#util#call_defx('Defx', defxArg0 )
+
+  " autocmd MyAutoCmd VimEnter * command! -nargs=* Defx call s:foo()
+  " function s:foo ()
+
+    " " call defx#util#call_defx('Defx', '-columns=icons:filename:type')
+    " call defx#custom#column('mark', {
+    "       \ 'readonly_icon': '✗',
+    "       \ 'selected_icon': '✓',
+    "       \ })
+
+  " endfunction
+
+
+  " autocmd MyAutoCmd ColorScheme * call s:colorSet()
+  " function s:colorSet() abort
+  "
+  "   hi  defx_almost_black  ctermfg=234
+  "   hi  defx_darker_grey   ctermfg=235
+  "   hi  defx_dark_grey     ctermfg=236
+  "   hi  defx_grey          ctermfg=238
+  "   hi  defx_medium_grey   ctermfg=240
+  "   hi  defx_light_grey    ctermfg=242
+  "   hi  defx_lighter_grey  ctermfg=250
+  "   hi  defx_white         ctermfg=231
+  "   hi  defx_purple        ctermfg=60
+  "   hi  defx_light_purple  ctermfg=103
+  "   hi  defx_green         ctermfg=65
+  "   hi  defx_light_green   ctermfg=108
+  "   hi  defx_aqua          ctermfg=66
+  "   hi  defx_light_aqua    ctermfg=73
+  "   hi  defx_blue          ctermfg=67
+  "   hi  defx_light_blue    ctermfg=110
+  "   hi  defx_red           ctermfg=131
+  "   hi  defx_orange        ctermfg=208
+  "   hi  defx_ocre          ctermfg=101
+  "   hi  defx_yellow        ctermfg=229
+  "
+  " endfunction
+  "
+  " autocmd MyAutoCmd BufRead,BufNewFile *.vim call matchadd( 'defx_yellow', '.*\.fsx' )
+  "
+  "
+
+
+
+
+
+  autocmd FileType defx call s:defx_my_settings()
+
+  function! s:defx_my_settings() abort
+
+    " call defx#custom#column('type', {
+    "   \'types': [{
+    "     \    'name':'fsharp'
+    "     \  , 'globs': ['*.fsx']
+    "     \  , 'icon': ''
+    "     \  , 'highlight': 'defx_yellow'
+    "     \ }]})
+
+    " Define mappings
+    nnoremap <silent><buffer><expr> <CR>
+    \ defx#do_action('open')
+    nnoremap <silent><buffer><expr> c
+    \ defx#do_action('copy')
+    nnoremap <silent><buffer><expr> m
+    \ defx#do_action('move')
+    nnoremap <silent><buffer><expr> p
+    \ defx#do_action('paste')
+    nnoremap <silent><buffer><expr> l
+    \ defx#do_action('open')
+    nnoremap <silent><buffer><expr> E
+    \ defx#do_action('open', 'vsplit')
+    nnoremap <silent><buffer><expr> P
+    \ defx#do_action('open', 'pedit')
+    nnoremap <silent><buffer><expr> o
+    \ defx#do_action('open_or_close_tree')
+    nnoremap <silent><buffer><expr> K
+    \ defx#do_action('new_directory')
+    nnoremap <silent><buffer><expr> N
+    \ defx#do_action('new_file')
+    nnoremap <silent><buffer><expr> M
+    \ defx#do_action('new_multiple_files')
+    nnoremap <silent><buffer><expr> C
+    \ defx#do_action('toggle_columns',
+    \                'mark:filename:type:size:time')
+    nnoremap <silent><buffer><expr> S
+    \ defx#do_action('toggle_sort', 'time')
+    nnoremap <silent><buffer><expr> d
+    \ defx#do_action('remove')
+    nnoremap <silent><buffer><expr> r
+    \ defx#do_action('rename')
+    nnoremap <silent><buffer><expr> !
+    \ defx#do_action('execute_command')
+    nnoremap <silent><buffer><expr> x
+    \ defx#do_action('execute_system')
+    nnoremap <silent><buffer><expr> yy
+    \ defx#do_action('yank_path')
+    nnoremap <silent><buffer><expr> .
+    \ defx#do_action('toggle_ignored_files')
+    nnoremap <silent><buffer><expr> ;
+    \ defx#do_action('repeat')
+    nnoremap <silent><buffer><expr> h
+    \ defx#do_action('cd', ['..'])
+    nnoremap <silent><buffer><expr> ~
+    \ defx#do_action('cd')
+    nnoremap <silent><buffer><expr> q
+    \ defx#do_action('quit')
+    nnoremap <silent><buffer><expr> <Space>
+    \ defx#do_action('toggle_select') . 'j'
+    nnoremap <silent><buffer><expr> *
+    \ defx#do_action('toggle_select_all')
+    nnoremap <silent><buffer><expr> j
+    \ line('.') == line('$') ? 'gg' : 'j'
+    nnoremap <silent><buffer><expr> k
+    \ line('.') == 1 ? 'G' : 'k'
+    nnoremap <silent><buffer><expr> <C-l>
+    \ defx#do_action('redraw')
+    nnoremap <silent><buffer><expr> <C-g>
+    \ defx#do_action('print')
+    nnoremap <silent><buffer><expr> cd
+    \ defx#do_action('change_vim_cwd')
+  endfunction
+
+" }}}
+
+
+" tsuquyomi {{{
+
+  autocmd InsertLeave,TextChanged,BufWritePost *.ts,*.tsx call tsuquyomi#asyncGeterr(1000)
+
+" }}}
+
 endif
+
+
+""" --------------------------------------------------------
+"""                            F#
+""" --------------------------------------------------------
+
+""" preview windows for deoplete
+set previewheight=5
+autocmd CompleteDone * silent! pclose!
+
+""" settings for quickrun
+let g:quickrun_config.fsharp = {}
+""" use with vimproc ( cuncurent_process )
+let g:quickrun_config.fsharp = {
+  \  'exec': ['%c %o']
+  \ ,'command'                          : 'fsharpi'
+  \ ,'cmdopt'                           : '--readline-'
+  \ ,'runner'                           : 'concurrent_process'
+  \ ,'runner/concurrent_process/load'   : '#load "%S";;'
+  \ ,'runner/concurrent_process/prompt' : '> '
+  \ ,'hook/time/format'                 : "\n*** time : %g s ***"
+  \ ,'hook/time/dest'                   : ''
+  \ ,"outputter/buffer/split"           : 'vertical'
+\}
+
 
 " --------------------------------------------------------
 "                         Finalize

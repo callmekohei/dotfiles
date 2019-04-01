@@ -4,11 +4,16 @@
 export EDITOR=vim
 export LANG=ja_JP.UTF-8
 
+### Folder, File color
+export CLICOLOR=1
+export LSCOLORS=ExFxCxDxBxegedabagacad
+
 ### Prompt
 PS1='\n\w\n\$ '
 export PS1
 
 ### Alias
+alias ls='ls -F'
 alias ll='ls -a -l'
 alias cd..='cd ..'
 
@@ -21,3 +26,8 @@ else
   echo "Your platform ($(uname -a)) is not supported."
   exit 1
 fi
+
+### Ariawase cmd ( VBA )
+alias decombine='cscript vbac.wsf decombine'
+alias combine='cscript vbac.wsf combine'
+alias clear='cscript vbac.wsf clear'
