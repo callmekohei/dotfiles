@@ -19,9 +19,9 @@ git clone https://github.com/Shougo/vimproc.vim
 $(cd vimproc.vim ; make)
 
 # SQL
-git clone https://github.com/vim-scripts/dbext.vim
-git clone https://github.com/vim-scripts/SQLUtilities
-git clone https://github.com/vim-scripts/Align
+# git clone https://github.com/vim-scripts/dbext.vim
+# git clone https://github.com/vim-scripts/SQLUtilities
+# git clone https://github.com/vim-scripts/Align
 
 # memolist( modified )
 rm -rf memolist.vim
