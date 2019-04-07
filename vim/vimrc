@@ -550,7 +550,6 @@ command! -nargs=0 -bar Helptags
 
   endfunction
 
-
 " }}}
 " quickrun {{{
 
