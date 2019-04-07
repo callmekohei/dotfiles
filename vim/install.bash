@@ -11,7 +11,7 @@ git clone https://github.com/romainl/Apprentice
 git clone https://github.com/nathanaelkane/vim-indent-guides
 git clone https://github.com/junegunn/vim-easy-align
 git clone https://github.com/ctrlpvim/ctrlp.vim
-git clone https://github.com/tpope/vim-fugitive
+# git clone https://github.com/tpope/vim-fugitive
 
 # Quickrun
 git clone https://github.com/thinca/vim-quickrun
@@ -52,14 +52,14 @@ $(cd deoplete-fsharp ; bash install.bash)
 # git clone https://github.com/ryanoasis/vim-devicons
 # git clone https://github.com/tiagofumo/vim-nerdtree-syntax-highlight
 
-git clone https://github.com/Shougo/defx.nvim
+# git clone https://github.com/Shougo/defx.nvim
 # git clone https://github.com/kristijanhusak/defx-icons
-git clone https://github.com/callmekohei/defx-icons
+# git clone https://github.com/callmekohei/defx-icons
 
 ### TypeScript color syntax
 git clone https://github.com/leafgarland/typescript-vim
 
-### Autocomplete( based deoplete )
+### TypeScript ( based deoplete )
 git clone https://github.com/Quramy/tsuquyomi
 git clone https://github.com/rudism/deoplete-tsuquyomi
 

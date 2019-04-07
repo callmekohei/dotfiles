@@ -537,7 +537,7 @@ command! -nargs=0 -bar Helptags
   " launch deoplete when vim/neovim startup.
   let g:deoplete#enable_at_startup = 1
 
-  autocmd MyAutoCmd VimEnter *.fsx *.fs call s:foo()
+  autocmd MyAutoCmd VimEnter *.fsx,*.fs call s:foo()
 
   function s:foo() abort
 
