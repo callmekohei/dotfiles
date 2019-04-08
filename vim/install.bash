@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 ### vim plugins
 
 if [ ! -d pack/pack1/start/ ]; then
@@ -24,10 +26,8 @@ $(cd vimproc.vim ; make)
 # git clone https://github.com/vim-scripts/Align
 
 # memolist( modified )
-rm -rf memolist.vim
 git clone https://github.com/callmekohei/memolist.vim
 $(cd memolist.vim ; git checkout use_ctrlp)
-pwd
 
 # vb
 git clone https://github.com/callmekohei/vbnet.vim
@@ -37,11 +37,16 @@ git clone https://github.com/nelstrom/vim-markdown-folding
 git clone https://github.com/previm/previm
 
 # FSharp
+git clone --depth 1 https://github.com/fsprojects/fsharp-language-server
+$(cd fsharp-language-server
+  wget 'https://raw.githubusercontent.com/fsharp/vim-fsharp/master/syntax/fsharp.vim' -P './syntax/'
+  npm install
+  dotnet build -c Release)
+git clone --depth 1 https://github.com/autozimu/LanguageClient-neovim
+$(cd LanguageClient-neovim ; git checkout next ; bash install.sh )
 git clone --depth 1 https://github.com/Shougo/deoplete.nvim
-git clone --depth 1 https://github.com/callmekohei/deoplete-fsharp
 git clone --depth 1 https://github.com/roxma/nvim-yarp
 git clone --depth 1 https://github.com/roxma/vim-hug-neovim-rpc
-$(cd deoplete-fsharp ; bash install.bash)
 
 ### --------------------------------------------------------
 ###                      For AngularJS
