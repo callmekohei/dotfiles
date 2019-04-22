@@ -175,7 +175,8 @@ endif
 " options {{{
 
   " Diff
-  set diffopt=filler,vertical
+  set diffopt=filler
+  "set diffopt=filler,vertical
 
   " Search
   let &ignorecase = 1
@@ -247,17 +248,19 @@ endif
 
 " Vim {{{
 
+  if has('mac')
   " cursor like neovim ( :h terminal-option )
-  if has('vim_starting')
-    if ! has('nvim')
-      if ! has ('gui_running')
+    if has('vim_starting')
+      if ! has('nvim')
+        if ! has ('gui_running')
 
-        let &t_SI .= "\e[6 q" " start insert mode
-        let &t_EI .= "\e[2 q" " end insert mode
-        let &t_SR .= "\e[4 q"
-        " not work <localleader> if turn on timeoutlen
-        " let &timeoutlen = 100
+          let &t_SI .= "\e[6 q" " start insert mode
+          let &t_EI .= "\e[2 q" " end insert mode
+          let &t_SR .= "\e[4 q"
+          " not work <localleader> if turn on timeoutlen
+          " let &timeoutlen = 100
 
+        endif
       endif
     endif
   endif
@@ -317,11 +320,20 @@ endif
   endif
 
 " }}}
-" gVim {{{
+" windows Vim, gVim {{{
+
+  if has('win32')
+    set tgc
+    noremap  ; :
+    noremap  : ;
+    lnoremap ; :
+    lnoremap : ;
+    tnoremap ; :
+    tnoremap : ;
+  endif
 
   if has('win32')
     if has('gui_running')
-
 
       " Disable menu.vim
       " Needs to load before loading plugins
@@ -332,8 +344,8 @@ endif
       let &g:guioptions = 'Mc'
 
       " font
-      let s:fontName = 'Migu_2M'
-      let s:fontSize = 'h11'
+      let s:fontName = 'Cica'
+      let s:fontSize = 'h12'
       let &g:guifont   = s:fontName . ':' . s:fontSize
       let &g:linespace = 3
 
@@ -345,14 +357,6 @@ endif
       " Don't flick cursor.
       setglobal guicursor&
       setglobal guicursor+=a:blinkon0
-
-      " key mappings
-      noremap  ; :
-      noremap  : ;
-      lnoremap ; :
-      lnoremap : ;
-      tnoremap ; :
-      tnoremap : ;
 
     endif
   endif
@@ -523,7 +527,7 @@ command! -nargs=0 -bar Helptags
   function! s:redifineApprenticeHighlight() abort
     highlight Comment        ctermfg=245  guifg=#8a8a8a
     highlight FoldColumn     ctermfg=245  guifg=#8a8a8a
-    highlight Folded         ctermfg=245  guifg=#8a8a8a
+    highlight Folded         ctermfg=245  guifg=#8a8a8a gui=bold
   endfunction
   autocmd MyAutoCmd ColorScheme * call s:redifineApprenticeHighlight()
 
@@ -532,32 +536,44 @@ command! -nargs=0 -bar Helptags
   colorscheme Apprentice
 
 " }}}
-" deoplete{{{
+" LSP{{{
 
-  " launch deoplete when vim/neovim startup.
-  let g:deoplete#enable_at_startup = 1
+" fsharp-language-server
+let s:pathFslangServer = '/Users/callmekohei/dotfiles/vim/pack/pack1/start/fsharp-language-server/src/FSharpLanguageServer/bin/Release/netcoreapp2.0/FSharpLanguageServer.dll'
 
-  autocmd MyAutoCmd VimEnter *.fsx,*.fs call s:foo()
+let g:LanguageClient_autoStart = 1
+let g:LanguageClient_serverCommands = {
+  \   'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls']
+  \ , 'fsharp': ['dotnet', s:pathFslangServer ]
+  \}
 
-  function s:foo() abort
 
-    call deoplete#custom#option({
-      \   'auto_refresh_delay' : 20
-      \ , 'min_pattern_length' : 999
-      \ , 'ignore_case'        : v:true
-      \ , 'refresh_always'     : v:false
-    \ })
 
-  endfunction
+
+
+nmap <silent> <nowait><Leader>d :call LanguageClient#textDocument_definition()<CR>
+nmap <silent> <nowait> K :call LanguageClient#textDocument_hover()<CR>
+
+
+if executable('rls')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'rls',
+        \ 'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
+        \ 'whitelist': ['rust'],
+        \ })
+endif
+
+" deoplete( with yarp )
+let g:deoplete#enable_at_startup = 1
 
 " }}}
 " quickrun {{{
 
+  " \  'runner'                          : 'vimproc'
   let g:quickrun_no_default_key_mappings = 1
   let g:quickrun_config   = {}
   let g:quickrun_config._ = {
-  \  'runner'                          : 'vimproc'
-  \ ,'runner/vimproc/updatetime'       : 60
+  \ 'runner/vimproc/updatetime'       : 60
   \ ,'hook/time/enable'                : 1
   \ ,'hook/time/format'                : "\n*** time : %g s ***"
   \ ,'hook/time/dest'                  : ''
@@ -575,17 +591,18 @@ command! -nargs=0 -bar Helptags
 " previm{{{
 
   let g:previm_open_cmd = 'open -a Google\ Chrome'
+  " let g:previm_open_cmd = 'shell:AppsFolder\Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge'
   let g:previm_enable_realtime = 1
 
 " }}}
 " memoList {{{
 
   if has('mac')
-    let g:memolist_path = expand("$HOME/Dropbox/memo",1)
+    let g:memolist_path = expand("$HOME/Desktop/memo",1)
   elseif has('win32unix')
-    let g:memolist_path = expand("/y/Dropbox/memo",1)
+    let g:memolist_path = expand("/y/Desktop/memo",1)
   elseif has('win32')
-    let g:memolist_path = expand('Y:\Dropbox\memo',1)
+    let g:memolist_path = expand('Y:\Desktop\memo',1)
   endif
   let g:memolist_memo_suffix = "txt"
   let g:memolist_template_dir_path = g:memolist_path
@@ -614,7 +631,7 @@ command! -nargs=0 -bar Helptags
 "}}}
 
 " ===== File types =====
-
+autocmd MyAutoCmd BufNewFile,BufRead *.fs,*.fsi,*.fsx setlocal filetype=fsharp
 " BashScript {{{
 
   " set filetype
@@ -662,8 +679,8 @@ command! -nargs=0 -bar Helptags
 " }}}
 " fsharp {{{
 
-set previewheight=5
-autocmd CompleteDone * silent! pclose!
+" set previewheight=5
+" autocmd CompleteDone * silent! pclose!
 
 let g:quickrun_config.fsharp = {}
 let g:quickrun_config.fsharp = {

@@ -31,3 +31,9 @@ fi
 alias decombine='cscript vbac.wsf decombine'
 alias combine='cscript vbac.wsf combine'
 alias clear='cscript vbac.wsf clear'
+
+
+### rust
+
+export CARGO_HOME="$HOME/.cargo"
+export PATH="$CARGO_HOME/bin:$PATH"
